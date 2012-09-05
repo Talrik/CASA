@@ -7,6 +7,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Window;
 
+import de.lehsten.casa.mobile.communication.MobileRouteBuilder;
 import de.lehsten.casa.mobile.gui.ui.MainTabsheet;
 
 /**
@@ -38,6 +39,7 @@ public class CASAMobileApplication extends TouchKitApplication
 
 	@Override
 	public void init(){
+		new MobileRouteBuilder(this);
 		configureMainWindow();
 	}
 	
