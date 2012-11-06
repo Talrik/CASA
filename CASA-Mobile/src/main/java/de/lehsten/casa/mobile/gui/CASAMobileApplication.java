@@ -2,13 +2,17 @@ package de.lehsten.casa.mobile.gui;
 
 import com.vaadin.addon.touchkit.ui.TouchKitApplication;
 import com.vaadin.addon.touchkit.ui.TouchKitWindow;
+import com.vaadin.terminal.ExternalResource;
+import com.vaadin.terminal.gwt.server.WebBrowser;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Window;
 
 import de.lehsten.casa.mobile.communication.MobileRouteBuilder;
+import de.lehsten.casa.mobile.data.ServiceHandler;
 import de.lehsten.casa.mobile.gui.ui.MainTabsheet;
+import de.lehsten.casa.mobile.gui.ui.SmartphoneMainView;
 
 /**
  * The Application's "main" class
@@ -16,44 +20,65 @@ import de.lehsten.casa.mobile.gui.ui.MainTabsheet;
 @SuppressWarnings("serial")
 public class CASAMobileApplication extends TouchKitApplication
 {
-	/**
-	 * Make application reload itself when the session has expired. 
-	 *
-	 * @see TouchKitApplication#getSystemMessages()
-	 */
-	public static SystemMessages getSystemMessages() {
-		return customizedSystemMessages;
-	}
-
-	static CustomizedSystemMessages customizedSystemMessages = new CustomizedSystemMessages();
-	static {
-		customizedSystemMessages.setSessionExpiredNotificationEnabled(false);
-	}
 
 	private TouchKitWindow mainWindow;
 	
-	//RIGZ coordinates
-	
+	//RIGZ coordinates	
 	private double currentLatitude =  54.0748861;
 	private double currentLongitude = 12.1161766;
+
+	private ServiceHandler serviceHandler;
+	
+	public static SystemMessages getSystemMessages() {
+	    CustomizedSystemMessages messages =
+	            new CustomizedSystemMessages();
+	    messages.setSessionExpiredCaption("Ohno, session expired!");
+	    messages.setSessionExpiredMessage("Don't idle!");
+	    messages.setSessionExpiredNotificationEnabled(true);
+	    messages.setSessionExpiredURL("http://vaadin.com/");
+	    return messages;
+	}
 
 	@Override
 	public void init(){
 		new MobileRouteBuilder(this);
+		this.serviceHandler = new ServiceHandler();
 		configureMainWindow();
 	}
 	
 	@Override
 	public void onBrowserDetailsReady() {
-//		mainWindow.setContent(new MainTabsheet());
-		
+        WebBrowser browser = getBrowser();
+/*        if (!browser.isTouchDevice()) {
+            getMainWindow()
+                    .showNotification(
+                            "You appear to be running on a desktop software or other non touch device. We'll show you the tablet (or smartphone view if small screen size) for debug purposess.");
+        }
+*/
+        if (isSmallScreenDevice() || true) {
+            getMainWindow().setContent(new SmartphoneMainView());
+        } else {
+ //           getMainWindow().setContent(new TabletMainView());
+        }		
 	}
 
 	private void configureMainWindow() {
 		mainWindow = new CASAWindow();
 		setMainWindow(mainWindow);
 	}
+	
+	public ServiceHandler getServiceHandler(){
+		return this.serviceHandler;
+	}
 
-
+	public static CASAMobileApplication getApp(){
+		return (CASAMobileApplication) get();
+	}
+    public boolean isSmallScreenDevice() {
+        /*float viewPortWidth = getMainWindow().getWidth();
+        return viewPortWidth < 600;
+        */
+    	return true;
+    }
 
 }

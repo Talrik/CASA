@@ -28,9 +28,7 @@ public class MobileRouteBuilder extends RouteBuilder{
 		try { 
 			System.out.println("-----------------");
 			System.out.println("Lookup context...");
-
 			this.camelContext = (CamelContext) ctx.lookup("MobileContext");
-
 			System.out.println("Context found: "+ this.camelContext);
 		} catch (Exception e1 ) {
 			// TODO Auto-generated catch block

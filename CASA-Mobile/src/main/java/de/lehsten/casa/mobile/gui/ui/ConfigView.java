@@ -15,7 +15,7 @@ public class ConfigView extends NavigationView{
 	public ConfigView(){
 		this.setCaption("Settings");
 		VerticalComponentGroup settings = new VerticalComponentGroup();
-		settings.addComponent(new Label("Server Status"));
+/*		settings.addComponent(new Label("Server Status"));
 		Switch serverConnected = new Switch();
 		serverConnected.setCaption("Connected to CASA");
 		serverConnected.setValue(false);
@@ -28,7 +28,7 @@ public class ConfigView extends NavigationView{
 			}
 		});
 		settings.addComponent(serverConnected);
-		this.setContent(settings);
+*/		this.setContent(settings);
 	}
 
 }

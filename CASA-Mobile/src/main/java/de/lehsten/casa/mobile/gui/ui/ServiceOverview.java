@@ -1,63 +1,147 @@
 package de.lehsten.casa.mobile.gui.ui;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
 
+import com.vaadin.addon.touchkit.ui.NavigationBar;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationView;
+import com.vaadin.addon.touchkit.ui.TouchKitApplication;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
+import com.vaadin.data.Container;
+import com.vaadin.data.Item;
+import com.vaadin.terminal.ExternalResource;
 import com.vaadin.terminal.ThemeResource;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Window;
 
 import de.lehsten.casa.contextserver.types.Entity;
 import de.lehsten.casa.contextserver.types.entities.services.Service;
 import de.lehsten.casa.contextserver.types.entities.services.websites.EventWebsite;
 import de.lehsten.casa.contextserver.types.entities.services.websites.LocationWebsite;
 import de.lehsten.casa.contextserver.types.entities.services.websites.Website;
+import de.lehsten.casa.mobile.data.ServiceContainer;
 import de.lehsten.casa.mobile.data.ServiceHandler;
+import de.lehsten.casa.mobile.gui.CASAMobileApplication;
 
 public class ServiceOverview extends NavigationView{
 	
-	public ServiceOverview(){
+    private static final long serialVersionUID = 1L;
+    
+    private ServiceContainer sc = CASAMobileApplication.getApp().getServiceHandler().getContainer();
+	
+	public ServiceOverview(final MainNavigationManager nav){
 		
-		VerticalComponentGroup services = new VerticalComponentGroup();
-		//Lookup "relevant" services
-		ServiceHandler sh = new ServiceHandler();
-		ArrayList<Service> serviceList = sh.getAllServices();
-		for (Service s: serviceList){
-				if (s instanceof LocationWebsite){
-					LocationWebsite lw = (LocationWebsite)s;
-					NavigationButton service = new NavigationButton(lw.getTitle());
-					service.setIcon(new ThemeResource("img/maps-icon.png"));
-					services.addComponent(service);
-				}
-				else if (s instanceof EventWebsite){
-					EventWebsite lw = (EventWebsite)s;
-					NavigationButton service = new NavigationButton(lw.getTitle());
-					service.setIcon(new ThemeResource("img/Actions-help-hint-icon.png"));
-					services.addComponent(service);
-				}
-				else if (s instanceof Website){
-					Website lw = (Website)s;
-					NavigationButton service = new NavigationButton(lw.getTitle());
-					service.setIcon(new ThemeResource("img/Categories-preferences-desktop-personal-icon.png"));
-					services.addComponent(service);
-				}
-			
-		}
-		//
+        setCaption("Services");
+        setWidth("100%");
+        setHeight("100%");
 		
-		NavigationButton service1 = new NavigationButton("Service 1");
-		service1.setIcon(new ThemeResource("img/Actions-chronometer-icon.png"));
-		services.addComponent(service1);		
+		VerticalComponentGroup serviceTypes = new VerticalComponentGroup();
+		final ServiceHandler sh = CASAMobileApplication.getApp().getServiceHandler();
 		
-		NavigationButton service3 = new NavigationButton("Service 3");
+		NavigationButton service2 = new NavigationButton("Location Services");
+		final ServiceContainer locationWebsites = sh.getContainerLocationWebsites(); 
+		service2.setDescription(locationWebsites.size() +"");
+		service2.addListener(new Button.ClickListener() {
+
+            private static final long serialVersionUID = 1L;
+
+            public void buttonClick(ClickEvent event) {      
+                ServiceTypeOverview v = new ServiceTypeOverview(nav, locationWebsites);
+                nav.navigateTo(v);
+            }
+        });
+		service2.setIcon(new ThemeResource("img/maps-icon.png"));
+		serviceTypes.addComponent(service2);
+		
+		NavigationButton service3 = new NavigationButton("Event Services");
+		final ServiceContainer eventWebsites = sh.getContainerEventWebsites(); 
+		service3.setDescription(eventWebsites.size() +"");
+		service3.addListener(new Button.ClickListener() {
+
+            private static final long serialVersionUID = 1L;
+
+            public void buttonClick(ClickEvent event) {      
+                ServiceTypeOverview v = new ServiceTypeOverview(nav, eventWebsites);
+                nav.navigateTo(v);
+            }
+        });
+		
 		service3.setIcon(new ThemeResource("img/Actions-help-hint-icon.png"));
-		services.addComponent(service3);
+		serviceTypes.addComponent(service3);
 		
-		NavigationButton service4 = new NavigationButton("Service 4");
+		NavigationButton service4 = new NavigationButton("Personal Services");
+		final ServiceContainer personalWebsites = sh.getContainerPersonalWebsites(); 
+		service4.setDescription(personalWebsites.size() +"");
+		service4.addListener(new Button.ClickListener() {
+
+            private static final long serialVersionUID = 1L;
+
+            public void buttonClick(ClickEvent event) {      
+                ServiceTypeOverview v = new ServiceTypeOverview(nav, personalWebsites);
+                nav.navigateTo(v);
+            }
+        });
 		service4.setIcon(new ThemeResource("img/Categories-preferences-desktop-personal-icon.png"));
-		services.addComponent(service4);
+		serviceTypes.addComponent(service4);
 		
-		this.setContent(services);
+		
+		
+		
+		this.setContent(serviceTypes);
+		setToolbar(createToolbar());
 	}
+	
+
+    static Component createToolbar() {
+
+        final NavigationBar toolbar = new NavigationBar();
+
+        Button refresh = new Button();
+ //       refresh.setIcon(refreshIcon);
+
+        toolbar.setLeftComponent(refresh);
+
+        final SimpleDateFormat formatter = new SimpleDateFormat(
+                "M/d/yy hh:mm");
+        toolbar.setCaption("Updated "
+                + formatter.format(Calendar.getInstance().getTime()));
+
+        refresh.addListener(new Button.ClickListener() {
+            public void buttonClick(ClickEvent event) {
+                toolbar.setCaption("Updated "
+                        + formatter.format(Calendar.getInstance().getTime()));
+            }
+        });
+
+        TouchKitApplication touchKitApplication = CASAMobileApplication.get();
+        if (touchKitApplication instanceof CASAMobileApplication) {
+        	CASAMobileApplication app = (CASAMobileApplication) touchKitApplication;
+            if (app.isSmallScreenDevice()) {
+                /*
+                 * For small screen devices we add shortcut to new/important services below
+                 * hierarchy views
+                 */
+                ClickListener showComposeview = new ClickListener() {
+                    public void buttonClick(ClickEvent event) {
+                        Window window = event.getButton().getWindow();
+  //                      window.addWindow(new ComposeView(true));
+                    }
+                };
+                Button button = new Button(null, showComposeview);
+ //               button.setIcon(new ThemeResource("graphics/compose-icon.png"));
+                toolbar.setRightComponent(button);
+ //               button.addStyleName("no-decoration");
+            }
+        }
+
+        return toolbar;
+    }
 
 }

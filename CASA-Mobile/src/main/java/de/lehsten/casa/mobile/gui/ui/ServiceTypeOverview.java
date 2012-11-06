@@ -1,35 +1,83 @@
 package de.lehsten.casa.mobile.gui.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.addon.touchkit.ui.Switch;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.terminal.ThemeResource;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 
-public class ServiceTypeOverview extends VerticalComponentGroup{
+import de.lehsten.casa.contextserver.types.entities.services.Service;
+import de.lehsten.casa.contextserver.types.entities.services.websites.EventWebsite;
+import de.lehsten.casa.contextserver.types.entities.services.websites.LocationWebsite;
+import de.lehsten.casa.contextserver.types.entities.services.websites.Website;
+import de.lehsten.casa.mobile.data.ServiceContainer;
+import de.lehsten.casa.mobile.data.ServiceHandler;
+import de.lehsten.casa.mobile.gui.CASAMobileApplication;
+
+public class ServiceTypeOverview extends NavigationView{
 	
-	public ServiceTypeOverview(){
+	public ServiceTypeOverview(final MainNavigationManager nav, ServiceContainer sc){
 		
-		NavigationButton service1 = new NavigationButton("Timed Services");
-		service1.setIcon(new ThemeResource("img/Actions-chronometer-icon.png"));
-		service1.setTargetView(new ServiceOverview());
-		this.addComponent(service1);		
+		VerticalComponentGroup servicesGroup = new VerticalComponentGroup();
 		
-		NavigationButton service2 = new NavigationButton("Location Services");
-		service2.setIcon(new ThemeResource("img/maps-icon.png"));
-		this.addComponent(service2);
+		for (Service s: sc.getItemIds()){
+			if (s instanceof LocationWebsite){
+				final LocationWebsite lw = (LocationWebsite)s;
+				NavigationButton service = new NavigationButton(lw.getTitle());
+				service.setIcon(new ThemeResource("img/maps-icon.png"));
+				servicesGroup.addComponent(service);
+				service.addListener(new Button.ClickListener(){
+
+					@Override
+					public void buttonClick(ClickEvent event) {
+						if (nav instanceof SmartphoneMainView){
+							((SmartphoneMainView) nav).setService(lw, null);
+						}
+					}
+					
+				} );
+			}
+			else if (s instanceof EventWebsite){ 
+				final EventWebsite ew = (EventWebsite)s;
+				NavigationButton service = new NavigationButton(ew.getTitle());
+				service.setIcon(new ThemeResource("img/Actions-help-hint-icon.png"));
+				servicesGroup.addComponent(service);
+				service.addListener(new Button.ClickListener(){
+
+					@Override
+					public void buttonClick(ClickEvent event) {
+						if (nav instanceof SmartphoneMainView){
+							((SmartphoneMainView) nav).setService(ew, null);
+						}
+					}
+					
+				} );
+			}
+			else if (s instanceof Website){
+				final Website w = (Website)s;
+				NavigationButton service = new NavigationButton(w.getTitle());
+				service.setIcon(new ThemeResource("img/Categories-preferences-desktop-personal-icon.png"));
+				servicesGroup.addComponent(service);
+				service.addListener(new Button.ClickListener(){
+
+					@Override
+					public void buttonClick(ClickEvent event) {
+						if (nav instanceof SmartphoneMainView){
+							((SmartphoneMainView) nav).setService(w, null);
+						}
+					}
+					
+				} );
+			}
 		
-		NavigationButton service3 = new NavigationButton("Event Services");
-		service3.setIcon(new ThemeResource("img/Actions-help-hint-icon.png"));
-		this.addComponent(service3);
-		
-		NavigationButton service4 = new NavigationButton("Personal Services");
-		service4.setIcon(new ThemeResource("img/Categories-preferences-desktop-personal-icon.png"));
-		this.addComponent(service4);
-		
-		Switch switcher = new Switch();
-		switcher.setCaption("Do I look like iOS?");
-		this.addComponent(switcher);
-		
+	}
+		this.setContent(servicesGroup);
+		this.setToolbar(ServiceOverview.createToolbar());
 	}
 
 }
