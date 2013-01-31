@@ -1,0 +1,12 @@
+function TP(){}
+function OP(){}
+function XEb(){}
+function WEb(){}
+function QAc(){}
+function SAc(){this.Ob=$doc.createElement(IGc)}
+function VP(){RP=new TP;Wb((Ub(),Tb),19);!!$stats&&$stats(zc(aPc,PEc,-1,-1));RP.Qc();!!$stats&&$stats(zc(aPc,JMc,-1,-1))}
+function pEc(b,c,d,e){var f={};f.getURL=e;f.type='png';f.isBaseLayer=d;f.sphericalMercator=true;return new $wnd.OpenLayers.Layer.TMS(b,c,f)}
+function SP(){var b,c,d;while(PP){d=nb;PP=PP.b;!PP&&(QP=null);if(!d){(IDb(),HDb).ug(zK,new XEb);jvb()}else{try{(IDb(),HDb).ug(zK,new XEb);jvb()}catch(b){b=LL(b);if(Br(b,37)){c=b;cBb.Ge(c)}else throw b}}}}
+function RAc(g,i,k){function n(b){var c=this.map.getResolution();var d=Math.round((b.left- -20037508)/(c*this.tileSize.w));var e=Math.round((b.bottom- -20037508)/(c*this.tileSize.h));var f=this.map.getZoom();if((g.intersectsBounds(b)||g.contains(b.getCenterLonLat()))&&f>=i&&f<=k){return this.url+f+MFc+d+MFc+e+JLc+this.type}else{console.log('not in area??');return 'http://www.maptiler.org/img/none.png'}}
+;return n}
+var aPc='runCallbacks19';_=TP.prototype=OP.prototype=new J;_.gC=function UP(){return Ru};_.Qc=function YP(){SP()};_.cM={};_=XEb.prototype=WEb.prototype=new J;_.Te=function YEb(){return new SAc};_.gC=function ZEb(){return kC};_.cM={138:1};_=SAc.prototype=QAc.prototype=new Gzc;_.Lg=function TAc(){var b,c,d;b=(!this.r&&(this.r=pEc(this.b,this.g,this.c.b,RAc(this.d,this.f,this.e))),this.r);c=b.getMaxExtent();if(!c){d=TDc(zr(this.Nb.kd(),187).n).getMaxExtent();b.maxExtent=d}QDc(zr(this.Nb.kd(),187).n,(!this.r&&(this.r=pEc(this.b,this.g,this.c.b,RAc(this.d,this.f,this.e))),this.r))};_.Mg=function UAc(){return pEc(this.b,this.g,this.c.b,RAc(this.d,this.f,this.e))};_.gC=function VAc(){return zK};_.fe=function WAc(b,c){var d,e,f,g;if(!(hIc in b[1])){this.g=b[1][COc];this.b=b[1][dHc];this.c=(Zpc(),Boolean(b[1][bPc])?Ypc:Xpc);this.f=b[1]['zoomMin'];this.e=b[1]['zoomMax'];g=GDb(b[1],cPc);d=pr(bL,{30:1},-1,g.length,1);for(f=0;f<d.length;++f){d[f]=sqc(g[f])}e=new $wnd.OpenLayers.Bounds(d[0],d[1],d[2],d[3]);e.transform(new $wnd.OpenLayers.Projection(dPc),TDc(zr(this.Nb.kd(),187).n).getProjectionObject());this.d=e}Hzc(this,b,c)};_.cM={10:1,13:1,15:1,22:1,26:1,69:1,70:1};_.b=null;_.c=null;_.d=null;_.e=16;_.f=13;_.g=null;var Ru=iqc(tMc,'AsyncLoader19'),kC=iqc(DMc,'WidgetMapImpl$24$1');GEc(VP)();
