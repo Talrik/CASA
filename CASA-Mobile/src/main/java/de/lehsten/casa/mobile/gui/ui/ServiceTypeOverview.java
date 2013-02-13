@@ -36,11 +36,19 @@ public class ServiceTypeOverview extends NavigationView{
 					@Override
 					public void buttonClick(ClickEvent event) {
 						if (nav instanceof SmartphoneMainView){
-							((SmartphoneMainView) nav).setService(lw, null);
+							if (lw.getSubServices() == null && lw.getTargetURL() != null){
+							((SmartphoneMainView) nav).setService(lw, null);}
+							else if(lw.getSubServices() != null){
+								ServiceContainer tempsc = new ServiceContainer();
+								tempsc.addAll(lw.getSubServices());
+				                ServiceTypeOverview v = new ServiceTypeOverview(nav, tempsc);
+				                nav.navigateTo(v);
+								}
+							}
 						}
 					}
 					
-				} );
+				 );
 			}
 			else if (s instanceof EventWebsite){ 
 				final EventWebsite ew = (EventWebsite)s;

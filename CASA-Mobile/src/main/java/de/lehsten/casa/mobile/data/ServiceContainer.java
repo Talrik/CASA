@@ -22,7 +22,7 @@ public class ServiceContainer extends BeanItemContainer<Service> {
     }
     
     
-    public Collection<? extends Service> getServices(Object o){
+    public Collection<? extends Service> getServices(){
     	List<Service> services = new ArrayList<Service>();
     	for (Service service : getAllItemIds()){
     		if (true){

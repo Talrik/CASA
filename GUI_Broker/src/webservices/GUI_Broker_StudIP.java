@@ -26,13 +26,13 @@ import de.lehsten.casa.contextserver.types.entities.event.Event;
 import de.lehsten.casa.contextserver.types.entities.event.Lecture;
 import de.lehsten.casa.contextserver.types.entities.event.StudIPEvent;
 import de.lehsten.casa.contextserver.types.entities.place.Place;
+import de.lehsten.casa.contextserver.types.entities.services.Service;
 import de.lehsten.casa.contextserver.types.entities.services.websites.EventWebsite;
 import de.lehsten.casa.contextserver.types.entities.services.websites.LocationWebsite;
 import de.lehsten.casa.contextserver.types.entities.services.websites.Website;
 import de.lehsten.casa.contextserver.types.xml.CSMessage;
 import de.lehsten.casa.utilities.communication.serializing.CSMessageConverter;
 import de.lehsten.casa.utilities.communication.serializing.EntitySerializer;
-import webservices.types.Link;
 
 /**
  * @author phil
@@ -106,11 +106,11 @@ public class GUI_Broker_StudIP {
 
 	@WebMethod(operationName="getGUI") 
 //	@WebResult(name = "getGUIResult") 
-	public Link[] getGUI( @WebParam(name = "lecture") String lecture,@WebParam(name = "userRole") String userRole,@WebParam(name = "location") String location  ) 
+	public Service[] getGUI( @WebParam(name = "lecture") String lecture,@WebParam(name = "userRole") String userRole,@WebParam(name = "location") String location  ) 
 	  { 
 		System.out.println(lecture+userRole+location);
 		int size = 0;
-		ArrayList<Link> resultList = new ArrayList<Link>();
+		ArrayList<Service> resultList = new ArrayList<Service>();
 		if(lecture != null){
 		resultList.addAll(getServiceByLectureAndUserRole(lecture, userRole));
 		}
@@ -125,14 +125,14 @@ public class GUI_Broker_StudIP {
 					resultList.addAll(getServiceByLocationAndUserRole(location, userRole));
 				}
 		}
-		Link[] test = new Link[resultList.size()];
+		Service[] test = new Service[resultList.size()];
 		test = resultList.toArray(test);
 		return test;
 	  }
 	
 	@WebMethod(operationName="setGUI") 
 //	@WebResult(name = "getGUIResult") 
-	public Link[] setGUI( @WebParam(name = "lecture") String lecture,
+	public Service[] setGUI( @WebParam(name = "lecture") String lecture,
 						@WebParam(name = "userRole") String userRole,
 						@WebParam(name = "url") String url,
 						@WebParam(name = "title") String title,
@@ -238,12 +238,12 @@ public class GUI_Broker_StudIP {
 		
 	}
 */
-	private ArrayList<Link> getServiceByLectureAndUserRole(String lecture, String userRole){
+	private ArrayList<Service> getServiceByLectureAndUserRole(String lecture, String userRole){
 		
 		System.out.println("Lecture:" + lecture);
 		System.out.println("UserRole:" + userRole);
 		ArrayList<Entity> entityList = new ArrayList<Entity>();
-		ArrayList<Link> response = new ArrayList<Link>(); 
+		ArrayList<Service> response = new ArrayList<Service>(); 
 		
 			CSMessage msg = new CSMessage();
 			
@@ -265,29 +265,20 @@ public class GUI_Broker_StudIP {
 			if(entityResp.length >0){
 				for (Entity e : entityList){
 					if (e instanceof Website){
-						System.out.println();
-						Link resultLink = new Link();
 						Website service = ((Website) e);
-						resultLink.setTitle(service.getTitle());
-						try {
-							resultLink.setURL(URLEncoder.encode(service.getTargetURL().toString(), "UTF-8"));
-						} catch (UnsupportedEncodingException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						System.out.println("Providing Title:"+resultLink.getTitle()+" URL:"+resultLink.getURL());
-						response.add(resultLink);
+						System.out.println("Providing Title:"+service.getTitle()+" URL:"+service.getTargetURL());
+						response.add(service);
 					}
 				}
 			} 
 			return response;
 		
 	}
-	private ArrayList<Link> getServiceByLocationAndUserRole(String location, String userRole){
+	private ArrayList<Service> getServiceByLocationAndUserRole(String location, String userRole){
 		System.out.println("Location:" + location);
 		System.out.println("UserRole:" + userRole);
 		ArrayList<Entity> entityList = new ArrayList<Entity>();
-		ArrayList<Link> response = new ArrayList<Link>(); 
+		ArrayList<Service> response = new ArrayList<Service>(); 
 		
 			CSMessage msg = new CSMessage();
 			
@@ -309,18 +300,9 @@ public class GUI_Broker_StudIP {
 			if(entityResp.length >0){
 				for (Entity e : entityList){
 					if (e instanceof Website){
-						System.out.println();
-						Link resultLink = new Link();
 						Website service = ((Website) e);
-						resultLink.setTitle(service.getTitle());
-						try {
-							resultLink.setURL(URLEncoder.encode(service.getTargetURL().toString(), "UTF-8"));
-						} catch (UnsupportedEncodingException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						System.out.println("Providing Title:"+resultLink.getTitle()+" URL:"+resultLink.getURL());
-						response.add(resultLink);
+						System.out.println("Providing Title:"+service.getTitle()+" URL:"+service.getTargetURL());
+						response.add(service);
 					}
 				}
 			} 
