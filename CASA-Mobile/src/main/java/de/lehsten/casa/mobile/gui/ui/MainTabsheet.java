@@ -8,10 +8,10 @@ import com.vaadin.ui.TabSheet.Tab;
 public class MainTabsheet extends TabBarView{
 
 	public MainTabsheet(){
-		Tab serviceTab = addTab(new MainNavigationManager(),"Services");
+		Tab serviceTab = addTab(new ServiceNavigationManager(),"Services");
 		serviceTab.setCaption("Services");
 		serviceTab.setIcon(new ThemeResource("img/crystal-clear-App-browser-icon.png"));
-		Tab configTab = addTab(new ConfigView());
+		Tab configTab = addTab(new ConfigNavigationManager());
 		configTab.setCaption("Config");
 		configTab.setIcon(new ThemeResource("img/Oxygen-Apps-esd-icon.png"));
 		this.setSelectedTab(serviceTab);

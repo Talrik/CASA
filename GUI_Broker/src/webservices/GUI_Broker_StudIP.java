@@ -70,7 +70,6 @@ public class GUI_Broker_StudIP {
 			ctx = new InitialContext();
 			this.camelContext = (CamelContext) ctx.lookup(layer+"Context");
 			System.out.println("Context found: "+ this.camelContext);
-//TODO		check if it is working... 
 			this.camelContext = null;
 		} catch (NamingException e1 ) {
 			System.out.println(e1.getMessage());

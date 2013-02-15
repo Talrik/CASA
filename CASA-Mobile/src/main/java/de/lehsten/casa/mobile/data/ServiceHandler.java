@@ -30,34 +30,10 @@ public class ServiceHandler implements Serializable{
 	private static ProducerTemplate serverProducer;
 //	private CamelContext camelContext;
 	private static ArrayList<Service> services = new ArrayList<Service>();
-	public static ArrayList<ServiceProxy> serviceProxies = new ArrayList<ServiceProxy>();
-
+	
 	public ServiceHandler(){
 		// Try to connect to Server
 		connectToServer();
-		
-		ServiceProxy stops = new ServiceProxyImp();
-		stops.setQuery("GetCloseStopWebsites");
-		Object[] params = new Object[2];
-		params[0] = 54.0744279d;
-		params[1] = 12.1035669d;
-		stops.setParams(params);
-		stops.setServieType(LocationWebsite.class);
-		stops.setTitle("Haltestellen");
-		stops.setDescription("Haltestellen in einem Umkreis von 1km.");
-		this.addServiceProxy(stops);
-		
-		ServiceProxy events = new ServiceProxyImp();
-		events.setQuery("GetCloseStopWebsites");
-		Object[] eventsparams = new Object[2];
-		params[0] = 54.0744279d;
-		params[1] = 12.1035669d;
-		events.setParams(eventsparams);
-		events.setServieType(LocationWebsite.class);
-		events.setTitle("Haltestellen");
-		events.setDescription("Haltestellen in einem Umkreis von 1km.");
-		this.addServiceProxy(events);
-		
 		refresh();
 	}
 
@@ -81,15 +57,15 @@ public class ServiceHandler implements Serializable{
 		}
 	}
 	
-	private static ArrayList<Entity> getQueryResult(String query, Object[] params){
+	private static ArrayList<Entity> getQueryResult(){
 		ArrayList<Entity> entityList = new ArrayList<Entity>();
 		if (isConnected){
 			try 
 			{
 				CSMessage msg = new CSMessage();
 				msg.text = "getQueryResult";
-				msg.payload.add(query);
-				msg.payload.add(params);
+				msg.payload.add("GetServices");
+				msg.payload.add(null);
 				
 				CSMessage entityMsg = (CSMessage) serverProducer.requestBody(msg);
 				ArrayList<Object> objectList = entityMsg.payload;
@@ -161,29 +137,17 @@ public class ServiceHandler implements Serializable{
 	}
 	
 	public static void refresh(){
-		for (ServiceProxy s : serviceProxies){
-			ArrayList<Entity> entity = getQueryResult(s.getQuery(), s.getParams());
-			try {
-				Service superService = s.getServieType().newInstance();
-				for (Entity e : entity){
-					if (e instanceof Service){
-						if(!superService.getSubServices().contains((Service) e)){
-							superService.addSubService((Service)e); 
-						}
-					}
+		ArrayList<Entity> entity = getQueryResult();
+		for (Entity e : entity){
+			if (e instanceof Service){
+				if(!services.contains((Service) e)){
+				services.add((Service)e); 
 				}
-				superService.setTitle(s.getTitle());
-				superService.setDescription(s.getDescription());
-				services.add(superService);
-			} catch (InstantiationException e1) {
-				e1.printStackTrace();
-			} catch (IllegalAccessException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
 			}
 		}
+		
 	}
-
+	
 	public boolean getConnectionStatus(){
 		return isConnected;
 	}
@@ -224,17 +188,4 @@ public class ServiceHandler implements Serializable{
 		}
 		return camelContext;
 	}
-	
-	public static ArrayList<ServiceProxy> getServiceProxies() {
-		return serviceProxies;
-	}
-	
-	public static void addServiceProxy(ServiceProxy s){
-		serviceProxies.add(s);
-	}
-
-	public static void setServiceProxies(ArrayList<ServiceProxy> serviceProxies) {
-		ServiceHandler.serviceProxies = serviceProxies;
-	}
-	
 }

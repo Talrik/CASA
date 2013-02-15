@@ -56,7 +56,7 @@ public class CASAMobileApplication extends TouchKitApplication
         }
 */
         if (isSmallScreenDevice() || true) {
-            getMainWindow().setContent(new SmartphoneMainView());
+            getMainWindow().setContent(new MainTabsheet());
         } else {
  //           getMainWindow().setContent(new TabletMainView());
         }		
