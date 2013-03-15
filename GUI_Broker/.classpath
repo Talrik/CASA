@@ -18,7 +18,7 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="libs/contextserver.types-0.1.17-SNAPSHOT.jar">
+	<classpathentry kind="lib" path="libs/contextserver.types-0.1.21-SNAPSHOT.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>

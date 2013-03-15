@@ -20,6 +20,8 @@ import org.apache.camel.Endpoint;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.lehsten.casa.contextserver.types.Entity;
 import de.lehsten.casa.contextserver.types.entities.event.Event;
@@ -49,6 +51,8 @@ public class GUI_Broker_StudIP {
 	CamelContext camelContext;
 	ProducerTemplate serverProducer;
 	ProducerTemplate factEntryProducer;
+	private final static Logger log = LoggerFactory.getLogger( GUI_Broker_StudIP.class ); 
+	
 	@SuppressWarnings("unused")
 	@PostConstruct
 	private void init(){		
@@ -139,14 +143,14 @@ public class GUI_Broker_StudIP {
 						@WebParam(name = "location") String location)
 	  { 
 		
-		System.out.println("Lecture:" + lecture);
-		System.out.println("UserRole:" + userRole);
-		System.out.println("Location:" + location);
-		System.out.println("Title:" + title);
-		System.out.println("URL:" + url);
-		System.out.println("Description:" + description);
+		log.info("Lecture:" + lecture);
+		log.info("UserRole:" + userRole);
+		log.info("Location:" + location);
+		log.info("Title:" + title);
+		log.info("URL:" + url);
+		log.info("Description:" + description);
 		try {
-			System.out.println("Title:" + URLDecoder.decode(title,"UTF-8"));
+			log.info("Title:" + URLDecoder.decode(title,"UTF-8"));
 		} catch (UnsupportedEncodingException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -239,8 +243,8 @@ public class GUI_Broker_StudIP {
 */
 	private ArrayList<Service> getServiceByLectureAndUserRole(String lecture, String userRole){
 		
-		System.out.println("Lecture:" + lecture);
-		System.out.println("UserRole:" + userRole);
+		log.info("Lecture:" + lecture);
+		log.info("UserRole:" + userRole);
 		ArrayList<Entity> entityList = new ArrayList<Entity>();
 		ArrayList<Service> response = new ArrayList<Service>(); 
 		
@@ -259,13 +263,13 @@ public class GUI_Broker_StudIP {
 			} 
 			Entity[] entityResp = new Entity[entityList.size()];
 			entityList.toArray(entityResp);
-			System.out.println(entityResp.length + " Services received.");
+			log.info(entityResp.length + " Services received.");
 				
 			if(entityResp.length >0){
 				for (Entity e : entityList){
 					if (e instanceof Website){
 						Website service = ((Website) e);
-						System.out.println("Providing Title:"+service.getTitle()+" URL:"+service.getTargetURL());
+						log.info("Providing Title:"+service.getTitle()+" URL:"+service.getTargetURL());
 						response.add(service);
 					}
 				}
@@ -274,8 +278,8 @@ public class GUI_Broker_StudIP {
 		
 	}
 	private ArrayList<Service> getServiceByLocationAndUserRole(String location, String userRole){
-		System.out.println("Location:" + location);
-		System.out.println("UserRole:" + userRole);
+		log.info("Location:" + location);
+		log.info("UserRole:" + userRole);
 		ArrayList<Entity> entityList = new ArrayList<Entity>();
 		ArrayList<Service> response = new ArrayList<Service>(); 
 		
@@ -291,22 +295,20 @@ public class GUI_Broker_StudIP {
 				if (o instanceof Entity){
 					entityList.add((Entity)o);
 				}
-			} 
+			}
 			Entity[] entityResp = new Entity[entityList.size()];
 			entityList.toArray(entityResp);
-			System.out.println(entityResp.length + " Services received.");
+			log.info(entityResp.length + " Services received.");
 				
 			if(entityResp.length >0){
 				for (Entity e : entityList){
 					if (e instanceof Website){
 						Website service = ((Website) e);
-						System.out.println("Providing Title:"+service.getTitle()+" URL:"+service.getTargetURL());
+						log.info("Providing Title:"+service.getTitle()+" URL:"+service.getTargetURL());
 						response.add(service);
 					}
 				}
 			} 
 			return response;
-	
-	}
-	
+	}	
 }

@@ -17,6 +17,7 @@ public class Haltestellen extends ServiceProxyImp{
 		this.setServieType(LocationWebsite.class);
 		this.setTitle("Haltestellen");
 		this.setDescription("Haltestellen in einem Umkreis von 1km.");
+		
 	}
 
 }
