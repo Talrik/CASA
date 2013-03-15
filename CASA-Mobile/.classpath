@@ -28,12 +28,12 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/classes"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/contextserver.types-0.1.17-SNAPSHOT.jar">
+	<classpathentry kind="lib" path="lib/contextserver.utilities-0.1.0-SNAPSHOT-jar-with-dependencies.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/contextserver.utilities-0.1.0-SNAPSHOT-jar-with-dependencies.jar">
+	<classpathentry kind="lib" path="lib/contextserver.types-0.1.21-SNAPSHOT.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
