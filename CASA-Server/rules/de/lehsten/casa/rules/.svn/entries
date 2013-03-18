@@ -1,0 +1,71 @@
+10
+
+dir
+2868
+https://svn.informatik.uni-rostock.de/projekte/grk_musama/pl/CASA-Server/rules/de/lehsten/casa/rules
+https://svn.informatik.uni-rostock.de/projekte/grk_musama
+
+
+
+2012-09-03T06:52:57.721364Z
+2868
+pl039
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+0884b62b-6c28-0410-a10c-abf66554557a
+
+LocalRuleProvider.java
+file
+2959
+
+
+
+2013-03-05T14:24:49.000000Z
+2fbb31958b19334c12f08199389dad35
+2013-03-15T11:57:20.174185Z
+2959
+pl039
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4546
+
+location
+dir
+
+service
+dir
+
+studip
+dir
+

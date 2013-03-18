@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/projekte/grk_musama/!svn/ver/2710/pl/CASA-Server/ejbModule/de/lehsten/casa/contextserver/importer/studip
+END
+StudIP_DB_Person_Gatherer.java
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/projekte/grk_musama/!svn/ver/2705/pl/CASA-Server/ejbModule/de/lehsten/casa/contextserver/importer/studip/StudIP_DB_Person_Gatherer.java
+END
+StudIPImporter.java
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/projekte/grk_musama/!svn/ver/2710/pl/CASA-Server/ejbModule/de/lehsten/casa/contextserver/importer/studip/StudIPImporter.java
+END
+StudIP_DB_Event_Gatherer.java
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/projekte/grk_musama/!svn/ver/2705/pl/CASA-Server/ejbModule/de/lehsten/casa/contextserver/importer/studip/StudIP_DB_Event_Gatherer.java
+END
+StudIP_DB_Inventory_Gatherer.java
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/projekte/grk_musama/!svn/ver/2705/pl/CASA-Server/ejbModule/de/lehsten/casa/contextserver/importer/studip/StudIP_DB_Inventory_Gatherer.java
+END
+StudIP_DB_Room_Gatherer.java
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/projekte/grk_musama/!svn/ver/2705/pl/CASA-Server/ejbModule/de/lehsten/casa/contextserver/importer/studip/StudIP_DB_Room_Gatherer.java
+END

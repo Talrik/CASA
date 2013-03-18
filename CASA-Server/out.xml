@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<locationWebsite>
+    <properties>
+        <entry>
+            <key>title</key>
+            <value>Webseite des Konrad-Zuse-Hauses</value>
+        </entry>
+        <entry>
+            <key>targetURL</key>
+            <value>http://www.google.de</value>
+        </entry>
+        <entry>
+            <key>description</key>
+            <value>Seite für das KZH</value>
+        </entry>
+        <entry>
+            <key>ID</key>
+            <value>1345232669</value>
+        </entry>
+    </properties>
+    <source>predefined</source>
+    <description>Seite für das KZH</description>
+    <title>Webseite des Konrad-Zuse-Hauses</title>
+    <targetURL>http://www.google.de</targetURL>
+</locationWebsite>

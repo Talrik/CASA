@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/projekte/grk_musama/!svn/ver/2725/pl/CASA-Server/ejbModule/de/lehsten/casa/contextserver/types/entities/event
+END
+Lecture.java
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/projekte/grk_musama/!svn/ver/2702/pl/CASA-Server/ejbModule/de/lehsten/casa/contextserver/types/entities/event/Lecture.java
+END
+Tutorial.java
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/projekte/grk_musama/!svn/ver/2702/pl/CASA-Server/ejbModule/de/lehsten/casa/contextserver/types/entities/event/Tutorial.java
+END
+Course.java
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/projekte/grk_musama/!svn/ver/2702/pl/CASA-Server/ejbModule/de/lehsten/casa/contextserver/types/entities/event/Course.java
+END
+Meeting.java
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/projekte/grk_musama/!svn/ver/2702/pl/CASA-Server/ejbModule/de/lehsten/casa/contextserver/types/entities/event/Meeting.java
+END
+Event.java
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/projekte/grk_musama/!svn/ver/2702/pl/CASA-Server/ejbModule/de/lehsten/casa/contextserver/types/entities/event/Event.java
+END
+GDate.java
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/projekte/grk_musama/!svn/ver/2725/pl/CASA-Server/ejbModule/de/lehsten/casa/contextserver/types/entities/event/GDate.java
+END

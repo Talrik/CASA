@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/projekte/grk_musama/!svn/ver/2935/pl/CASA-Server/rules/de/lehsten/casa/rules/location
+END
+LocationService_PublicTransport.drl
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/projekte/grk_musama/!svn/ver/2953/pl/CASA-Server/rules/de/lehsten/casa/rules/location/LocationService_PublicTransport.drl
+END
+LocationRules.drl
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/projekte/grk_musama/!svn/ver/2935/pl/CASA-Server/rules/de/lehsten/casa/rules/location/LocationRules.drl
+END
+Notification_LactoseFreeMenu.drl
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/projekte/grk_musama/!svn/ver/2935/pl/CASA-Server/rules/de/lehsten/casa/rules/location/Notification_LactoseFreeMenu.drl
+END
+Queries_Locations.drl
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/projekte/grk_musama/!svn/ver/2955/pl/CASA-Server/rules/de/lehsten/casa/rules/location/Queries_Locations.drl
+END
+HandleLocationUpdates.drl
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/projekte/grk_musama/!svn/ver/2935/pl/CASA-Server/rules/de/lehsten/casa/rules/location/HandleLocationUpdates.drl
+END
+LocationService_Cafeteria.drl
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/projekte/grk_musama/!svn/ver/2935/pl/CASA-Server/rules/de/lehsten/casa/rules/location/LocationService_Cafeteria.drl
+END

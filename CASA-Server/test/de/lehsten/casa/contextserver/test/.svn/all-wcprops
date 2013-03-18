@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/projekte/grk_musama/!svn/ver/2935/pl/CASA-Server/test/de/lehsten/casa/contextserver/test
+END
+SyntacticRuleTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/projekte/grk_musama/!svn/ver/2935/pl/CASA-Server/test/de/lehsten/casa/contextserver/test/SyntacticRuleTest.java
+END
+MarshallTester.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/projekte/grk_musama/!svn/ver/2959/pl/CASA-Server/test/de/lehsten/casa/contextserver/test/MarshallTester.java
+END
+SemanticRuleTest_StudIPTransformationRules.java
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/projekte/grk_musama/!svn/ver/2945/pl/CASA-Server/test/de/lehsten/casa/contextserver/test/SemanticRuleTest_StudIPTransformationRules.java
+END
+SemanticRuleTest_ServiceQueries.java
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/projekte/grk_musama/!svn/ver/2951/pl/CASA-Server/test/de/lehsten/casa/contextserver/test/SemanticRuleTest_ServiceQueries.java
+END
+ContextServerStartUp.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/projekte/grk_musama/!svn/ver/2935/pl/CASA-Server/test/de/lehsten/casa/contextserver/test/ContextServerStartUp.java
+END
+SemanticRuleTest_EventService_NextCourse.java
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/projekte/grk_musama/!svn/ver/2935/pl/CASA-Server/test/de/lehsten/casa/contextserver/test/SemanticRuleTest_EventService_NextCourse.java
+END
+SemanticRuleTest_LocationRules.java
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/projekte/grk_musama/!svn/ver/2953/pl/CASA-Server/test/de/lehsten/casa/contextserver/test/SemanticRuleTest_LocationRules.java
+END
+SemanticRuleTest_StudIPQueries.java
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/projekte/grk_musama/!svn/ver/2945/pl/CASA-Server/test/de/lehsten/casa/contextserver/test/SemanticRuleTest_StudIPQueries.java
+END
+ProcessTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/projekte/grk_musama/!svn/ver/2959/pl/CASA-Server/test/de/lehsten/casa/contextserver/test/ProcessTest.java
+END
