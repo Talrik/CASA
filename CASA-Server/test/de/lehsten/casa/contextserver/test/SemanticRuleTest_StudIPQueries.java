@@ -86,14 +86,17 @@ public class SemanticRuleTest_StudIPQueries {
 		//config the query
 		String queryName = "GetEntityByPropertyAndValue";
 		Object[] arguments = new Object[2];
-		arguments[0] = "Nachname";
-		arguments[1] = "Test";
+		arguments[0] = "StudIP_ID";
+		arguments[1] = "1234567890";
 		//create objects
-		Entity e = new Entity();
-		e.setSource("Source");
-		e.getProperties().put("Nachname", "Test");
+		Lecture event = new Lecture();
+		event.setStudIP_ID("1234567890");
+		event.setSource("StudIP");
+		event.setBeginDate(new Date(Long.parseLong("1356998400000")));
+		event.setEndDate(new Date(Long.parseLong("1356998400000")));
+
 		//insert objects
-		ksession.insert(e);
+		ksession.insert(event);
 		//fire query
 		QueryResults results= ksession.getQueryResults( queryName, arguments );
 		//

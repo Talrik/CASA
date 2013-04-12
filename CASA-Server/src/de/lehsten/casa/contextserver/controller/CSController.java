@@ -55,9 +55,8 @@ public class CSController implements Processor, ContextServer{
 	
 	@Override
 	public void process(Exchange exchange) throws Exception {
-		log.info("Message received.");
-		log.info("Body: "+exchange.getIn().getBody());
-    	if (server == null) {log.error("No ContextServer available");}
+		log.debug("Message received.");
+		if (server == null) {log.error("Message received but no ContextServer available");}
     	
  //   	exchange.getOut().setBody("Antwort auf " +exchange.getIn().getBody());
 		
@@ -65,17 +64,17 @@ public class CSController implements Processor, ContextServer{
 			try {
 				CSMessage msg =  (CSMessage) exchange.getIn().getBody();
 				String method = msg.text;
-				log.info("Requested method: " + method);
+				log.debug("Requested method: " + method);
 				log.debug("Method available: "+methods.containsKey(method));
 				Object[] args = msg.payload.toArray();
 				for (Object o : args){
-					log.info("Args: "+o);
+					log.debug("Args: "+o);
 					if (o != null){
 					if(o.getClass().isArray()){
 						Object[] p = (Object[]) o;
-						log.info("Array.length: "+p.length);
+						log.debug("Array.length: "+p.length);
 						for (Object q : p){
-							log.info("Param:"+q);
+							log.debug("Param:"+q);
 						}
 					}
 					}
@@ -90,7 +89,7 @@ public class CSController implements Processor, ContextServer{
 							action.setAccessible(true);
 							ArrayList<Object> list = (ArrayList<Object>) action.invoke(server);
 							CSMessage reply = new CSMessage();
-							log.info(list.size()+ " Objects found.");
+							log.debug(list.size()+ " Objects found.");
 							reply.text = list.size()+ "Objects found.";
 							reply.payload = list;
 							exchange.getOut().setBody(reply);
@@ -103,7 +102,7 @@ public class CSController implements Processor, ContextServer{
 					}
 					else if(methods.containsKey(method) && args.length != 0){
 
-						log.info("Requested method: " + method);
+						log.debug("Requested method: " + method);
 						log.debug("Method available: "+methods.containsKey(method));
 							Method m = methods.get(method);
 							Class<?>[] x = m.getParameterTypes();  
@@ -115,7 +114,7 @@ public class CSController implements Processor, ContextServer{
 							if(action.getReturnType().equals(Collection.class)){
 								action.setAccessible(true);
 								ArrayList<Object> list = (ArrayList<Object>) action.invoke(server, args);
-								log.info(list.size()+ " Objects found.");
+								log.debug(list.size()+ " Objects found.");
 								CSMessage reply = new CSMessage();
 								reply.payload = list;
 								exchange.getOut().setBody(reply);

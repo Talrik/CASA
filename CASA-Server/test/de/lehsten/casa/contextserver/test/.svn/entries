@@ -232,14 +232,14 @@ has-props
 
 SemanticRuleTest_StudIPQueries.java
 file
-2945
+2983
 
 
 
-2012-11-14T10:07:01.000000Z
-9db69806c12246f55377cb49ce80761f
-2013-01-23T12:56:33.463364Z
-2945
+2013-04-05T13:39:49.000000Z
+145189a668520308cf060e68e7bbe78a
+2013-04-10T06:28:51.860726Z
+2983
 pl039
 has-props
 
@@ -262,7 +262,7 @@ has-props
 
 
 
-18461
+18602
 
 SemanticRuleTest_StudIPTransformationRules.java
 file

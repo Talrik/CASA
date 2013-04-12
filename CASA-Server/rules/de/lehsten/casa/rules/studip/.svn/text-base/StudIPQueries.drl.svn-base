@@ -37,7 +37,7 @@ query "GetEntityByProperty" (String key)
 end
 */
 query "GetEntityByPropertyAndValue" (String key, String value)
-		e : Entity(properties[key] == value)
+		r : Entity(properties[key] == value)
 end
  
 // get a Person
@@ -70,12 +70,12 @@ query "GetCoursesByTitle" (String x)
 end
 
 query "GetLecturesByTitle" (String x)
-	l : Lecture (title == x)  
+	r : Lecture (title == x)  
 end
 
 query "GetLecturesByRoom" (String roomname)
-	r : Room(title == roomname)
-	l : Lecture (room == r)
+	p : Room(title == roomname)
+	r : Lecture (room == p)
 	
 //	c : Course (c.lectures contains l)
 end

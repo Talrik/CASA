@@ -359,14 +359,14 @@ public class CASAContextServer implements ContextServer{
 	public Collection<Entity> getQueryResult(String queryName, Object[] arguments) {
 		ArrayList<Entity> list = new ArrayList<Entity>();
 		if (this.getQueryNames().contains(queryName)){
-			System.out.println("[CS]: Query: "+queryName);
+			log.debug("Query: "+queryName);
 			QueryResults results= ksession.getQueryResults( queryName, arguments );
 
 			for ( QueryResultsRow row : results ) {
 				Entity e = ( Entity) row.get( "r" );
 				list.add(e);
 			}
-			log.info(list.size() +" entities found.");
+			log.debug(list.size() +" entities found.");
 			return list;
 		}
 		else {

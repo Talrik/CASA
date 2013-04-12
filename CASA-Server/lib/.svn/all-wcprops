@@ -105,11 +105,11 @@ svn:wc:ra_dav:version-url
 V 67
 /projekte/grk_musama/!svn/ver/2722/pl/CASA-Server/lib/jbpm-flow.jar
 END
-contextserver.types-0.1.21-SNAPSHOT.jar
+contextserver.types-0.1.22-SNAPSHOT.jar
 K 25
 svn:wc:ra_dav:version-url
 V 93
-/projekte/grk_musama/!svn/ver/2959/pl/CASA-Server/lib/contextserver.types-0.1.21-SNAPSHOT.jar
+/projekte/grk_musama/!svn/ver/2983/pl/CASA-Server/lib/contextserver.types-0.1.22-SNAPSHOT.jar
 END
 jbpm-bpmn2.jar
 K 25
@@ -139,7 +139,7 @@ contextserver.utilities-0.1.0-SNAPSHOT-jar-with-dependencies.jar
 K 25
 svn:wc:ra_dav:version-url
 V 118
-/projekte/grk_musama/!svn/ver/2959/pl/CASA-Server/lib/contextserver.utilities-0.1.0-SNAPSHOT-jar-with-dependencies.jar
+/projekte/grk_musama/!svn/ver/2983/pl/CASA-Server/lib/contextserver.utilities-0.1.0-SNAPSHOT-jar-with-dependencies.jar
 END
 antlr.jar
 K 25

@@ -13,7 +13,6 @@
 			<attribute name="owner.project.facets" value="jst.web"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="lib">
 		<attributes>
@@ -21,5 +20,30 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="lib/antlr-runtime.jar"/>
+	<classpathentry kind="lib" path="lib/antlr.jar"/>
+	<classpathentry kind="lib" path="lib/contextserver.utilities-0.1.0-SNAPSHOT-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="lib/core-3.4.2.v_883_R34x.jar"/>
+	<classpathentry kind="lib" path="lib/drools-api.jar"/>
+	<classpathentry kind="lib" path="lib/drools-compiler.jar"/>
+	<classpathentry kind="lib" path="lib/drools-core-tests.jar"/>
+	<classpathentry kind="lib" path="lib/drools-core.jar"/>
+	<classpathentry kind="lib" path="lib/drools-decisiontables.jar"/>
+	<classpathentry kind="lib" path="lib/drools-ide-common.jar"/>
+	<classpathentry kind="lib" path="lib/drools-jsr94.jar"/>
+	<classpathentry kind="lib" path="lib/drools-templates.jar"/>
+	<classpathentry kind="lib" path="lib/jbpm-bpmn2.jar"/>
+	<classpathentry kind="lib" path="lib/jbpm-flow-builder.jar"/>
+	<classpathentry kind="lib" path="lib/jbpm-flow.jar"/>
+	<classpathentry kind="lib" path="lib/jdom-2.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/jsr94.jar"/>
+	<classpathentry kind="lib" path="lib/jxl.jar"/>
+	<classpathentry kind="lib" path="lib/log4j.jar"/>
+	<classpathentry kind="lib" path="lib/mvel2.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.16-bin.jar"/>
+	<classpathentry kind="lib" path="lib/stringtemplate.jar"/>
+	<classpathentry kind="lib" path="lib/xpp3_min.jar"/>
+	<classpathentry kind="lib" path="lib/xstream.jar"/>
+	<classpathentry kind="lib" path="lib/contextserver.types-0.1.22-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
