@@ -60,31 +60,22 @@
 			else {
 			echo 'links[0]="'._(urldecode($serviceurl)).'";';
 			}
-			echo'
-			function setLink (value){
-			document.getElementById("unique").src = links[setLink.arguments[0]];
-			return;
-			}
-			var klappstatus = 0;
-                        function setLink (){
-                                document.getElementById("unique").src = "'._($uniqueLink).'";
-                                return;
-                        }
-                        function klappen(value){
-                        if (klappstatus == 0){
-                                klappstatus = 1;
-                                document.getElementById("klappen"+klappen.arguments[0]).childNodes[2].nodeValue = "ausblenden";
-                                document.getElementById("klappenImg"+klappen.arguments[0]).src = "assets/images/forumgraurunt2.png";
-				document.getElementById("unique").src = links[klappen.arguments[0]];
-                                document.getElementById("unique").style.display = \'\';
-                        } else {
-                                klappstatus = 0;
-                                document.getElementById("klappen"+klappen.arguments[0]).childNodes[2].nodeValue = "anzeigen";
-                                document.getElementById("klappenImg"+klappen.arguments[0]).src = "assets/images/forumgrau2.png";
-                                document.getElementById("unique").style.display = \'none\';
-                        }
-                        return;
-                        }
+			echo'		
+						function toggle(control){
+							var elem = document.getElementById("block"+control);
+	
+							if(elem.style.display == "none"){
+                                document.getElementById("klappen"+control).childNodes[2].nodeValue = "ausblenden";
+                                document.getElementById("klappenImg"+control).src = "assets/images/forumgraurunt2.png";
+								elem.style.display = "block";
+								elem.src = links[control];
+							}else{
+								elem.style.display = "none";
+                                document.getElementById("klappen"+control).childNodes[2].nodeValue = "anzeigen";
+                                document.getElementById("klappenImg"+control).src = "assets/images/forumgrau2.png";
+							}
+						}
+						
 			</script>
 			 <table class="index_box"  style="width: 100%;">
 			';
@@ -103,7 +94,7 @@
 			echo'
                         	</td></tr>
                         	<tr><td class="steel1" colspan="3">
-                        	<a id="klappen'._($i).'" href="javascript:klappen('._($i).')">
+                        	<a id="klappen'._($i).'" href="javascript:toggle('._($i).')">
                         	<img id="klappenImg'._($i).'" src="assets/images/forumgrau2.png" alt="Objekt aufklappen" title="Objekt aufklappen">
                         	anzeigen</a> / ';
 				if ($scount >1){
@@ -111,17 +102,16 @@
 				}else{
 					echo '<a href="'._(urldecode($serviceurl)).'" target="_blank">Neu &ouml;ffnen</a>';
 				}
-
+				
+				echo'<br /><iframe id="block'._($i).'" style="display: none" src="" width="98%" height="500" name="'._("Dienste").'" frameborder="0">
+			<p>Ihr Browser kann leider keine eingebetteten Frames anzeigen:
+			Sie k&ouml;nnen die eingebettete Seite &uuml;ber den folgenden Verweis
+			aufrufen: <a href="'._(urldecode($serviceurl[$i])).'">"'._("Dienst").'"</a></p>
+			</iframe>';
+				
 			echo'	</td></tr>
 			';};
 			echo'         
-			<tr>
-			<td class="steel1" colspan="3">
-			<iframe id="unique" src="" width="98%" height="500" name="'._("Dienste").'" frameborder="0">
-			<p>Ihr Browser kann leider keine eingebetteten Frames anzeigen:
-			Sie k&ouml;nnen die eingebettete Seite &uuml;ber den folgenden Verweis
-			aufrufen: <a href="'._($uniqueLink).'">"'._("Dienste").'"</a></p>
-			</iframe>
 			<script type="text/javascript">
 			</script>
 			</tr></td></table>

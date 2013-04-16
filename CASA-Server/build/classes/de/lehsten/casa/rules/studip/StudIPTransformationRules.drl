@@ -12,6 +12,7 @@ import de.lehsten.casa.contextserver.types.position.MovementEvent;
 import de.lehsten.casa.contextserver.types.entities.services.websites.EventWebsite;
 import de.lehsten.casa.contextserver.types.entities.services.websites.Website;
 
+import de.lehsten.casa.rules.RulesLogger;
 
 import java.util.Date;
 
@@ -66,7 +67,7 @@ rule "ConnectLecturesWithCourses "
 	then
 		l.setisAssigned(true);
 		c.addLecture(l); 
-		System.out.println("[CLWC] "+ l.getTitle() + " assigned to "+ c.getTitle() + " on " + l.getBeginDate());
+		RulesLogger.log(drools, l.getTitle() + " assigned to "+ c.getTitle() + " on " + l.getBeginDate());
 end 
 
 rule "ConnectLectureWithRooms"
@@ -77,7 +78,7 @@ rule "ConnectLectureWithRooms"
 	then
 		l.setRoom(r);
 		c.addResource(r.getResource_id());
-		System.out.println("[CLWR] "+ l.getRoom().getTitle() + " assigned to "+ l.getTitle() + " on " + l.getBeginDate());
+		RulesLogger.log(drools, l.getRoom().getTitle() + " assigned to "+ l.getTitle() + " on " + l.getBeginDate());
 end
 
 rule "ConnectPersonsWithCourses"
@@ -86,7 +87,7 @@ rule "ConnectPersonsWithCourses"
 		c : Course( members not contains p, membersID contains p.properties["studIP_userID"])  
 	then
 		c.addMember(p);
-		System.out.println("[CPWC] "+p.getFirstname()+" "+ p.getLastname()+ " takes "+c.getTitle());
+		RulesLogger.log(drools,p.getFirstname()+" "+ p.getLastname()+ " takes "+c.getTitle());
 end
 
 rule "ConnectRoomsWithBuildings"
@@ -96,7 +97,7 @@ rule "ConnectRoomsWithBuildings"
 	then
 		b.addRoom(r);
 		r.setBuilding(b);
-		System.out.println("[CRWB] "+r.getTitle()+" is in "+b.getTitle());
+		RulesLogger.log(drools,r.getTitle()+" is in "+b.getTitle());
 end
 
 rule "ConnectWebsitesWithEvents"
@@ -116,5 +117,5 @@ rule "ConnectWebsitesWithEvents"
 		if (w.getRestrictions() != null){s.setRestrictions(w.getRestrictions());};
 		insert(s);
 		retract(w);
-		System.out.println("[CWWE] "+s.getTitle()+" added to "+ l.getTitle());
+		RulesLogger.log(drools,s.getTitle()+" added to "+ l.getStudIP_ID());
 end

@@ -387,39 +387,42 @@ try{
             $wsdl = "http://localhost:8080/GUI_Broker_StudIP/GUI_Broker_StudIP?WSDL";
             $options = array('cache_wsdl' => WSDL_CACHE_NONE );
             $client = new SoapClient($wsdl,$options);
-	    $location = $roomName._(";").$locationName;
+	    	$location = $roomName._(";").$locationName;
             $ParamList = array(	
 //				"userID" => $username,
 				"lecture" => $uniqueSemId,
 				"userRole" => $role,
-                           	"location" => $location);	 
-           $response = $client->getGUI($ParamList);
- 	$array = $response->return;
-        if(sizeof($array) == 1){; 
-           	$title = $array->title;    
-		$url = $array->properties->entry[1]->value;
-	   	$navigation = new Navigation('Dienste', "broker4gui.php?scount=".sizeof($array)."&serviceurl=".urlencode($url)."&servicetitle=".$title);
-		 $navigation->addSubNavigation('viewService', new Navigation(_('Dienste anzeigen'), "broker4gui.php?scount=".sizeof($array)."&serviceurl=".urlencode($url)."&servicetitle=".$title));
- 		if(($role == 'admin') || $role == 'dozent'){
-			 	 $navigation->addSubNavigation('addService', new Navigation(_('Dienst eintragen'), "addService.php?scount=".sizeof($array)."&serviceurl=".urlencode($url)."&servicetitle=".$title));
-}
-          	$this->addSubNavigation('Dienste', $navigation);
-	}
-	if (sizeof($array) >1){
-		$title = 'Dienste';
-		$services = '';
-		for($i = 0; $i< sizeof($array);$i++)
-		{
-			$services = $services.'&servicetitle[]='.$array[$i]->title.'&serviceurl[]='.urlencode($array[$i]->properties->entry[1]->value);
-		}
-		$navigation = new Navigation('Dienste', "broker4gui.php?scount=".sizeof($array).$services);		
-		 $navigation->addSubNavigation('viewService', new Navigation(_('Dienste anzeigen'), "broker4gui.php?scount=".sizeof($array).$services));		
-		if(($role == 'admin') || $role == 'dozent'){
-			 $navigation->addSubNavigation('addService', new Navigation(_('Dienst eintragen'), "addService.php?scount=".sizeof($array)."&serviceurl=".urlencode($url)."&servicetitle=".$title));
-		}
-
-		$this->addSubNavigation('Dienste', $navigation); 
-	}
+            	"location" => $location);	 
+           	$response = $client->getGUI($ParamList);
+ 		   	$array = $response->return;
+        	if(sizeof($array) == 1){ 
+           		$title = $array->title;    
+				$url = $array->properties->entry[1]->value;
+	   			$navigation = new Navigation('Dienste', "broker4gui.php?scount=".sizeof($array)."&serviceurl=".urlencode($url)."&servicetitle=".$title);
+		 	   	$navigation->addSubNavigation('viewService', new Navigation(_('Dienste anzeigen'), "broker4gui.php?scount=".sizeof($array)."&serviceurl=".urlencode($url)."&servicetitle=".$title));
+		 	  	$navigation->addSubNavigation('disclaimer', new Navigation(_('Hinweise'),"casaDisclaimer.php"));
+ 			  	if(($role == 'admin') || $role == 'dozent'){
+			 	 	$navigation->addSubNavigation('addService', new Navigation(_('Dienst eintragen'),"addService.php?scount=".sizeof($array)."&serviceurl=".urlencode($url)."&servicetitle=".$title));
+				 	$navigation->addSubNavigation('disclaimer', new Navigation(_('Hinweise'),"casaDisclaimer.php"));
+				}
+          		$this->addSubNavigation('Dienste', $navigation);
+			}
+			if (sizeof($array) >1){
+				$title = 'Dienste';
+				$services = '';
+				for($i = 0; $i< sizeof($array);$i++)
+				{
+					$services = $services.'&servicetitle[]='.$array[$i]->title.'&serviceurl[]='.urlencode($array[$i]->properties->entry[1]->value);
+				}
+				$navigation = new Navigation('Dienste', "broker4gui.php?scount=".sizeof($array).$services);		
+		 	   	$navigation->addSubNavigation('viewService', new Navigation(_('Dienste anzeigen'), "broker4gui.php?scount=".sizeof($array).$services));
+		 	  	$navigation->addSubNavigation('disclaimer', new Navigation(_('Hinweise'),"casaDisclaimer.php"));		
+				if(($role == 'admin') || $role == 'dozent'){
+			 	   	$navigation->addSubNavigation('addService', new Navigation(_('Dienst eintragen'), "addService.php?scount=".sizeof($array)."&serviceurl=".urlencode($url)."&servicetitle=".$title));
+			 	   	$navigation->addSubNavigation('disclaimer', new Navigation(_('Hinweise'),"casaDisclaimer.php"));
+				}
+				$this->addSubNavigation('Dienste', $navigation); 
+			}
 	}catch (SoapFault $E)
 		{
 	echo $E;

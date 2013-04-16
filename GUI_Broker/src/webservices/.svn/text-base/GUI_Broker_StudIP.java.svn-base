@@ -68,7 +68,7 @@ public class GUI_Broker_StudIP {
 	CamelContext camelContext;
 	ProducerTemplate serverProducer;
 	ProducerTemplate factEntryProducer;
-//	ProducerTemplate casaDbProducer;
+	ProducerTemplate casaDbProducer;
 	private final static Logger log = LoggerFactory.getLogger( GUI_Broker_StudIP.class ); 
 	private LoadingCache<HashMap<String,String>, Service[]> cache;
 	
@@ -83,7 +83,7 @@ public class GUI_Broker_StudIP {
 			startContext();
 			factEntryProducer.setDefaultEndpoint(camelContext.getEndpoint("direct:FactEntry"));
 			serverProducer.setDefaultEndpoint(camelContext.getEndpoint("direct:CASA_Server"));
-//			casaDbProducer.setDefaultEndpoint(camelContext.getEndpoint("direct:CASA_DB"));
+			casaDbProducer.setDefaultEndpoint(camelContext.getEndpoint("direct:CASA_DB"));
 			
 			cache = CacheBuilder.newBuilder()
 				       .maximumSize(1000)
@@ -124,7 +124,7 @@ public class GUI_Broker_StudIP {
 				         		Service[] test = new Service[resultList.size()];
 				         		test = resultList.toArray(test);
 				         		return test;
-				            	}else return null;
+				            	}else return new Service[0];
 				             }});
 
 
@@ -135,17 +135,17 @@ public class GUI_Broker_StudIP {
 }
 	private void startContext(){
 		try { 
-			System.out.println("Lookup context...");
+			log.debug("Lookup context...");
 			ctx = new InitialContext();
 			this.camelContext = (CamelContext) ctx.lookup(layer+"Context");
-			System.out.println("Context found: "+ this.camelContext);
+			log.debug("Context found: "+ this.camelContext);
 			this.camelContext = null;
 		} catch (NamingException e1 ) {
 			System.out.println(e1.getMessage());
 		}
 		if (this.camelContext == null){
 			DefaultCamelContext camelContext = new DefaultCamelContext();
-			System.out.println("Starting context...");
+			log.debug("Starting context...");
 			try {
 				final Endpoint serverControl = (Endpoint)ctx.lookup("vm:ServerControl"); 	
 				camelContext.addRoutes(new RouteBuilder(){
@@ -154,21 +154,21 @@ public class GUI_Broker_StudIP {
 					public void configure() throws Exception {
 						from("direct:CASA_Server").process(new CSMessageConverter()).to(serverControl).process(new CSMessageConverter());
 						from("direct:FactEntry").process(new EntitySerializer()).to((Endpoint)(new InitialContext().lookup("vm:ServerFactEntry")));	
-	//					from("direct:CASA_DB").to("jdbc:jdbc/casa");
+						from("direct:CASA_DB").to("jdbc:jdbc/casa");
 					}});
 				camelContext.start();
 
-				System.out.println("Context started...");
-				System.out.println("CamelContextID: "+camelContext.getName());
+				log.debug("Context started...");
+				log.debug("CamelContextID: "+camelContext.getName());
 				ctx.rebind("ServiceContext", camelContext);
-				System.out.println("Context registered: "+ ctx.lookup("ServiceContext"));
+				log.debug("Context registered: "+ ctx.lookup("ServiceContext"));
 				this.camelContext = (CamelContext) ctx.lookup("ServiceContext");
 			} catch (Exception e) {
 				e.printStackTrace(); 
 
 			}	
 		}
-//		casaDbProducer = this.camelContext.createProducerTemplate();
+		casaDbProducer = this.camelContext.createProducerTemplate();
 		serverProducer = this.camelContext.createProducerTemplate();
 		factEntryProducer = this.camelContext.createProducerTemplate();	
 	}
@@ -256,7 +256,7 @@ public class GUI_Broker_StudIP {
 				service.setDescription(description);
 			}
 			factEntryProducer.sendBody(service);
-			/*
+			
 			Endpoint endpoint = this.camelContext.getEndpoint("direct:CASA_DB");
 			Exchange exchange = endpoint.createExchange();
 			JAXBContext context;
@@ -276,7 +276,7 @@ public class GUI_Broker_StudIP {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			*/
+			
 			try {
 				Thread.sleep(250);
 			} catch (InterruptedException e) {
@@ -315,7 +315,7 @@ public class GUI_Broker_StudIP {
 				}
 				factEntryProducer.sendBody(place);
 				factEntryProducer.sendBody(service);
-				/*
+				
 				Endpoint endpoint = this.camelContext.getEndpoint("direct:CASA_DB");
 				Exchange exchange = endpoint.createExchange();
 				JAXBContext context;
@@ -336,7 +336,7 @@ public class GUI_Broker_StudIP {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				*/
+				
 				try {
 					Thread.sleep(250);
 				} catch (InterruptedException e) {
@@ -441,7 +441,7 @@ public class GUI_Broker_StudIP {
 				service.setDescription(description);
 			}
 			factEntryProducer.sendBody(service);
-			/*
+			
 			Endpoint endpoint = this.camelContext.getEndpoint("direct:CASA_DB");
 			Exchange exchange = endpoint.createExchange();
 			JAXBContext context;
@@ -461,7 +461,7 @@ public class GUI_Broker_StudIP {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			*/
+			
 			try {
 				Thread.sleep(250);
 			} catch (InterruptedException e) {
@@ -500,7 +500,7 @@ public class GUI_Broker_StudIP {
 				}
 				factEntryProducer.sendBody(place);
 				factEntryProducer.sendBody(service);
-/*				Endpoint endpoint = this.camelContext.getEndpoint("direct:CASA_DB");
+				Endpoint endpoint = this.camelContext.getEndpoint("direct:CASA_DB");
 				Exchange exchange = endpoint.createExchange();
 				JAXBContext context;
 				try {
@@ -520,7 +520,7 @@ public class GUI_Broker_StudIP {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-*/				try {
+				try {
 					Thread.sleep(250);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
