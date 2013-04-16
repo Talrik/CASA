@@ -195,6 +195,7 @@ public class SemanticRuleTest_StudIPTransformationRules {
 		l1.setStudIP_ID("id12345");
 		Website w1 = new Website();
 		w1.setSource("Source2");
+		w1.setTitle("Uni Homepage");
 		w1.setTargetURL("http://www.uni-rostock.de");
 		w1.addProperty("StudIP_ID", "id12345");	
 		//insert facts

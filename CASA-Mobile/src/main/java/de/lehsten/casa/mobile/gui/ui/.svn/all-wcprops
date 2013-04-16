@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/projekte/grk_musama/!svn/ver/2966/pl/CASA-Mobile/src/main/java/de/lehsten/casa/mobile/gui/ui
+END
+MainNavigationManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/projekte/grk_musama/!svn/ver/2966/pl/CASA-Mobile/src/main/java/de/lehsten/casa/mobile/gui/ui/MainNavigationManager.java
+END
+BrowseView.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/projekte/grk_musama/!svn/ver/2966/pl/CASA-Mobile/src/main/java/de/lehsten/casa/mobile/gui/ui/BrowseView.java
+END
+ServiceOverview.java
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/projekte/grk_musama/!svn/ver/2966/pl/CASA-Mobile/src/main/java/de/lehsten/casa/mobile/gui/ui/ServiceOverview.java
+END
+NodeOverview.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/projekte/grk_musama/!svn/ver/2966/pl/CASA-Mobile/src/main/java/de/lehsten/casa/mobile/gui/ui/NodeOverview.java
+END
+ServiceView.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/projekte/grk_musama/!svn/ver/2966/pl/CASA-Mobile/src/main/java/de/lehsten/casa/mobile/gui/ui/ServiceView.java
+END
+ServiceTypeOverview.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/projekte/grk_musama/!svn/ver/2966/pl/CASA-Mobile/src/main/java/de/lehsten/casa/mobile/gui/ui/ServiceTypeOverview.java
+END
+ConfigNavigationManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/projekte/grk_musama/!svn/ver/2966/pl/CASA-Mobile/src/main/java/de/lehsten/casa/mobile/gui/ui/ConfigNavigationManager.java
+END
+ConfigView.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/projekte/grk_musama/!svn/ver/2966/pl/CASA-Mobile/src/main/java/de/lehsten/casa/mobile/gui/ui/ConfigView.java
+END
+NodeView.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/projekte/grk_musama/!svn/ver/2966/pl/CASA-Mobile/src/main/java/de/lehsten/casa/mobile/gui/ui/NodeView.java
+END
+ServiceNavigationManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/projekte/grk_musama/!svn/ver/2966/pl/CASA-Mobile/src/main/java/de/lehsten/casa/mobile/gui/ui/ServiceNavigationManager.java
+END
+TabletMainView.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/projekte/grk_musama/!svn/ver/2966/pl/CASA-Mobile/src/main/java/de/lehsten/casa/mobile/gui/ui/TabletMainView.java
+END
+MainTabsheet.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/projekte/grk_musama/!svn/ver/2966/pl/CASA-Mobile/src/main/java/de/lehsten/casa/mobile/gui/ui/MainTabsheet.java
+END
+SmartphoneMainView.java
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/projekte/grk_musama/!svn/ver/2966/pl/CASA-Mobile/src/main/java/de/lehsten/casa/mobile/gui/ui/SmartphoneMainView.java
+END
