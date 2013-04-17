@@ -118,7 +118,7 @@
 			';
 
 		//}
-	}
+}
 	    
 	
 include ('lib/include/html_end.inc.php');
