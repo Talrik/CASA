@@ -23,6 +23,7 @@ import de.lehsten.casa.contextserver.communication.GUIRouteBuilder;
 import de.lehsten.casa.contextserver.gui.explorer.entities.EntityContainer;
 import de.lehsten.casa.contextserver.gui.explorer.entities.EntityEditor;
 import de.lehsten.casa.contextserver.gui.explorer.entities.EntityForm;
+import de.lehsten.casa.contextserver.gui.explorer.entities.EntityTabSheet;
 import de.lehsten.casa.contextserver.gui.explorer.importer.ImporterContainer;
 import de.lehsten.casa.contextserver.gui.explorer.server.ServerMenu;
 import de.lehsten.casa.contextserver.gui.importer.ImporterForm;
@@ -50,7 +51,7 @@ public class GuiApplication extends Application implements 	Button.ClickListener
 	private GUIRouteBuilder builder;
 	 private ListView listView = null;
 	 private GenericList genericList = null;
-	 private EntityEditor entityEditor = null;
+	 private EntityTabSheet entitySheet = null;
 	private ImporterForm importerForm = null;
 	private RulesForm rulesForm = null;
 	 
@@ -165,8 +166,8 @@ public class GuiApplication extends Application implements 	Button.ClickListener
 	          }else{
 	        	  genericList = new GenericList(this, EntityContainer.createWithData());
 	          }
-	          entityEditor = new EntityEditor();
-	          listView = new ListView(genericList, entityEditor);
+	          entitySheet = new EntityTabSheet();
+	          listView = new ListView(genericList, entitySheet);
 	      }catch(CamelExchangeException e){
 	    	  }
 	      }
@@ -212,16 +213,19 @@ public class GuiApplication extends Application implements 	Button.ClickListener
 
 		 tree.createClassStructure(entityDataSource.getItemIds());
 		 this.mainViewRight.setUpperComponent(genericList);
-		 this.mainViewRight.setLowerComponent(entityEditor);
+		 this.mainViewRight.setLowerComponent(entitySheet);
 		 this.setMainViewComponent(mainViewRight);
 		 }
 		 catch(Exception e){
 				this.getMainWindow().showNotification("Not connected to server","<br>You are currently not connected to a CASA server", Window.Notification.TYPE_WARNING_MESSAGE);
-
 		 }
 	 }
 	 
 	 public void showRulesUpload(){
+		 this.mainView.setSecondComponent(new RulesUploader(this));
+	 }
+	 
+	 public void showAddEntity(){
 		 this.mainView.setSecondComponent(new RulesUploader(this));
 	 }
 	 
@@ -254,12 +258,14 @@ public void valueChange(ValueChangeEvent event) {
 		else if(item.getBean() instanceof Rule){
 			rulesForm.setItemDataSource(item);
 		}else 
-			System.out.println(item.getBean() instanceof Entity);
-			System.out.println(item != entityEditor.getItemDataSource());
 		
-			if (item.getBean() instanceof Entity && item != entityEditor.getItemDataSource()) {
-				entityEditor.setItemDataSource(item); 
-				System.out.println("Update");
+			if (item.getBean() instanceof Entity){
+				EntityEditor entityEditor = new EntityEditor();
+				this.mainViewRight.setLowerComponent(entityEditor);
+				if( item != entityEditor.getItemDataSource()) {
+					entityEditor.setItemDataSource(item); 
+					System.out.println("Update");
+				}
 			}
 	}
 }

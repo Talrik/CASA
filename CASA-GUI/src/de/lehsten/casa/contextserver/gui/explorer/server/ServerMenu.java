@@ -45,7 +45,7 @@ public class ServerMenu extends MenuBar{
 		mEntities.setIcon(new ThemeResource("Folder-Generic-Silver-icon.png"));
 		MenuBar.MenuItem mViewEntities = mEntities.addItem("View entities", viewEntities);
 		MenuBar.MenuItem mAddEntity = mEntities.addItem("Add entity", addEntity);
-		mAddEntity.setEnabled(false);
+		mAddEntity.setEnabled(true);
 		MenuBar.MenuItem mRemoveEntity = mEntities.addItem("Remove entity", removeEntity);
 		mRemoveEntity.setEnabled(false);
 		MenuBar.MenuItem mUpdateEntity = mEntities.addItem("Update entity", updateEntity);
