@@ -1,0 +1,9 @@
+pluginclassname=CasaPlugin
+pluginclassname=CasaAdminPlugin
+pluginname=CASA
+origin=PhilippLehsten
+version=0.1.1
+studipMinVersion=2.0
+description= Dieses Plugin erlaubt die Verknüpfung von Diensten (z.B. Videos) mit Ihrer Veranstaltung oder deren Ort
+dbscheme=sql/casa_install.sql
+uninstalldbscheme=sql/casa_uninstall.sql
