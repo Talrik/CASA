@@ -4,6 +4,7 @@ package de.lehsten.casa.contextserver.gui.explorer.entities;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.naming.InitialContext;
@@ -44,7 +45,7 @@ public class EntityForm extends Form implements ClickListener{
 		// Create a form and use FormLayout as its layout.
 
 		// Set form caption and description texts 
-		this.setCaption("Entity Information");
+		this.setCaption("Entity Info");
 		this.setDescription("Please specify the properties of the entity");
 
 		// Create the custom bean. 
@@ -59,6 +60,7 @@ public class EntityForm extends Form implements ClickListener{
 		HorizontalLayout footer = new HorizontalLayout();
 		footer.setSpacing(true);
 		footer.addComponent(save);
+		footer.addComponent(update);
 		footer.addComponent(cancel);
 		footer.addComponent(edit);
 		footer.addComponent(remove);
@@ -121,8 +123,12 @@ public class EntityForm extends Form implements ClickListener{
 			this.setItemDataSource(null);
 		
 		} else if (source == edit) {
-			oldEntity = (Entity)((BeanItem)this.getItemDataSource()).getBean();
-		setReadOnly(false);
+			Entity currentEntity = new Entity();
+			currentEntity = ((Entity)((BeanItem)this.getItemDataSource()).getBean());
+			oldEntity = new Entity();
+			oldEntity = currentEntity.clone();
+			oldEntity.getProperties().put("ID", currentEntity.getProperties().get("ID"));
+			setReadOnly(false);
 	}
 	}
 
@@ -137,7 +143,7 @@ public class EntityForm extends Form implements ClickListener{
 			Marshaller m = context.createMarshaller();
 			m.setProperty( Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE );
 //			File out = new File("out.xml");
-			m.marshal( ((BeanItem)newDataSource).getBean(), System.out );} 
+			m.marshal( ((BeanItem)newDataSource).getBean(), Update.out );} 
 			catch (JAXBException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

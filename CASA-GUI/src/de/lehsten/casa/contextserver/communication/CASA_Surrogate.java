@@ -303,6 +303,17 @@ public class CASA_Surrogate implements ContextServer{
 
 	}
 	
+	@Override
+	public void updateEntityByProperty(String arg0, String arg1, Entity arg2) {
+		try 
+		{
+			serverCommand("updateEntityByProperty", arg0, arg1, arg2);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+	
 	private void startContext(){
 		try { 
 			System.out.println("Lookup context...");
@@ -436,4 +447,5 @@ public class CASA_Surrogate implements ContextServer{
 			throw e;
 		}
 	}
+
 }

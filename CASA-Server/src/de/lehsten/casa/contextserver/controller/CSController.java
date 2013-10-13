@@ -108,6 +108,7 @@ public class CSController implements Processor, ContextServer{
 							Class<?>[] x = m.getParameterTypes();  
 							Class<?>[] y = new Class<?>[x.length];
 							for (int i = 0; i<x.length; i++){
+								log.debug(x[i].getName());
 								y[i] = x[i]; 
 							}
 							Method action = server.getClass().getDeclaredMethod(method, y);
@@ -214,6 +215,11 @@ public class CSController implements Processor, ContextServer{
 	@Override
 	public void updateEntity(Entity arg0, Entity arg1) {
 		server.updateEntity(arg0, arg1);
+	}
+	
+	@Override
+	public void updateEntityByProperty(String propertyKey, String propertyValue, Entity newEntity) {
+		server.updateEntityByProperty(propertyKey, propertyValue, newEntity);
 	}
 
 	@Override

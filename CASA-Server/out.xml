@@ -11,15 +11,15 @@
         </entry>
         <entry>
             <key>description</key>
-            <value>Seite für das KZH</value>
+            <value>Seite f�r das KZH</value>
         </entry>
         <entry>
             <key>ID</key>
-            <value>1345232669</value>
+            <value>-243266548</value>
         </entry>
     </properties>
     <source>predefined</source>
-    <description>Seite für das KZH</description>
+    <description>Seite f�r das KZH</description>
     <title>Webseite des Konrad-Zuse-Hauses</title>
     <targetURL>http://www.google.de</targetURL>
 </locationWebsite>

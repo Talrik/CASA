@@ -1,0 +1,15 @@
+package de.lehsten.casa.rules.locationbased
+
+import de.lehsten.casa.contextserver.types.entities.place.Stop;
+import de.lehsten.casa.contextserver.types.entities.place.Building;
+import de.lehsten.casa.contextserver.types.entities.device.MobilePhone;
+import de.lehsten.casa.contextserver.types.position.MovementEvent;
+import de.lehsten.casa.contextserver.types.entities.place.Cafeteria;
+import de.lehsten.casa.contextserver.types.entities.services.websites.Website;
+import de.lehsten.casa.contextserver.types.entities.services.websites.LocationWebsite;
+import java.lang.Math;
+
+	
+
+
+
