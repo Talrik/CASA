@@ -78,7 +78,11 @@ public class CASAContextServer implements ContextServer{
     private final static Logger log = LoggerFactory.getLogger( CASAContextServer.class ); 
     JmDNS jmDNS;
 	ServiceInfo serviceInfo;
-    
+	
+	String description = "Standard CASA-Server";
+    String developer = "Philipp Lehsten";
+    String requiredVersionOfCASATypes = "0.1.25";
+	
     public CASAContextServer(){
 
     	Properties properties = new Properties();
@@ -126,9 +130,9 @@ public class CASAContextServer implements ContextServer{
 		Map<String, byte[]> props = new HashMap<String, byte[]>();
 		String test ="TestValue";
 		props.put("title", test.getBytes());
-//		props.put("requiredVersionOfCASATypes", this.requiredVersionOfCASATypes.getBytes());
-//		props.put("developer", this.developer.getBytes());
-//		props.put("description", this.description.getBytes());
+		props.put("requiredVersionOfCASATypes", this.requiredVersionOfCASATypes.getBytes());
+		props.put("developer", this.developer.getBytes());
+		props.put("description", this.description.getBytes());
 		
 		serviceInfo = ServiceInfo.create(
 				  serviceType,
@@ -203,7 +207,9 @@ public class CASAContextServer implements ContextServer{
 			kbuilder.add(ResourceFactory.newClassPathResource("StudIPTransformationRules.drl"),
 					ResourceType.DRL);
 			kbuilder.add(ResourceFactory.newClassPathResource("StudIPQueries.drl"),
-					ResourceType.DRL);			
+					ResourceType.DRL);	
+			kbuilder.add(ResourceFactory.newClassPathResource("StudIPRequestHandler.drl"),
+					ResourceType.DRL);	
 			kbuilder.add(ResourceFactory.newClassPathResource("ServiceQueries.drl"),
 							ResourceType.DRL);
 			kbuilder.add(ResourceFactory.newClassPathResource("LocationRules.drl"),
@@ -385,13 +391,14 @@ public class CASAContextServer implements ContextServer{
 				kbase.removeRule(r.getPackageName(), r.getName());
 			}
 		}
-		ksession.fireAllRules();
+		int ruleCount =  ksession.fireAllRules();
 		for(de.lehsten.casa.contextserver.types.Rule r : rules){
 			if (!r.getIsActive()){
 				kbuilder.add(ResourceFactory.newReaderResource(new StringReader(r.getRule())), ResourceType.DRL);
 			}
 		}
 		kbase.addKnowledgePackages(kbuilder.getKnowledgePackages());
+		log.info(ruleCount+" Rules fired");
 	}
 
 	@Override
@@ -459,7 +466,7 @@ public class CASAContextServer implements ContextServer{
 				log.info("QueryArgument: "+o);
 			}
 			QueryResults results= ksession.getQueryResults( queryName, arguments );
-
+		
 			for ( QueryResultsRow row : results ) {
 				Entity e = ( Entity) row.get( "r" );
 				list.add(e);

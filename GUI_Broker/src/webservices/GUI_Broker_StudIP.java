@@ -47,11 +47,16 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.gson.Gson;
 
 import de.lehsten.casa.contextserver.types.Entity;
+import de.lehsten.casa.contextserver.types.Request;
+import de.lehsten.casa.contextserver.types.StudIPRequest;
 import de.lehsten.casa.contextserver.types.entities.event.Event;
 import de.lehsten.casa.contextserver.types.entities.event.Lecture;
 import de.lehsten.casa.contextserver.types.entities.event.StudIPEvent;
+import de.lehsten.casa.contextserver.types.entities.person.identity.Identity;
+import de.lehsten.casa.contextserver.types.entities.person.identity.StudIPIdentity;
 import de.lehsten.casa.contextserver.types.entities.place.Place;
 //import de.lehsten.casa.contextserver.types.entities.services.Service;
 import de.lehsten.casa.contextserver.types.entities.services.websites.EventWebsite;
@@ -205,6 +210,93 @@ public class GUI_Broker_StudIP {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		}
+		long finish = System.currentTimeMillis();
+		long dur = finish - start;
+		log.debug("Request to Webservice took " + dur +" ms.");
+		log.error("Not connected to CASA-Server");
+		return null;
+	  }
+	
+	@WebMethod(operationName="requestServices") 
+//	@WebResult(name = "requestServicesResult") 
+	public Website[] requestServices( @WebParam(name = "lecture") String lecture,@WebParam(name = "userRole") String userRole,@WebParam(name = "location") String location  ) 
+	  { 	
+		long start = System.currentTimeMillis();
+		/*
+		try {
+			String utf8location = location;
+			String newlocation = new String(utf8location.getBytes(), "ISO-8859-1");
+			log.info(newlocation);
+			newlocation = new String(utf8location.getBytes(), "ISO-8859-15");
+			log.info(newlocation);
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		*/
+		if (connected){
+		Request request	= new Request();
+		Event reqLecture = new Event();
+		reqLecture.setTitle(lecture);
+		StudIPIdentity reqIdentity = new StudIPIdentity();
+		reqIdentity.setStudip_role(userRole);
+		Place reqPlace = new Place();
+		reqPlace.setTitle(location);
+		ArrayList<Entity> restrictions = new ArrayList<Entity>();
+		request.setRestrictions(restrictions);
+		StudIPRequest studRequest = new StudIPRequest(request);
+		studRequest.setRequestId("4711");
+		log.info("StudIPRequest "+studRequest.getRequestId()+" contains "+studRequest.getLocations().size()+" locations, "+studRequest.getLectures().size()+" events, and "+studRequest.getRoles().size()+" roles");
+		ArrayList<Identity> roles = new ArrayList<Identity>();
+		roles.add(reqIdentity);
+		studRequest.setRoles(roles);
+		ArrayList<Place> locations = new ArrayList<Place>();
+		locations.add(reqPlace);
+		studRequest.setLocations(locations);;
+		ArrayList<Event> lectures = new ArrayList<Event>();
+		lectures.add(reqLecture);
+		studRequest.setLectures(lectures);
+		log.info("StudIPRequest "+studRequest.getRequestId()+" contains "+studRequest.getLocations().size()+" locations, "+studRequest.getLectures().size()+" events, and "+studRequest.getRoles().size()+" roles");
+		Gson gson = new Gson();
+		studRequest.addProperty("json", gson.toJson(studRequest));
+		this.addEntity(studRequest);
+		
+		CSMessage msg = new CSMessage();
+		msg.text = "applyRules";
+		serverProducer.sendBody(msg);
+
+		serverProducer.sendBody(msg);
+
+		msg = new CSMessage();
+		msg.text = "getQueryResult";
+		msg.payload.add("GetRequestById");
+		String msgId = "4711";
+		Object[] params = {"4711"};
+		msg.payload.add(params);
+		CSMessage rulesMsg = (CSMessage) serverProducer.requestBody(msg);
+		
+/*		HashMap<String,String> request = new HashMap<String,String>();
+		request.put("lecture", lecture);
+		request.put("location", location);
+		request.put("userRole", userRole);
+		try {
+			Website[] result = cache.get(request);
+			long finish = System.currentTimeMillis();
+			long dur = finish - start;
+			log.debug("Request to Webservice took " + dur +" ms.");
+			return result;
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+*/
+		Request result = (Request) rulesMsg.payload.get(0);
+		ArrayList<Entity> results = result.getResults();
+		
+		Website[] test = new Website[results.size()];
+		test = results.toArray(test);
+		return test;
 		}
 		long finish = System.currentTimeMillis();
 		long dur = finish - start;

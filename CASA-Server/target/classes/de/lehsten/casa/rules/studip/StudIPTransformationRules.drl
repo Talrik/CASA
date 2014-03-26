@@ -107,7 +107,7 @@ rule "ConnectWebsitesWithLocations"
 		p : Place()
 		w : Website(properties["StudIP_Location"] == p.title)
 //		not EventWebsite (event == l)
-		not LocationWebsite (properties["StudIP_Location"] == p.title && targetURL == w.targetURL)
+		not LocationWebsite (properties["StudIP_Location"] == p.title && targetURL == w.targetURL && places contains p)
 	then		
 		LocationWebsite s = new LocationWebsite(p);
 		s.setTitle(w.getTitle());
