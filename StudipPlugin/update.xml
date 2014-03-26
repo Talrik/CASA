@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugins>
+  <plugin name="CasaPlugin">
+    <release
+      version="1.0"
+      url="https://raw.github.com/Talrik/studip-casa-plugin/master/CasaPlugin.zip"
+      studipMinVersion="2.0.0"
+      studipMaxVersion="2.3.0" />
+  </plugin>
+</plugins>
