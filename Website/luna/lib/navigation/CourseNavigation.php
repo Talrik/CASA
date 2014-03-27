@@ -344,7 +344,7 @@ class CourseNavigation extends Navigation
 		 */
 		
 		
-        
+/*        
 //        $fp = @fsockopen("elbe5:8080/Broker4GUI", 80);	// Pr�fen ob der Broker erreichbar ist
 	  $fp = @fsockopen("localhost:8080/GUI_Broker", 80);
         if ($fp) {
@@ -432,5 +432,6 @@ try{
 		}
 	}
 //        }
+*/
     }
 }

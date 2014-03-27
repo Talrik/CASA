@@ -3,6 +3,7 @@ package de.lehsten.casa.contextserver.test;
 import static org.junit.Assert.*;
 
 import org.drools.builder.KnowledgeBuilder;
+import org.drools.builder.KnowledgeBuilderError;
 import org.drools.builder.KnowledgeBuilderErrors;
 import org.drools.builder.KnowledgeBuilderFactory;
 import org.drools.builder.ResourceType;
@@ -18,6 +19,19 @@ public class SyntacticRuleTest {
 				ResourceType.DRL);			
 		KnowledgeBuilderErrors errors = kbuilder.getErrors();
 		assertEquals("Error in StudIPQueries.drl", 0 , errors.size());
+	}
+	
+	@Test
+	public void SyntacticTestStudIPRequestHandler(){
+		KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+		kbuilder.add(ResourceFactory.newClassPathResource("de/lehsten/casa/rules/studip/StudIPRequestHandler.drl"),
+				ResourceType.DRL);			
+		KnowledgeBuilderErrors errors = kbuilder.getErrors();
+		for(KnowledgeBuilderError  e : errors){
+			System.err.println(e);
+		}
+		assertEquals("Error in StudIPRequestHandler.drl", 0 , errors.size());
+
 	}
 
 	@Test

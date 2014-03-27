@@ -1,0 +1,35 @@
+#created on: 19.09.2012
+package de.lehsten.casa.rules.location
+
+import de.lehsten.casa.contextserver.types.entities.place.Stop;
+import de.lehsten.casa.contextserver.types.entities.services.websites.Website;
+import de.lehsten.casa.contextserver.types.entities.services.websites.LocationWebsite;
+
+rule "InsertPublicTransportService"
+	when
+		s : Stop(stopNumber != null)
+		not LocationWebsite(places contains s) 
+	then
+		System.out.println("Adding LocationWebsite for "+ s.getStopNumber());
+		LocationWebsite lw = new LocationWebsite(s);
+		lw.setSource("Rule: IPTS");
+		lw.getProperties().put("stopNumber", Integer.toString(s.getStopNumber()));
+		lw.setDescription("Public transport plan for "+ s.getTitle());
+		lw.setTitle(s.getTitle() + " public transport plan");
+		lw.setTargetURL(("http://reiseauskunft.bahn.de/bin/bhftafel.exe/dn?input="+s.getStopNumber()+"&boardType=dep&time=actual&productsDefault=111111111&start=yes"));
+		insert(lw);
+end
+
+rule "AddStopLocationToPublicTransportService"
+	when
+		s : Stop(stopNumber != null)
+		lw1 : LocationWebsite(places contains s)
+		lw2 : LocationWebsite(description == lw1.description && places not contains s);
+	then
+		System.out.println("Double found!");
+		System.out.println("lw1:" + lw1.getProperties());
+		System.out.println("lw2:" + lw2.getProperties());
+		lw2.setPlaces(lw1.getPlaces());
+		retract(lw1);
+end
+

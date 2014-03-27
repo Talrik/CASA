@@ -1,49 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="rules"/>
-	<classpathentry kind="src" path="test"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/1.6">
+	<classpathentry including="**/*.java" kind="src" output="target/classes" path="src">
 		<attributes>
-			<attribute name="owner.project.facets" value="java"/>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/com.sun.enterprise.jst.server.runtimeTarget/GlassFish 3.1.2">
+	<classpathentry including="**/*.java" kind="src" path="rules"/>
+	<classpathentry kind="src" output="target/test-classes" path="test">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="oracle.eclipse.tools.glassfish.lib.system">
 		<attributes>
 			<attribute name="owner.project.facets" value="jst.web"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="lib">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/1.7">
 		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/classes"/>
+			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="lib/antlr-runtime.jar"/>
-	<classpathentry kind="lib" path="lib/antlr.jar"/>
-	<classpathentry kind="lib" path="lib/contextserver.utilities-0.1.0-SNAPSHOT-jar-with-dependencies.jar"/>
-	<classpathentry kind="lib" path="lib/core-3.4.2.v_883_R34x.jar"/>
-	<classpathentry kind="lib" path="lib/drools-api.jar"/>
-	<classpathentry kind="lib" path="lib/drools-compiler.jar"/>
-	<classpathentry kind="lib" path="lib/drools-core-tests.jar"/>
-	<classpathentry kind="lib" path="lib/drools-core.jar"/>
-	<classpathentry kind="lib" path="lib/drools-decisiontables.jar"/>
-	<classpathentry kind="lib" path="lib/drools-ide-common.jar"/>
-	<classpathentry kind="lib" path="lib/drools-jsr94.jar"/>
-	<classpathentry kind="lib" path="lib/drools-templates.jar"/>
-	<classpathentry kind="lib" path="lib/jbpm-bpmn2.jar"/>
-	<classpathentry kind="lib" path="lib/jbpm-flow-builder.jar"/>
-	<classpathentry kind="lib" path="lib/jbpm-flow.jar"/>
-	<classpathentry kind="lib" path="lib/jdom-2.0.1.jar"/>
-	<classpathentry kind="lib" path="lib/jsr94.jar"/>
-	<classpathentry kind="lib" path="lib/jxl.jar"/>
-	<classpathentry kind="lib" path="lib/log4j.jar"/>
-	<classpathentry kind="lib" path="lib/mvel2.jar"/>
-	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.16-bin.jar"/>
-	<classpathentry kind="lib" path="lib/stringtemplate.jar"/>
-	<classpathentry kind="lib" path="lib/xpp3_min.jar"/>
-	<classpathentry kind="lib" path="lib/xstream.jar"/>
-	<classpathentry kind="lib" path="lib/contextserver.types-0.1.22-SNAPSHOT.jar"/>
-	<classpathentry kind="output" path="build/classes"/>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -17,13 +17,16 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.annotation.PreDestroy;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-
+import javax.jmdns.JmDNS;
+import javax.jmdns.ServiceInfo;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.xml.bind.JAXBContext;
@@ -51,9 +54,9 @@ import org.drools.marshalling.ObjectMarshallingStrategy;
 import org.drools.runtime.KnowledgeSessionConfiguration;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.conf.ClockTypeOption;
+import org.drools.runtime.rule.FactHandle;
 import org.drools.runtime.rule.QueryResults;
 import org.drools.runtime.rule.QueryResultsRow;
-import org.drools.xml.jaxb.util.DroolsJaxbContextHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,9 +73,16 @@ public class CASAContextServer implements ContextServer{
     ContextServer server;
     CSRouteBuilder builder;
     PackageBuilderConfiguration cfg;
+    LocalRuleProvider ruleProvider;
     ArrayList<de.lehsten.casa.contextserver.types.Rule> rules = new ArrayList<de.lehsten.casa.contextserver.types.Rule>();
     private final static Logger log = LoggerFactory.getLogger( CASAContextServer.class ); 
-    
+    JmDNS jmDNS;
+	ServiceInfo serviceInfo;
+	
+	String description = "Standard CASA-Server";
+    String developer = "Philipp Lehsten";
+    String requiredVersionOfCASATypes = "0.1.25";
+	
     public CASAContextServer(){
 
     	Properties properties = new Properties();
@@ -87,8 +97,6 @@ public class CASAContextServer implements ContextServer{
 			log.error(e2.getMessage());
 		}
 		init();
-		
-    
     }
     
     private void init(){
@@ -108,8 +116,36 @@ public class CASAContextServer implements ContextServer{
         	 
 			log.info("----- KnowledgeBase created -----");
 			log.info("----- Initialisierung beendet -----"); 
-			UserAgent ua = new UserAgent(this);
+//			UserAgent ua = new UserAgent(this);
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        String serviceType = "_casa._tcp.local.";
+		String serviceName = "ContextServer";
+		int port = 8080;
+
+		try {
+			jmDNS = JmDNS.create();
+		
+		Map<String, byte[]> props = new HashMap<String, byte[]>();
+		String test ="TestValue";
+		props.put("title", test.getBytes());
+		props.put("requiredVersionOfCASATypes", this.requiredVersionOfCASATypes.getBytes());
+		props.put("developer", this.developer.getBytes());
+		props.put("description", this.description.getBytes());
+		
+		serviceInfo = ServiceInfo.create(
+				  serviceType,
+				  serviceName,
+				  port,
+				  0,
+				  0,
+				  false,
+				  props);
+		// Service starten
+		jmDNS.registerService(serviceInfo);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		}
@@ -134,10 +170,16 @@ public class CASAContextServer implements ContextServer{
     
     @PreDestroy
     public void shutdown(){
-    	   long l = ksession.getFactCount();
-           ksession.dispose();	 
-           log.info("Knowledge session with "+ l +" facts disposed.");
-    	   builder.stopContext();
+    	try{
+    		jmDNS.unregisterService (serviceInfo);
+    		jmDNS.close();
+    		long l = ksession.getFactCount();
+    		ksession.dispose();	 
+    		log.info("Knowledge session with "+ l +" facts disposed.");
+    		builder.stopContext();
+    	}catch(IOException e){
+    		e.printStackTrace();
+    	}
     }
 
 
@@ -146,11 +188,8 @@ public class CASAContextServer implements ContextServer{
    		
 		try {
 			KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder(cfg);
-			
-			
-			/*
-			LocalRuleProvider ruleProvider = new LocalRuleProvider();
-			
+			log.info("Running LocalRuleProvider");
+			ruleProvider = new LocalRuleProvider();
 			
 			ArrayList<de.lehsten.casa.contextserver.types.Rule> ruleList = ruleProvider.getRuleList();
 			for (de.lehsten.casa.contextserver.types.Rule rule: ruleList){
@@ -168,7 +207,9 @@ public class CASAContextServer implements ContextServer{
 			kbuilder.add(ResourceFactory.newClassPathResource("StudIPTransformationRules.drl"),
 					ResourceType.DRL);
 			kbuilder.add(ResourceFactory.newClassPathResource("StudIPQueries.drl"),
-					ResourceType.DRL);			
+					ResourceType.DRL);	
+			kbuilder.add(ResourceFactory.newClassPathResource("StudIPRequestHandler.drl"),
+					ResourceType.DRL);	
 			kbuilder.add(ResourceFactory.newClassPathResource("ServiceQueries.drl"),
 							ResourceType.DRL);
 			kbuilder.add(ResourceFactory.newClassPathResource("LocationRules.drl"),
@@ -184,15 +225,15 @@ public class CASAContextServer implements ContextServer{
 				}
 				throw new IllegalArgumentException("Could not parse knowledge.");
 			}
-			*/
+			
 			KnowledgeBaseConfiguration config = KnowledgeBaseFactory
 				.newKnowledgeBaseConfiguration();
 			config.setOption(EventProcessingOption.STREAM);
 			config.setOption(AssertBehaviorOption.EQUALITY);
 			kbase = KnowledgeBaseFactory.newKnowledgeBase(config);
 			kbase.addKnowledgePackages(kbuilder.getKnowledgePackages());
-			LocalRuleProvider l = new LocalRuleProvider();
-    		for (de.lehsten.casa.contextserver.types.Rule r :l.getRuleList()){
+			//			LocalRuleProvider l = new LocalRuleProvider();
+    		for (de.lehsten.casa.contextserver.types.Rule r :ruleProvider.getRuleList()){
     			this.addRule(r);
     		}
 			rules = (ArrayList<de.lehsten.casa.contextserver.types.Rule>) this.getRules();
@@ -255,8 +296,7 @@ public class CASAContextServer implements ContextServer{
 			ksession = marshaller.unmarshall(fiStream);
 			log.info("Session with "+ ksession.getFactCount() + " facts restored.");
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("ksession.info was not found. Session was not restored.");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -275,15 +315,72 @@ public class CASAContextServer implements ContextServer{
 
 	@Override
 	public void removeEntity(Entity e) {
-		// TODO Auto-generated method stub
+		try{
+		if(ksession.getFactHandle(e) != null){
 		ksession.retract(ksession.getFactHandle(e));
+		if (ksession.getFactHandle(e)== null){
+			log.info("Entity removed.");
+		}else{
+			log.error("Unable to remove Entity "+e.toString());	
+		}
+		}
+		else{
+			log.error("Unable to remove Entity "+e.toString());
+		}
+		}catch(NullPointerException exception){
+			exception.printStackTrace();
+		}
 	}
 
 	@Override
 	public void updateEntity(Entity oldEntity, Entity newEntity) {
 		// TODO Auto-generated method stub
-		ksession.retract(ksession.getFactHandle(oldEntity));
-		ksession.insert(newEntity);
+	log.info("Update Process");
+	log.info("old: " + oldEntity.toString());
+	log.info("new: " + newEntity.toString());
+	FactHandle oldHandle = ksession.getFactHandle(oldEntity);
+	if(oldHandle != null){
+		ksession.update(ksession.getFactHandle(oldEntity), newEntity);
+		log.info("Update done.");
+	}else{
+		log.info("Update not done. Old entity "+oldEntity.toString() +"not found in session.");
+	}
+//		ksession.insert(newEntity);
+	}
+	
+//	@Override
+	public void updateEntityByProperty(String propertyKey, String propertyValue, Entity newEntity) {
+		// TODO Auto-generated method stub
+	log.info("Update Process");
+	log.info("New Entity: "+newEntity + " Key: "+propertyKey + " Value: "+propertyValue);
+	ArrayList<Entity> list = new ArrayList<Entity>();
+	Object[] arguments = new Object[2];
+	arguments[0] = propertyKey;
+	arguments[1] = propertyValue;
+	QueryResults results=ksession.getQueryResults( "GetEntityByPropertyAndValue", arguments );
+	
+	if (results.size() == 1){
+//		for ( QueryResultsRow row : results ) {
+		Entity oldEntity = (Entity)results.iterator().next().get("r");
+//		  =  row.getFactHandle( "r" );
+//		}
+		if (oldEntity != null){
+			log.info(ksession.getFactHandle(oldEntity).toString());
+			try{
+		ksession.update(ksession.getFactHandle(oldEntity), newEntity);
+			}catch(NullPointerException e){
+				e.printStackTrace();;
+//				ksession.update(ksession.getFactHandle(old), newEntity);
+			}
+			
+		ksession.fireAllRules();
+		}
+		else {
+			log.error("Unable to retrieve FactHandle from session.");
+		}
+	}else{
+		log.error("Found "+list.size()+" entities with this key/value. Please choose an existing unique pair.");
+	}
 	}
 
 	@Override
@@ -294,13 +391,14 @@ public class CASAContextServer implements ContextServer{
 				kbase.removeRule(r.getPackageName(), r.getName());
 			}
 		}
-		ksession.fireAllRules();
+		int ruleCount =  ksession.fireAllRules();
 		for(de.lehsten.casa.contextserver.types.Rule r : rules){
 			if (!r.getIsActive()){
 				kbuilder.add(ResourceFactory.newReaderResource(new StringReader(r.getRule())), ResourceType.DRL);
 			}
 		}
 		kbase.addKnowledgePackages(kbuilder.getKnowledgePackages());
+		log.info(ruleCount+" Rules fired");
 	}
 
 	@Override
@@ -359,9 +457,16 @@ public class CASAContextServer implements ContextServer{
 	public Collection<Entity> getQueryResult(String queryName, Object[] arguments) {
 		ArrayList<Entity> list = new ArrayList<Entity>();
 		if (this.getQueryNames().contains(queryName)){
-			log.debug("Query: "+queryName);
+			log.info("Query: "+queryName);
+			log.info("QueryArguments: "+arguments);
+			if (arguments == null){
+				arguments = new Object[0];
+			}
+			for (Object o : arguments){
+				log.info("QueryArgument: "+o);
+			}
 			QueryResults results= ksession.getQueryResults( queryName, arguments );
-
+		
 			for ( QueryResultsRow row : results ) {
 				Entity e = ( Entity) row.get( "r" );
 				list.add(e);
@@ -439,9 +544,9 @@ public class CASAContextServer implements ContextServer{
 			return true;
 		}
 		else return false;
-	}		
+	}
+	
+	public void readEntityFromXML(){
+		
+	}
 }
-
-
-    
-

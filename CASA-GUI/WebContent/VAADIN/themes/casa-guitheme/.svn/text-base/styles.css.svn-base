@@ -1,0 +1,65 @@
+@import url(../reindeer/styles.css);
+
+.v-menubar {
+	background: #435c96;
+	color: #FFFFFF;
+}
+
+.v-table {
+	background-color: #4e6aab;
+	outline-color: red;
+}
+
+.v-table-header-wrap {
+	background: #607ab7;
+	color: #FFFFFF;
+	font-weight: normal;
+	border-color: #8c9fcc;
+}
+
+.v-table-row-odd {
+	background: #aab9d9;
+}
+
+.v-panel-caption {
+	background-color: #607ab7;
+	color: #FFFFFF;
+}
+
+.v-panel-content .v-panel-caption {
+	background-color: #8c9fcc;
+	border-color: #8c9fcc;
+}
+
+.v-captiontext {
+	color: #8c9fcc;
+	font-weight: bold;
+}
+
+.v-button-caption {
+	color: #435c96;
+}
+
+.v-select {
+	border-color: red;
+}
+
+.v-splitpanel-first-container {
+	background-color: #dfe6f6;
+}
+
+.v-splitpanel-second-container {
+		background-color: #dfe6f6;
+}
+
+.v-splitpanel-second-container {
+	background-color: #dfe6f6;
+}
+
+.v-panel-content .v-verticallayout {
+	background-color: #dfe6f6;
+}
+
+.v-panel-content .v-verticallayout .v-verticallayout {
+	background-color: #ffffff;
+}

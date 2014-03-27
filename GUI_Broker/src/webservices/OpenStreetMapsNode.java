@@ -1,5 +1,5 @@
 package webservices;
-
+/*
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -142,3 +142,4 @@ public class OpenStreetMapsNode {
 		
 	}
 }
+*/

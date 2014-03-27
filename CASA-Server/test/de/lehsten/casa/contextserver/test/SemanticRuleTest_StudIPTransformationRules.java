@@ -29,6 +29,7 @@ import de.lehsten.casa.contextserver.types.entities.event.Lecture;
 import de.lehsten.casa.contextserver.types.entities.person.identity.StudIPIdentity;
 import de.lehsten.casa.contextserver.types.entities.place.Building;
 import de.lehsten.casa.contextserver.types.entities.place.Cafeteria;
+import de.lehsten.casa.contextserver.types.entities.place.Place;
 import de.lehsten.casa.contextserver.types.entities.place.rooms.Room;
 import de.lehsten.casa.contextserver.types.entities.services.websites.Website;
 
@@ -205,4 +206,23 @@ public class SemanticRuleTest_StudIPTransformationRules {
 		int rulesFired = ksession.fireAllRules( new RuleNameEqualsAgendaFilter( "ConnectWebsitesWithEvents" ) );
 	   assertEquals(1, rulesFired);
 	}
+	@Test
+	public void RuleTest_ConnectWebsitesWithLocations() {
+		//create requires data
+		Place p1 = new Place();
+		p1.setSource("Source3");
+		p1.setTitle("Zuse-Haus");
+		Website w1 = new Website();
+		w1.setSource("Source2");
+		w1.setTitle("ITMZ Homepage");
+		w1.setTargetURL("http://www.itmz.uni-rostock.de");
+		w1.addProperty("StudIP_Location", "Zuse-Haus");	
+		//insert facts
+		ksession.insert(p1);
+		ksession.insert(w1);
+		//fire rules
+		int rulesFired = ksession.fireAllRules( new RuleNameEqualsAgendaFilter( "ConnectWebsitesWithLocations" ) );
+	   assertEquals(1, rulesFired);
+	}
+	
 }

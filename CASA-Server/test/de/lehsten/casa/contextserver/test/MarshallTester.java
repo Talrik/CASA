@@ -31,8 +31,10 @@ import org.junit.Test;
 import de.lehsten.casa.contextserver.CASAContextServer;
 import de.lehsten.casa.contextserver.types.Entity;
 import de.lehsten.casa.contextserver.types.entities.person.Person;
+import de.lehsten.casa.contextserver.types.entities.services.Service;
 import de.lehsten.casa.contextserver.types.entities.services.websites.EventWebsite;
 import de.lehsten.casa.contextserver.types.entities.services.websites.LocationWebsite;
+import de.lehsten.casa.contextserver.types.entities.services.websites.Website;
 
 public class MarshallTester {
 
@@ -88,7 +90,7 @@ public class MarshallTester {
 	public void test() {
 		LocationWebsite kzh = new LocationWebsite();
 		kzh.setSource("predefined");
-		kzh.setDescription("Seite fŸr das KZH");
+		kzh.setDescription("Seite fï¿½r das KZH");
 		kzh.setTargetURL("http://www.google.de");
 		kzh.setTitle("Webseite des Konrad-Zuse-Hauses");
 		JAXBContext context;
@@ -102,6 +104,25 @@ public class MarshallTester {
 		Unmarshaller um = context.createUnmarshaller();
 		LocationWebsite Kzh = (LocationWebsite) um.unmarshal(f);
 		m.marshal( Kzh, System.out );
+		}
+		catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void addXEntity() {
+		JAXBContext context;
+		try {
+		context = JAXBContext.newInstance(Website.class, LocationWebsite.class );
+		File f = new File("test.xml");
+		Unmarshaller um = context.createUnmarshaller();
+		Object o = um.unmarshal(f);
+		System.out.println(o.getClass());
+		Class<? extends Entity> x = (Class<? extends Entity>) o.getClass();
+		Object Kzh = (o.getClass().cast(o));
+		System.out.println(( (Service) Kzh).getDescription());
 		}
 		catch (JAXBException e) {
 			// TODO Auto-generated catch block

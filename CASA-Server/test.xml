@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<website>
+    <properties>
+        <entry>
+            <key>title</key>
+            <value>Webseite des ITMZ</value>
+        </entry>
+        <entry>
+            <key>description</key>
+            <value>Homepage des ITMZ</value>
+        </entry>
+        <entry>
+            <key>targetURL</key>
+            <value>http://www.itmz.uni-rostock.de/</value>
+        </entry>
+        <entry>
+            <key>ID</key>
+            <value>981591184</value>
+        </entry>
+        <entry>
+            <key>StudIP_ID</key>
+            <value>Graduiertenseminar</value>
+        </entry>
+    </properties>
+    <source>pl039@StudIP</source>
+    <description>Homepage des ITMZ</description>
+    <restrictions>autor</restrictions>
+    <restrictions>dozent</restrictions>
+    <title>Webseite des ITMZ</title>
+    <targetURL>http://www.itmz.uni-rostock.de/</targetURL>
+</website>
