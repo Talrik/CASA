@@ -1,0 +1,155 @@
+package de.lehsten.casa.rules.studip.queries
+ 
+import de.lehsten.casa.contextserver.types.Entity;
+import de.lehsten.casa.contextserver.types.entities.person.Person;
+import de.lehsten.casa.contextserver.types.entities.person.identity.Identity;
+import de.lehsten.casa.contextserver.types.entities.event.Course;
+import de.lehsten.casa.contextserver.types.entities.event.Event;
+import de.lehsten.casa.contextserver.types.entities.event.Lecture;
+import de.lehsten.casa.contextserver.types.entities.place.rooms.Room;
+import de.lehsten.casa.contextserver.types.entities.place.Stop;
+import de.lehsten.casa.contextserver.types.entities.place.Building;
+import de.lehsten.casa.contextserver.types.entities.device.MobilePhone;
+import de.lehsten.casa.contextserver.types.position.MovementEvent;
+import java.lang.Math;
+import java.util.Date;
+
+
+function Double difference(Double a, Double b) {
+    return (a-b);
+}
+
+function Double distance(Double x1, Double y1, Double x2, Double y2){
+
+	return Math.sqrt( (difference(x1,x2)*difference(x1,x2)) + (difference(y1,y2)*difference(y1,y2))) ;
+}
+
+// get all elements
+
+query "GetAllEntities"
+	r : Entity()
+end
+
+// get specific entities
+/*
+query "GetEntityByProperty" (String key)
+		e : Entity(properties[key] != null)
+end
+*/
+query "GetEntityByPropertyAndValue" (String key, String value)
+		r : Entity(properties[key] == value)
+end
+ 
+// get a Person
+
+query "GetAllPersons"
+	r : Person()
+end  
+
+query "GetIdentityByUsername"  ( String x)
+    r : Identity( identityUserName == x ) 
+end 
+
+// get an Event
+
+query "GetAllEvents"
+	r : Event()
+end
+
+query "GetAllCourses"
+	r : Course()
+end
+
+query "GetCoursesByUsername"  ( String x)
+	i : Identity( identityUserName == x)
+    r : Course( members contains i) 
+end 
+
+query "GetCoursesByTitle" (String x)
+	r : Course (title == x)  
+end
+
+query "GetLecturesByTitle" (String x)
+	r : Lecture (title == x)  
+end
+
+query "GetLecturesByRoom" (String roomname)
+	p : Room(title == roomname)
+	r : Lecture (room == p)
+	
+//	c : Course (c.lectures contains l)
+end
+
+query "GetCoursesByDate" (Date d)
+	l : Lecture (beginDate before d,  endDate after d ) 
+	c : Course ( c.lectures contains l)
+end
+
+
+query "GetCoursesByRoom" (String roomname)
+	r : Room (title == roomname)
+	c : Course ( c.resources contains r.resource_id)
+end
+
+query "GetCoursesByRoomAndDate" (String roomname, Date d)
+	r : Room (title == roomname)
+	l : Lecture (beginDate before d, endDate after d)
+	c : Course ( resources contains r.resource_id , c.lectures contains l)
+end
+
+query "GetNextCourseByRoom" (String roomname, Date d)
+	r : Room (title == roomname)
+	l : Lecture (beginDate after  d)
+	not Lecture (beginDate after d, beginDate before l.beginDate)
+	c : Course (c.resources contains r.resource_id,  c.lectures contains l)
+end
+
+query "GetNextCourseByUsername" (String x, Date d)
+	i : Identity( identityUserName == x)
+	l : Lecture (beginDate after d)
+	not Lecture (beginDate after d , beginDate before l.beginDate)
+	c : Course (members contains i, lectures contains l)
+end
+
+query "GetActualCourseByUsername" (String x, Date d)
+	i : Identity( identityUserName == x)
+	l : Lecture (beginDate before d, endDate after d)
+	c : Course (c.members contains i, c.lectures contains l)
+end
+
+query "GetActualCourseByRoom" (String room, Date d)
+	r : Room (title == room)
+	l : Lecture (beginDate before d, endDate after d)
+	c : Course (c.resources contains r.resource_id && c.lectures contains l)
+end
+
+query "GetActualLectureByUsername" (String x, Date d)
+	i : Identity( identityUserName == x)
+	l : Lecture (beginDate before d, endDate after d )
+	c : Course (c.members contains i, c.lectures contains l)
+end
+
+query "GetActualLectureByRoom" (String room, Date d)
+	r : Room (title == room)
+	l : Lecture (beginDate before d, endDate after d)
+	c : Course (c.resources contains r.resource_id && c.lectures contains l)
+end
+
+query "GetNextRoomByUsername" (String x, Date d)
+	i : Identity( identityUserName == x)
+	l : Lecture (beginDate after d)
+	not Lecture (beginDate after d , beginDate before l.beginDate)
+	c : Course (c.members contains i, c.lectures contains l)
+	r : Room (this == l.room)
+end
+
+query "GetActualRoomByUsername" (String x, Date d)
+	i : Identity( identityUserName == x)
+	l : Lecture (beginDate before d, endDate after d )
+	c : Course (c.members contains i, c.lectures contains l)
+	r : Room (this == l.room)
+end
+
+
+
+

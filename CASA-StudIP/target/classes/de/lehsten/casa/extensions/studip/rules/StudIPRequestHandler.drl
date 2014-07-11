@@ -1,0 +1,93 @@
+//created on: 19.02.2014
+package de.lehsten.casa.rules.studip
+
+import de.lehsten.casa.contextserver.types.Request;
+import de.lehsten.casa.contextserver.types.StudIPRequest;
+
+import de.lehsten.casa.contextserver.types.Entity;
+import de.lehsten.casa.contextserver.types.entities.event.Lecture;
+import de.lehsten.casa.contextserver.types.entities.event.Event;
+import de.lehsten.casa.contextserver.types.entities.place.Place;
+
+import de.lehsten.casa.contextserver.types.entities.person.identity.Identity;
+import de.lehsten.casa.contextserver.types.entities.person.identity.StudIPIdentity;
+
+import org.drools.runtime.rule.QueryResults;
+import org.drools.runtime.rule.QueryResultsRow;
+
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+
+import de.lehsten.casa.rules.RulesLogger;
+
+//declare any global variables here
+//TODO What if it is not a Studip-Request???
+rule "HandleRequests"
+	when
+		r : Request()
+		not s : StudIPRequest( requestId == r.requestId) 
+	then
+		RulesLogger.log(drools, "Request "+r.getRequestId()+" received.");
+		StudIPRequest studRequest = new StudIPRequest(r);
+		studRequest.setSource("StudIPRequestHandler.drl-HandleRequests");
+		RulesLogger.log(drools,"Request "+r.getRequestId()+" transformed to StudIPRequest "+studRequest.getRequestId());
+		insert(studRequest);
+		retract(r);
+end	
+
+rule "HandleJsonStudIPRequests"
+	when
+		r : StudIPRequest(Properties.containsKey("json"))
+	then
+		RulesLogger.log(drools, "Json-Request "+r.getRequestId()+" received.");
+		Gson gson = new Gson();
+		StudIPRequest studReq = gson.fromJson(r.getProperties().get("json"), StudIPRequest.class);
+		studReq.setRequestId(r.getRequestId());
+		RulesLogger.log(drools,"Json-Request "+r.getRequestId()+" transformed to StudIPRequest "+studReq.getRequestId());
+		insert(studReq);
+		retract(r);
+end	
+
+rule "HandleStudIPRequests"
+	when
+		r : StudIPRequest()
+	then
+		// first the location-based service results
+		RulesLogger.log(drools,"StudIPRequest "+r.getRequestId()+" contains "+r.getLocations().size()+" locations, "+r.getLectures().size()+" events, and "+r.getRoles().size()+" roles");
+		ArrayList<Entity> list = new ArrayList<Entity>();
+		for(Place p : r.getLocations()){
+			for(Identity identity : r.getRoles()){
+				if (identity instanceof StudIPIdentity){
+				String role = identity.getProperties().get("studIP_role");
+				QueryResults locationResults = kcontext.getKnowledgeRuntime().getQueryResults("GetServiceByLocationAndRole", new Object[]{p.getTitle(), role});
+				for ( QueryResultsRow row : locationResults ) {
+					Entity e = ( Entity) row.get( "r" );
+					list.add(e);
+				}
+				}
+			}
+		}	
+		for(Event event : r.getLectures()){
+			for(Identity identity : r.getRoles()){
+				if (identity instanceof StudIPIdentity){
+					String role = identity.getProperties().get("studIP_role");		
+					QueryResults eventResults = kcontext.getKnowledgeRuntime().getQueryResults("GetServiceByLectureAndRole", new Object[]{event.getTitle(), role});
+				for ( QueryResultsRow row : eventResults ) {
+					Entity e = ( Entity) row.get( "r" );
+					if (!list.contains(e)){list.add(e);}
+				}
+				}
+			}
+		}	
+		
+		RulesLogger.log(drools,"StudIPRequest "+r.getRequestId()+" handled. "+list.size()+" services found.");
+		r.addProperty("HandleStudIPRequests", "done");
+		r.setResults(list);
+end	
+
+query "GetRequestById"(String id)
+	r : Request(requestId.equals(id))
+end
+
+
