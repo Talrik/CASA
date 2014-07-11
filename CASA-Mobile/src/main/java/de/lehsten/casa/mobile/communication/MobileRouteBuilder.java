@@ -1,27 +1,38 @@
 package de.lehsten.casa.mobile.communication;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+
 import javax.annotation.PreDestroy;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.Endpoint;
+import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
 
+import de.lehsten.casa.contextserver.types.Request;
+import de.lehsten.casa.contextserver.types.xml.CSMessage;
+import de.lehsten.casa.mobile.data.Node;
 import de.lehsten.casa.mobile.gui.CASAMobileApplication;
+import de.lehsten.casa.mobile.gui.CASAUI;
 import de.lehsten.casa.utilities.communication.serializing.CSMessageConverter;
 
 public class MobileRouteBuilder extends RouteBuilder{
 	
 	CamelContext camelContext;
 	InitialContext ctx;
-	CASAMobileApplication app;
+	CASAUI app;
+	HashMap<Node,ProducerTemplate> endpoints = new HashMap<Node,ProducerTemplate>();
+	HashMap<Node,String> routes = new HashMap<Node,String>();
 
-	public MobileRouteBuilder(CASAMobileApplication app){
-		this.app = app;
+	public MobileRouteBuilder(CASAUI casaui){
+		this.app = casaui;
 		startContext();
-		connectToServer();
+//		connectToServer();
 	}
 	
 	private void startContext(){
@@ -58,25 +69,80 @@ public class MobileRouteBuilder extends RouteBuilder{
 		
 	}
 	
-	public void connectToServer(){
+	public void connectToServer(Node node){
 		// Lookup if there is already a context server started here
 		try{
-			final Endpoint serverControl = (Endpoint)ctx.lookup("vm:ServerControl");
+			final Endpoint serverControl = (Endpoint)ctx.lookup(node.getEndpoint());
 			System.out.println("GUIRB: "+ serverControl);
-
+			final String LOCAL_ENDPOINT_STRING = "direct:CASA_Server-" + node.hashCode();
+			final String LOCAL_ROUTE_ID = "Route_to_CASA_Server-"+node.hashCode();
 			((CamelContext) ctx.lookup("MobileContext")).addRoutes(new RouteBuilder(){
 
 				@Override
 				public void configure() throws Exception {
-					from("direct:CASA_Server").process(new CSMessageConverter()).to(serverControl).process(new CSMessageConverter());
+					from(LOCAL_ENDPOINT_STRING).process(new CSMessageConverter()).to(serverControl).process(new CSMessageConverter()).routeId(LOCAL_ROUTE_ID);
 				}});
-			System.out.println("Connected to ContextServer");
+			ProducerTemplate producer = ((CamelContext) ctx.lookup("MobileContext")).createProducerTemplate();
+			producer.setDefaultEndpoint(((CamelContext) ctx.lookup("MobileContext")).getEndpoint(LOCAL_ENDPOINT_STRING));
+			endpoints.put(node, producer);
+			routes.put(node, LOCAL_ROUTE_ID);
+			System.out.println("Connected to ContextServer "+ node.getDescription());
 		}catch(NamingException ne){
 			System.out.println("No ContextServer found");
+			ne.printStackTrace();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void disconnectFromServer(Node node)
+	{
+		try {
+			((CamelContext) ctx.lookup("MobileContext")).suspendRoute(routes.get(node));
+			((CamelContext) ctx.lookup("MobileContext")).stopRoute(routes.get(node));
+			((CamelContext) ctx.lookup("MobileContext")).removeRoute(routes.get(node));
+			((CamelContext) ctx.lookup("MobileContext")).removeEndpoints("direct:CASA_Server-" + node.hashCode());
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public Collection<Node> getNodes(){
+		if (endpoints.size()==0){
+			return new ArrayList<Node>();
+		}
+		else{
+			return endpoints.keySet();
+		}
+	}
+	
+	public boolean isConnected(Node node){
+		return endpoints.containsKey(node);
+	}
+	
+	public CSMessage sendRequest(Request req, Node node){
+		//insert request
+		CSMessage insertReq = new CSMessage();
+		insertReq.text = "addEntity";
+		insertReq.payload.add(req);
+		endpoints.get(node).sendBody(insertReq);
+		//fire all rules
+		CSMessage fireAllRules = new CSMessage();
+		fireAllRules.text = "applyRules";
+		endpoints.get(node).sendBody(fireAllRules);
+		//retract request
+		CSMessage retractReq = new CSMessage();
+		retractReq.text = "GetQueryResult";
+		retractReq.payload.add("GetRequestById");
+		Object[] arguments = new Object[1];
+		arguments[1] = req.getRequestId();
+		retractReq.payload.add(arguments);
+		return (CSMessage)endpoints.get(node).requestBody(retractReq);				
 	}
 	
 	@PreDestroy

@@ -1,23 +1,16 @@
 package de.lehsten.casa.mobile.gui.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationView;
-import com.vaadin.addon.touchkit.ui.Switch;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
-import com.vaadin.terminal.ThemeResource;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickListener;
+import com.vaadin.server.ThemeResource;
 
 import de.lehsten.casa.contextserver.types.entities.services.Service;
 import de.lehsten.casa.contextserver.types.entities.services.websites.EventWebsite;
 import de.lehsten.casa.contextserver.types.entities.services.websites.LocationWebsite;
 import de.lehsten.casa.contextserver.types.entities.services.websites.Website;
 import de.lehsten.casa.mobile.data.ServiceContainer;
-import de.lehsten.casa.mobile.data.ServiceHandler;
-import de.lehsten.casa.mobile.gui.CASAMobileApplication;
 
 public class ServiceTypeOverview extends NavigationView{
 	
@@ -29,12 +22,12 @@ public class ServiceTypeOverview extends NavigationView{
 			if (s instanceof LocationWebsite){
 				final LocationWebsite lw = (LocationWebsite)s;
 				NavigationButton service = new NavigationButton(lw.getTitle());
-				service.setIcon(new ThemeResource("img/maps-icon.png"));
+				service.setIcon(new ThemeResource("../base/img/maps-icon.png"));
 				servicesGroup.addComponent(service);
-				service.addListener(new Button.ClickListener(){
+				service.addClickListener(new NavigationButtonClickListener() {
 
 					@Override
-					public void buttonClick(ClickEvent event) {
+					public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {     
 						if (nav instanceof SmartphoneMainView){
 							((SmartphoneMainView) nav).setService(lw, null);
 						}
@@ -45,12 +38,12 @@ public class ServiceTypeOverview extends NavigationView{
 			else if (s instanceof EventWebsite){ 
 				final EventWebsite ew = (EventWebsite)s;
 				NavigationButton service = new NavigationButton(ew.getTitle());
-				service.setIcon(new ThemeResource("img/Actions-help-hint-icon.png"));
+				service.setIcon(new ThemeResource("../base/img/Actions-help-hint-icon.png"));
 				servicesGroup.addComponent(service);
-				service.addListener(new Button.ClickListener(){
+				service.addClickListener(new NavigationButtonClickListener() {
 
 					@Override
-					public void buttonClick(ClickEvent event) {
+					public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {     
 						if (nav instanceof SmartphoneMainView){
 							((SmartphoneMainView) nav).setService(ew, null);
 						}
@@ -61,12 +54,12 @@ public class ServiceTypeOverview extends NavigationView{
 			else if (s instanceof Website){
 				final Website w = (Website)s;
 				NavigationButton service = new NavigationButton(w.getTitle());
-				service.setIcon(new ThemeResource("img/Categories-preferences-desktop-personal-icon.png"));
+				service.setIcon(new ThemeResource("../base/img/Categories-preferences-desktop-personal-icon.png"));
 				servicesGroup.addComponent(service);
-				service.addListener(new Button.ClickListener(){
+				service.addClickListener(new NavigationButtonClickListener() {
 
 					@Override
-					public void buttonClick(ClickEvent event) {
+					public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {     
 						if (nav instanceof SmartphoneMainView){
 							((SmartphoneMainView) nav).setService(w, null);
 						}

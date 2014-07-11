@@ -6,11 +6,11 @@
 	<artifactId>mobile.gui</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Vaadin TouchKit Web Application</name>
+	<name>CASA Mobile</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<vaadin.version>6.7.8</vaadin.version>
+		<vaadin.version>7.2.2</vaadin.version>
 		<gwt.version>2.3.0</gwt.version>
 		<gwt.plugin.version>2.3.0-1</gwt.plugin.version>
 	</properties>
@@ -34,18 +34,7 @@
 		<dependency>
 			<groupId>com.vaadin.addon</groupId>
 			<artifactId>vaadin-touchkit-agpl</artifactId>
-			<version>2.1.0</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
-			<groupId>org.vaadin.vol</groupId>
-			<artifactId>openlayers-wrapper</artifactId>
-			<version>1.2.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin</artifactId>
-			<version>${vaadin.version}</version>
+			<version>4.0.0.alpha3</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -54,11 +43,40 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-user</artifactId>
-			<version>${gwt.version}</version>
-			<scope>provided</scope>
+			<groupId>javax.jmdns</groupId>
+			<artifactId>jmdns</artifactId>
+			<version>3.4.1</version>
 		</dependency>
+		<dependency>
+			<groupId>de.lehsten.casa</groupId>
+			<artifactId>contextserver.utilities</artifactId>
+			<version>0.1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.lehsten.casa</groupId>
+			<artifactId>contextserver.types</artifactId>
+			<version>0.1.26-SNAPSHOT</version>
+		</dependency>
+			<dependency>
+<groupId>com.vaadin</groupId>
+<artifactId>vaadin-server</artifactId>
+<version>${vaadin.version}</version>
+</dependency>
+	<dependency>
+<groupId>com.vaadin</groupId>
+<artifactId>vaadin-client-compiled</artifactId>
+<version>${vaadin.version}</version>
+</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-client</artifactId>
+			<version>${vaadin.version}</version>
+		</dependency>
+			<dependency>
+<groupId>com.vaadin</groupId>
+<artifactId>vaadin-themes</artifactId>
+<version>${vaadin.version}</version>
+</dependency>
 	</dependencies>
 
 	<build>

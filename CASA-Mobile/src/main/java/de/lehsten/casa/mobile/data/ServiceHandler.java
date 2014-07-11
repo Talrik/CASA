@@ -2,6 +2,7 @@ package de.lehsten.casa.mobile.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -13,12 +14,16 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 
 import de.lehsten.casa.contextserver.types.Entity;
+import de.lehsten.casa.contextserver.types.QueryRequest;
 import de.lehsten.casa.contextserver.types.entities.place.Place;
 import de.lehsten.casa.contextserver.types.entities.services.Service;
 import de.lehsten.casa.contextserver.types.entities.services.websites.EventWebsite;
 import de.lehsten.casa.contextserver.types.entities.services.websites.LocationWebsite;
 import de.lehsten.casa.contextserver.types.entities.services.websites.Website;
+import de.lehsten.casa.contextserver.types.position.Position;
 import de.lehsten.casa.contextserver.types.xml.CSMessage;
+import de.lehsten.casa.mobile.gui.CASAMobileApplication;
+import de.lehsten.casa.mobile.gui.CASAUI;
 import de.lehsten.casa.utilities.communication.serializing.CSMessageConverter;
 
 
@@ -27,28 +32,42 @@ public class ServiceHandler implements Serializable{
 	private static final long serialVersionUID = 1L;
 	InitialContext ctx; 
 	private static boolean isConnected = false; 
-	private static ProducerTemplate serverProducer;
-//	private CamelContext camelContext;
 	private static ArrayList<Service> services = new ArrayList<Service>();
+	private ArrayList<Node> nodes = new ArrayList<Node>();
+	private static CASAUI app;
+	private static CamelContext camelContext;
 	
-	public ServiceHandler(){
+	public ServiceHandler(CASAUI casaui){
 		// Try to connect to Server
-		connectToServer();
-		refresh();
+		this.app = CASAUI.getApp();
+		try{
+			ctx = new InitialContext();
+			camelContext = (CamelContext)ctx.lookup("MobileContext");
+		}catch(NamingException ne){
+			System.err.println("No Context found ");
+				
+		}
+		System.out.println("ServiceHandler created");
+//		connectToServer();
+//		refresh();
 	}
 
 	public void connectToServer(){
 		// Lookup if there is a context server started here
 		try{
 			ctx = new InitialContext();
-			CamelContext camelContext = (CamelContext)ctx.lookup("MobileContext");
+			camelContext = (CamelContext)ctx.lookup("MobileContext");
+			this.nodes = app.getNodeHandler().getNodes();
+			/*
 			serverProducer = camelContext.createProducerTemplate();
 			if (camelContext.hasEndpoint("direct:CASA_Server") != null)
 			{
 			serverProducer.setDefaultEndpoint(camelContext.getEndpoint("direct:CASA_Server"));
 			System.out.println("Connected to ContextServer");
 			this.isConnected = true;
+			
 			}
+			*/
 		}catch(NamingException ne){
 			System.out.println("No ContextServer found - Using dummy data...");
 		} catch (Exception e) {
@@ -57,19 +76,27 @@ public class ServiceHandler implements Serializable{
 		}
 	}
 	
-	private static ArrayList<Entity> getQueryResult(){
+	private static ArrayList<Entity> getQueryResult(String query, Node node){
 		ArrayList<Entity> entityList = new ArrayList<Entity>();
-		if (isConnected){
 			try 
 			{
 				CSMessage msg = new CSMessage();
-				msg.text = "getQueryResult";
-				msg.payload.add("GetServices");
-				msg.payload.add(null);
 				
-				CSMessage entityMsg = (CSMessage) serverProducer.requestBody(msg);
+				String queryName = "GetServices";
+				Object[] arguments = new Object[0];
+				QueryRequest qrequest = new QueryRequest();
+				qrequest.getQuery().put(queryName, arguments);
+				String id = "CASA_Mobile_"+System.currentTimeMillis();
+				qrequest.setRequestId(id);
+				//create objects
+				if (node.isUsePosition()){
+					Position currentPosition = new Position(app.getCurrentLatitude(),app.getCurrentLongitude());
+					qrequest.getRestrictions().add(currentPosition);
+				}
+				CSMessage entityMsg = app.getRouteBuilder().sendRequest(qrequest, node);
 				ArrayList<Object> objectList = entityMsg.payload;
 				for (Object o : objectList){
+					System.out.println(o);
 					if (o instanceof Entity){
 						entityList.add((Entity)o);
 					}
@@ -77,20 +104,35 @@ public class ServiceHandler implements Serializable{
 			}catch(Exception e){
 				e.printStackTrace();
 			}
-		}else {
+		if (entityList.isEmpty()){
+			System.out.println("No services found - using dummy data...");
 			LocationWebsite lw1 = new LocationWebsite();
 			lw1.setSource("DummyData");
 			lw1.setDescription("Description for dummy location website");
 			lw1.setProvider("DummData");
-			lw1.setTitle("Dummy Location Site");
+			lw1.setTitle("Raumsteuerung Smartlab");
 			Place p1 = new Place();
 			double currentLatitude =  54.0748861;
 			double currentLongitude = 12.1161766;
 			p1.setLatitude(currentLatitude);
 			p1.setLongitude(currentLongitude);
-			lw1.setPlace(p1);
+			LocationWebsite lw2 = new LocationWebsite();
+			lw2.setPlace(p1);
+			lw2.setSource("DummyData");
+			lw2.setDescription("Description for dummy location website");
+			lw2.setProvider("DummData");
+			lw2.setTitle("Haltestellenabfahrtsplan Mensa");
+			lw2.setPlace(p1);
+			LocationWebsite lw3 = new LocationWebsite();
+			lw3.setPlace(p1);
+			lw3.setSource("DummyData");
+			lw3.setDescription("Description for dummy location website");
+			lw3.setProvider("DummData");
+			lw3.setTitle("Haltestellenabfahrtsplan E.-Schlesinger-Straße");
+			lw3.setPlace(p1);
 			entityList.add(lw1);
-			
+			entityList.add(lw3);
+			entityList.add(lw2);
 			
 		}
 		return entityList;
@@ -137,13 +179,23 @@ public class ServiceHandler implements Serializable{
 	}
 	
 	public static void refresh(){
-		ArrayList<Entity> entity = getQueryResult();
+		System.out.println("Refreshing");
+		
+		Collection<Node> nodes = app.getRouteBuilder().getNodes();
+		System.out.println(nodes.size()+" endpoints found.");
+		for (Node n : nodes){
+		ArrayList<Entity> entity = getQueryResult("GetServices",n);
+/*
+		ArrayList<Entity> entity = getQueryResult("GetServices",null);
+*/
 		for (Entity e : entity){
 			if (e instanceof Service){
 				if(!services.contains((Service) e)){
 				services.add((Service)e); 
 				}
 			}
+		}
+		System.out.println("Size of service list: "+services.size());
 		}
 		
 	}
@@ -154,26 +206,22 @@ public class ServiceHandler implements Serializable{
 	
 	public static ServiceContainer getContainer(){
 		ServiceContainer container = new ServiceContainer();
-		refresh();
 		container.addAll(services);
 		return container;
 	}
 
 	public static ServiceContainer getContainerEventWebsites(){
 		ServiceContainer container = new ServiceContainer();
-		refresh();
 		container.addAll(getEventWebsites());
 		return container;
 	}
 	public static ServiceContainer getContainerLocationWebsites(){
 		ServiceContainer container = new ServiceContainer();
-		refresh();
 		container.addAll(getLocationWebsites());
 		return container;
 	}
 	public static ServiceContainer getContainerPersonalWebsites(){
 		ServiceContainer container = new ServiceContainer();
-		refresh();
 		container.addAll(getPersonalWebsites());
 		return container;
 	}

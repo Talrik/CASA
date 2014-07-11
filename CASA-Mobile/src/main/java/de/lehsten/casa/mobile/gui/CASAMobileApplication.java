@@ -1,5 +1,9 @@
 package de.lehsten.casa.mobile.gui;
 
+import java.io.IOException;
+
+import javax.jmdns.JmDNS;
+
 import com.vaadin.addon.touchkit.ui.TouchKitApplication;
 import com.vaadin.addon.touchkit.ui.TouchKitWindow;
 import com.vaadin.terminal.ExternalResource;
@@ -9,6 +13,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Window;
 
+import de.lehsten.casa.mobile.communication.NodeHandler;
 import de.lehsten.casa.mobile.communication.MobileRouteBuilder;
 import de.lehsten.casa.mobile.data.ServiceHandler;
 import de.lehsten.casa.mobile.gui.ui.MainTabsheet;
@@ -22,12 +27,15 @@ public class CASAMobileApplication extends TouchKitApplication
 {
 
 	private TouchKitWindow mainWindow;
+	private JmDNS jmDNS;
+	private MobileRouteBuilder mrb;
 	
 	//RIGZ coordinates	
 	private double currentLatitude =  54.0748861;
 	private double currentLongitude = 12.1161766;
 
 	private ServiceHandler serviceHandler;
+	private NodeHandler nodeHandler;
 	
 	public static SystemMessages getSystemMessages() {
 	    CustomizedSystemMessages messages =
@@ -41,8 +49,17 @@ public class CASAMobileApplication extends TouchKitApplication
 
 	@Override
 	public void init(){
-		new MobileRouteBuilder(this);
-		this.serviceHandler = new ServiceHandler();
+		mrb = new MobileRouteBuilder(this);
+		this.nodeHandler = new NodeHandler(this);
+		try {
+			String serviceType = "_casa._tcp.local.";
+			jmDNS = JmDNS.create();
+			jmDNS.addServiceListener(serviceType, this.nodeHandler);
+		}catch(IOException e){ 
+		
+		}
+		this.serviceHandler = new ServiceHandler(this);
+		
 		configureMainWindow();
 	}
 	
@@ -71,9 +88,18 @@ public class CASAMobileApplication extends TouchKitApplication
 		return this.serviceHandler;
 	}
 
+	public NodeHandler getNodeHandler(){
+		return this.nodeHandler;
+	}
+	
+	public MobileRouteBuilder getRouteBuilder(){
+		return mrb;
+	}
+	
 	public static CASAMobileApplication getApp(){
 		return (CASAMobileApplication) get();
 	}
+	
     public boolean isSmallScreenDevice() {
         /*float viewPortWidth = getMainWindow().getWidth();
         return viewPortWidth < 600;
