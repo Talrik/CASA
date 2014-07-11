@@ -6,6 +6,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import javax.faces.component.UIComponent;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -27,11 +32,18 @@ import de.lehsten.casa.contextserver.types.entities.services.Service;
 
 public class EntityFormFieldFactory implements FormFieldFactory{
 
+	 private final static Logger log = LoggerFactory.getLogger( EntityFormFieldFactory.class ); 
+	   
+	
 	@Override
 	public Field createField(final Item item, Object propertyId, Component uiContext) {
 		// TODO Auto-generated method stub
 		String pid = (String) propertyId;
-
+		
+		log.info("PID: "+pid);
+		log.info("Item: "+item.toString());
+		log.info("Component: "+UIComponent.CURRENT_COMPONENT);
+		
 		if ("properties".equals(pid)){
 			return null;
 		}
