@@ -1,8 +1,8 @@
 <?php 
 /**
- * This file views the administration interface for users to handle existing services
+ * This file views the import interface for admins to handle add imported services
  *
- * Copyright (c)  2013  <philipp.lehsten@gmail.com>
+ * Copyright (c)  2014  <philipp.lehsten@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,8 +25,8 @@
  * @category   StudIP_Plugin
  * @package    de.lehsten.casa.studip.plugin
  * @author     Philipp Lehsten <philipp.lehsten@uni-rostock.de>
- * @copyright  2013 Philipp Lehsten <philipp.lehsten@uni-rostock.de>
- * @since      File available since Release 1.0
+ * @copyright  2014 Philipp Lehsten <philipp.lehsten@uni-rostock.de>
+ * @since      File available since Release 1.3
  */
 	
 /**
@@ -63,7 +63,7 @@ return $fetchedSearched[0].' '.$fetchedSearched[1];
 // view message box if there are no services
 $scount = sizeof($services);
 if ($scount == 1 && is_null($services[0])){
-    echo MessageBox::info('Leider sind aktuell keine Dienste mit dieser Veranstaltung oder mit diesem Ort verknüpft');
+    echo MessageBox::info('Leider sind aktuell keine Dienste mit dieser Veranstaltung oder mit diesem Ort verknÃ¼pft');
 }
 // else view services
 else{
@@ -99,12 +99,12 @@ else{
         </script>';
 // view the services in the table		
 echo '<div style="text-align:center" id="settings" class="steel1">
-		<h2 id="bd_basicsettings" class="steelgraulight">Dienste zu dieser Veranstaltung und diesem Ort</h2></div><table><tr>';
+		<h2 id="bd_basicsettings" class="steelgraulight">Dienste importieren</h2></div><table><tr>';
         printf("<td class=\"steel\" width=\"30%%\" align=\"center\" valign=\"bottom\"><font size=\"-1\"><b>%s</b></font></td>", _("Titel"));
     printf("<td class=\"steel\" width=\"10%%\" align=\"center\" valign=\"bottom\"><font size=\"-1\"><b>%s</b></font></td>", _("Autor"));
     printf("<td class=\"steel\" width=\"50%%\" align=\"center\" valign=\"bottom\"><font size=\"-1\"><b>%s</b></font></td>", _("Beschreibung"));
     printf("<td class=\"steel\" width=\"9%%\" align=\"center\" valign=\"bottom\"><font size=\"-1\"><b>%s</b></font></td>", _("URL"));
-    printf("<td class=\"steel\" width=\"9%%\" align=\"center\" valign=\"bottom\"><font size=\"-1\"><b>%s</b></font></td>", _("Beschränkung"));
+    printf("<td class=\"steel\" width=\"9%%\" align=\"center\" valign=\"bottom\"><font size=\"-1\"><b>%s</b></font></td>", _("BeschrÃ¤nkung"));
     printf("<td class=\"steel\" width=\"9%%\" align=\"center\" valign=\"bottom\"><font size=\"-1\"><b>%s</b></font></td>", _("Aktion"));
 echo"</tr>";
 for ($i=0;$i < $scount;$i++ ){

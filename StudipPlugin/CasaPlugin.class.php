@@ -51,6 +51,8 @@ class CasaPlugin extends AbstractStudIPStandardPlugin
 			exit();
 		}
 		
+		if($GLOBALS['SessSemName']['class'] == 'sem'){
+			
 		parent::__construct();
 
 
@@ -64,6 +66,7 @@ class CasaPlugin extends AbstractStudIPStandardPlugin
 		
 		# get the settings for the plugin
 		global $perm;
+		
 		$sem = Seminar::GetInstance($GLOBALS['SessSemName'][1]);
 		$sem_id = $sem->id;                               
 		$settings = CasaSettings::getCasaSettings();
@@ -71,7 +74,7 @@ class CasaPlugin extends AbstractStudIPStandardPlugin
 		# if the user has the role to add services add the tab 
 		if ($perm->have_studip_perm($settings['addRole'], $sem_id)) {	
 			$subNavigation2 = new PluginNavigation();
-			$subNavigation2->setDisplayname("Dienste hinzufügen");
+			$subNavigation2->setDisplayname("Dienste eintragen");
 			$subNavigation2->setLinkParam('viewAddService');
 			$navigation->addSubMenu($subNavigation2);
 		}
@@ -91,9 +94,52 @@ class CasaPlugin extends AbstractStudIPStandardPlugin
 		$navigation->addSubMenu($subNavigation4);
 
 		$this->setNavigation($navigation);
+	}
 
     }
+	
+    /**
+     * getIconNavigation Liefert das Symbol fuer meine-seminare
+     *
+     * @param string $course_id ID einer Veranstaltung
+     * @param int $last_visit Letzter Besuch eins nutzers, Unix-Zeitstempel
+	 * @param string $user_id
+     * @return
+     *
+     * @author Philipp Lehsten nach einer Vorlage von Bernhard Strehl
+     */
+	/*
+    function getIconNavigation($course_id, $last_visit, $user_id)
+    {
+        $name = 'Dienste';
+        $semid = $course_id;
+        $db = DBManager::get();
+		$icon_text = 'Dienste';
+        $is_modified_to_user = $db->query('select (UNIX_TIMESTAMP(modified) - ' . $last_visit . ') >=0 from  casa_services where lecture="' . $semid . '"')->fetchColumn();
+		if($is_modified_to_user){
+			$icon_text = $icon_text.' wurden bearbeitet';
+		}
+        $is_new_to_user = $db->query('select (UNIX_TIMESTAMP(timestamp) - ' . $last_visit . ') >=0 from  casa_services where lecture="' . $semid . '"')->fetchColumn();
+		if($is_new_to_user && $is_modified_to_user){
+			$icon_text = $icon_text.' und ';
+		}		
+		if($is_new_to_user){
+			$icon_text = $icon_text.' wurden hinzugefÃ¼gt';
+		}
 
+        $top_nav = new Navigation($name);
+
+        if ((isset($is_new_to_user) && isset($is_modified_to_user)) && ($is_new_to_user || $is_modified_to_user)){
+        $top_nav->setImage('/../'.$this->getPluginPath().'PhilippLehsten/CasaPlugin/images/casa_16_red.png',
+	    array('title' => $icon_text));
+		}
+        else{$top_nav->setImage('/../'.$this->getPluginPath().'PhilippLehsten/CasaPlugin/images/casa_16_sw.png',
+		array('title' => $icon_text));
+		}
+        $top_nav->setURL(PluginEngine::getLink($this, null, 'viewServices'));
+        return $top_nav;
+    }
+*/
 	/**
 	*   Main handler for the different user interfaces
 	*/	
@@ -412,7 +458,7 @@ class CasaPlugin extends AbstractStudIPStandardPlugin
 				$query = "SELECT *
 					FROM `casa_services`
 					WHERE (`lecture` = :lecture {$locationString}) AND (
-							`userrole` LIKE {$partsString})";
+							`userrole` LIKE {$partsString} OR `createdBy` = '{$this->user->username}')";
 				$statement = DBManager::get()->prepare($query);
 				$statement->bindValue(':lecture', $uniqueSemId);
 				// get query results

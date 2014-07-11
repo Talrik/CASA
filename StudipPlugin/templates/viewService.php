@@ -64,12 +64,10 @@ else{
             var elem = document.getElementById("block"+control);
             if(elem.style.display == "none"){
                 document.getElementById("klappentext"+control).childNodes[0].nodeValue = "ausblenden";
-				  document.getElementById("klappenImg"+control).src = "./../../assets/images/forumgraurunt2.png";
+			    document.getElementById("klappenImg"+control).src = "./../../assets/images/forumgraurunt2.png";
                 elem.style.display = "block";
                 elem.src = links[control]["URL"];
-              	$.post( "'.PluginEngine::getURL('CasaPlugin').'", { request: "viewService", ID: links[control]["ID"] } );
-				alert(elem.src);
-				parent.frames["block"+control].window.location.reload();
+				$.post( "'.PluginEngine::getURL('CasaPlugin').'", { request: "viewService", ID: links[control]["ID"] } );
 				}
             else{
                 elem.style.display = "none";
@@ -78,12 +76,12 @@ else{
             }
         }
         </script>
-        <table class="zebra"  style="width: 100%;">
+        <table class="index_box"  style="width: 100%;">
     ';
     //  view the services
     for ($i = 0; $i < $scount; $i++){
         echo'
-            <tr><td class="blue_gradient" colspan="3">
+            <tr><td class="topic" colspan="3">
             <img src="./../../assets/images/icons/16/white/admin.png" border="0" alt="Dienste"  title="Dienste">
         ';
 		$userName = getFullUserName($services[$i]->provider); 
@@ -91,13 +89,13 @@ else{
 	   echo'   <b>'._($services[$i]->title).'</b> - <small>geteilt von <a href='._($userLink).' >'._($userName).'</a></small>';
         echo'
             </td></tr>
-            <tr><td width="16">
+            <tr><td class="steel1" width="16">
             <a id="klappen'._($i).'" href="javascript:toggle('._($i).')">
             <img id="klappenImg'._($i).'" src="./../../assets/images/forumgrau2.png" alt="Objekt aufklappen">
-                </a></td>	
+            </a></td>	
         ';
-        echo '<td width="150"><a id="klappen'._($i).'" href="javascript:toggle('._($i).')"><span id="klappentext'._($i).'">anzeigen</span></a> / <a 					href="'._(urldecode($services[$i]->targetURL)).'" target="_blank">Neu &ouml;ffnen</a>';
-		echo '<td>'._($services[$i]->description).'</td></tr>';
+        echo '<td width="150" class="steel1"><a id="klappen'._($i).'" href="javascript:toggle('._($i).')"><span id="klappentext'._($i).'">anzeigen</span></a> / <a 					href="'._(urldecode($services[$i]->targetURL)).'" target="_blank">Neu &ouml;ffnen</a>';
+		echo '<td class="steel1">'._($services[$i]->description).'</td></tr>';
 
 		echo'<tr><td colspan="3">
             <br /><iframe id="block'._($i).'" style="display: none" src="" width="98%" height="500" name="'._("Dienste").'" frameborder="0">

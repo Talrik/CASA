@@ -31,7 +31,6 @@
 
 // define the location for the manual and help sites and use them as services
 $manual = URLHelper::getURL('plugins_packages/PhilippLehsten/CasaPlugin/static/manual/assets/fallback/index.html');
-//$manual = URLHelper::getURL('plugins_packages/PhilippLehsten/CasaPlugin/static/slides/deck/boilerplate.html');
 $examples = URLHelper::getURL('plugins_packages/PhilippLehsten/CasaPlugin/static/examples/assets/fallback/index.html');
 $services[0]->title = 'Anleitung';
 $services[0]->targetURL = $examples;
@@ -66,7 +65,7 @@ echo '</script>';
 ?> 
 
 
-<h2 id="bd_basicsettings" class="blue_gradient">Das CASA-Plugin f&uuml;r Stud.IP</h2>
+<h2 id="bd_basicsettings" class="steelgraulight">Das CASA-Plugin f&uuml;r Stud.IP</h2>
 <h3>Hinweise zur Nutzung</h3>
 <b>Allgemeines: </b></br>
 <br> Dieses Plugin erlaubt die Einbindung von Webseiten, Dokumenten und anderen </br>
@@ -84,19 +83,21 @@ Mit Fragen, Hinweisen und Problemen wenden Sie sich bitte an: <br>
 philipp.lehsten@uni-rostock.de </br>
 studip-support@uni-rostock.de</b></br></br>
 
+    <table class="index_box"  style="width: 100%;">
+
 </script>
-    <table class="zebra"  style="width: 100%;">
+    <table class="index_box"  style="width: 100%;">
 <?php
 // view the manual and the examples as services
 for ($i = 0; $i < $scount; $i++){
     echo'
-        <tr><td class="blue_gradient" colspan="2">
+        <tr><td class="topic" colspan="2">
         <img src="./../../assets/images/icons/16/white/admin.png" border="0" alt="Dienste"  title="Dienste">
     ';
     echo'   <b>'._($services[$i]->title).'</b>';
     echo'
         </td></tr>
-        <tr><td colspan="3">
+        <tr><td class="steel1" colspan="3">
         <a id="klappen'._($i).'" href="javascript:toggle('._($i).')">
         <img id="klappenImg'._($i).'" src="./../../assets/images/forumgrau2.png" alt="Objekt aufklappen">
             anzeigen</a> / 

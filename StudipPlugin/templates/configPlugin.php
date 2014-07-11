@@ -29,6 +29,8 @@
  * @since      File available since Release 1.0
  */
 
+use Studip\Button;
+
 /**
 * default value for the CASA Server
 */
@@ -43,6 +45,26 @@ $settings = CasaSettings::getCasaSettings();
 <h2>CASA-Einstellungen</h2>
 
 <? if (!$casa_active) : ?>
+
+<fieldset>
+
+<legend>Import / Export von Diensten</legend>
+
+<label>
+	<a href= "download_services">
+<?= Button::create('Alle Dienste exportieren', 'download_services') ?>
+	</a>
+	<form enctype="multipart/form-data" action="upload_services" method="POST">
+	    <!-- MAX_FILE_SIZE muss vor dem Dateiupload Input Feld stehen -->
+	    <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+	    <!-- Der Name des Input Felds bestimmt den Namen im $_FILES Array -->
+	    Diese Datei hochladen: <input name="userfile" type="file" />
+	    <input type="submit" value="Send File" />
+	</form>
+</label>
+
+</fieldset>
+
 <form action="<?= PluginEngine::getLink("casaadminplugin/settings") ?>" method="post">
 	
 	<fieldset>

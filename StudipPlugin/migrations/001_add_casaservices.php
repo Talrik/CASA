@@ -36,7 +36,7 @@
  * 
  * @author  Philipp Lehsten <philipp.lehsten@uni-rostock.de>
  */	
-class CreateDatabase extends DBMigration
+class AddCasaservices extends DBMigration
 {
 
 	/**
@@ -44,15 +44,15 @@ class CreateDatabase extends DBMigration
 	 */	
     function description ()
     {
-        return 'Creates neccessary tables for CASA plugin';
+        return 'Creates a casa_services table';
     }
 
 	/**
-	 * creates the table 
+	 * enters the dummy values 
 	 */	
-    function up ()
-    {
-        DBManager::get()->exec("CREATE TABLE IF NOT EXISTS `casa_services` (
+	
+    function up () { 
+         DBManager::get()->exec("CREATE TABLE IF NOT EXISTS `casa_services` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(64) NOT NULL,
   `description` text,
@@ -60,19 +60,20 @@ class CreateDatabase extends DBMigration
   `userrole` varchar(64) NOT NULL,
   `location` varchar(255) DEFAULT NULL,
   `lecture` varchar(64) DEFAULT NULL,
-  `serviceXML` text NOT NULL,
+  `serviceID` varchar(64) NOT NULL,
+  `properties` text,
+  `createdBy` varchar(64) DEFAULT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified` DATETIME NOT NULL,
   PRIMARY KEY (`id`)
-)");
-    }
-
-
+)"); 
+}
+	
 	/**
 	 * drops the table 
 	 */	
     function down ()
     {
-        DBManager::get()->exec("DROP TABLE IF EXISTS `casa_services`");
+        DBManager::get()->exec("DROP TABLE IF EXISTS casa_services ");
     }
 }

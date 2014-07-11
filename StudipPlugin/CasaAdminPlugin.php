@@ -31,6 +31,7 @@
  */
 
 require_once 'CasaSettings.php';
+require_once 'models/Service.class.php';
 
 /**
  *
@@ -116,6 +117,66 @@ class CasaAdminPlugin extends StudipPlugin implements SystemPlugin
 		# inform about success
         $this->redirect('show', array('info' => _('Casa-Einstellungen aktualisiert.')));
     }
+	
+	/**
+	* Download of all existing services
+	*/
+    function download_services_action()
+    {
+        $this->requireRoot();
+		
+		$query = "SELECT *
+			FROM `casa_services`";
+		$statement = DBManager::get()->prepare($query);
+		$statement->execute();
+		$result = $statement->fetchall(PDO::FETCH_ASSOC);
+//		var_dump($statement);
+//		var_dump($result);	
+		$services = array();
+		foreach($result as $service){
+//			echo json_encode($service, JSON_FORCE_OBJECT);		
+			array_push($services, $service /*Service::createFromDBEntry($service)*/);
+		}
+	    $var = json_encode($services, JSON_FORCE_OBJECT);	;    //  $var enthält einfach alles, was später in der Datei stehen soll, die der User runterlädt
+
+		$date = getdate();
+		
+	    header('Content-Type: application/json');    //  möglich, dass du hier auch text/plain wählen kannst
+	    header('Content-Length: ' . strlen($var));
+	    header('Content-Disposition: attachment; filename="services-'.$date[0].'.json"');
+
+	print $var; 
+    }
+	
+	/**
+	* Upload of new services
+	*/
+    function upload_services_action()
+    {
+        $this->requireRoot();
+		$filecontent = (array)json_decode(file_get_contents($_FILES['userfile']['tmp_name']));
+		var_dump($filecontent);
+		$services = array();
+		foreach($filecontent as $service){
+//			echo json_encode($service, JSON_FORCE_OBJECT);
+			array_push($services,Service::createFromValues($service->title,$service->description,$service->createdBy,$service->userrole,$service->url,$service->serviceID,$service->lecture,$service->location ));
+		}
+				var_dump($services);
+        $parameters = array(
+           'plugin' => $this
+         , 'settings' => CasaSettings::getCasaSettings()
+		 , 'services' => $services	   
+             );
+	         $factory = new Flexi_TemplateFactory(dirname(__FILE__).'/templates');
+	         echo $factory->render('importServiceView'
+	                             , $parameters
+	                             , $GLOBALS['template_factory']->open('layouts/base_without_infobox')
+	         );	
+//		var_dump($services);
+		
+    }
+	
+	
 	/**
 	* Checks the settings and returns errors
 	* @todo connection test to the server
