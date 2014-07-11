@@ -4,11 +4,15 @@ package de.lehsten.casa.rules.location
 import java.lang.Math;
 import de.lehsten.casa.contextserver.types.entities.place.Stop;
 import de.lehsten.casa.contextserver.types.entities.services.websites.LocationWebsite;
+import de.lehsten.casa.contextserver.types.position.Position;
 
 
-query "GetClosestStop" (Double Lat, Double Lon)
+query "GetClosestStop" (Position pos)
+@QueryParameter(Position pos)
+@Importer("PublicTransport")
+@ImporterParameter0("Position location")
 	r : Stop($x1:latitude, $y1:longitude)
-	not Stop($x2:latitude, $y2:longitude, eval(Math.sqrt((($x2-Lat)*($x2-Lat))+(($y2-Lon)*($y2-Lon))) < Math.sqrt((($x1-Lat)*($x1-Lat))+(($y1-Lon)*($y1-Lon)))))
+	not Stop($x2:latitude, $y2:longitude, eval(Math.sqrt((($x2-pos.lat)*($x2-pos.lat))+(($y2-pos.lon)*($y2-pos.lon))) < Math.sqrt((($x1-pos.lat)*($x1-pos.lat))+(($y1-pos.lon)*($y1-pos.lon)))))
 end
 
 //DEBUG:

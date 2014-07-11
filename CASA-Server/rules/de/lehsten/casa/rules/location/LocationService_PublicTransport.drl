@@ -6,6 +6,10 @@ import de.lehsten.casa.contextserver.types.entities.services.websites.Website;
 import de.lehsten.casa.contextserver.types.entities.services.websites.LocationWebsite;
 
 rule "InsertPublicTransportService"
+@Importer("PublicTransport")
+@ImporterRequestIntervall("Once")
+@ImporterParameter0("Position location")
+@ImporterParameter1("Double Radius")
 	when
 		s : Stop(stopNumber != null)
 		not LocationWebsite(places contains s) 
@@ -20,6 +24,23 @@ rule "InsertPublicTransportService"
 		insert(lw);
 end
 
+//DEMO
+/*
+rule "AddPublicTransportService"
+@Importer("PublicTransport")
+	when
+		r : Request(userID != null)
+		s : Stop(stopNumber != null)
+		m : MobilePhone( owner == r.userID && nearbyPlaces contains c)
+	then
+		PublicTransportService pts = new PublicTransportService(s);
+		pts.setSource("PublicTransportService for"+r.userID);
+		pts.setTitle(s.getTitle() + " Haltestellenabfahrtsplan");
+		pts.setTargetURL(("http://reiseauskunft.bahn.de/bin/bhftafel.exe/dn?input="+s.getStopNumber()+
+						  "&boardType=dep&time=actual&productsDefault="+s.getProducts()+"&start=yes"));
+		r.addResult(lw);
+end
+*/
 rule "AddStopLocationToPublicTransportService"
 	when
 		s : Stop(stopNumber != null)

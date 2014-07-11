@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import de.lehsten.casa.rules.RulesLogger;
 
 //declare any global variables here
-
+//TODO What if it is not a Studip-Request???
 rule "HandleRequests"
 	when
 		r : Request()
@@ -30,6 +30,7 @@ rule "HandleRequests"
 	then
 		RulesLogger.log(drools, "Request "+r.getRequestId()+" received.");
 		StudIPRequest studRequest = new StudIPRequest(r);
+		studRequest.setSource("StudIPRequestHandler.drl-HandleRequests");
 		RulesLogger.log(drools,"Request "+r.getRequestId()+" transformed to StudIPRequest "+studRequest.getRequestId());
 		insert(studRequest);
 		retract(r);
@@ -50,11 +51,10 @@ end
 
 rule "HandleStudIPRequests"
 	when
-		r : StudIPRequest(!Properties.containsKey("HandleStudIPRequests") && !Properties.containsKey("json"))
+		r : StudIPRequest()
 	then
 		// first the location-based service results
 		RulesLogger.log(drools,"StudIPRequest "+r.getRequestId()+" contains "+r.getLocations().size()+" locations, "+r.getLectures().size()+" events, and "+r.getRoles().size()+" roles");
-		System.out.println("StudIPRequest "+r.getRequestId()+" contains "+r.getLocations().size()+" locations, "+r.getLectures().size()+" events, and "+r.getRoles().size()+" roles");
 		ArrayList<Entity> list = new ArrayList<Entity>();
 		for(Place p : r.getLocations()){
 			for(Identity identity : r.getRoles()){

@@ -5,9 +5,18 @@
 <html>
   <head>
     	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    	<title>GlassFish JSP Page</title>
+    	<title>CASA-Server</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
+  <--
+    <%@ page import = "de.lehsten.casa.contextserver.*" %>
+    <%@ page import = "javax.naming.Context" %>
+    <%@ page import = "javax.naming.InitialContext" %>
+   
+    <h1>CASA-Server Modul</h1>
+    <%    
+  	out.println("This is the CASA-Server Version ..."); 
+    %>     
+   
   </body>
 </html> 

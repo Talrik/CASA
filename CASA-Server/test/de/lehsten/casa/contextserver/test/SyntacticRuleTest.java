@@ -115,4 +115,23 @@ public class SyntacticRuleTest {
 		assertEquals("Error in Queries_Locations.drl", 0 , errors.size());
 	}
 	
+	@Test
+	public void SyntacticTestRequestRules(){
+		KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+		kbuilder.add(ResourceFactory.newClassPathResource("de/lehsten/casa/rules/request/RequestRules.drl"),
+				ResourceType.DRL);			
+		KnowledgeBuilderErrors errors = kbuilder.getErrors();
+		assertEquals("RequestRules.drl", 0 , errors.size());
+	}
+	
+	@Test
+	public void SyntacticTestPersonalRules(){
+		KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+		kbuilder.add(ResourceFactory.newClassPathResource("de/lehsten/casa/rules/privat/PersonalRules.drl"),
+				ResourceType.DRL);			
+		KnowledgeBuilderErrors errors = kbuilder.getErrors();
+		assertEquals("PersonalRules.drl", 0 , errors.size());
+	}
+	
+	
 }

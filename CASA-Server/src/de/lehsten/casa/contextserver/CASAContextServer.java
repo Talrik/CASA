@@ -5,6 +5,8 @@
 package de.lehsten.casa.contextserver;
 
 import de.lehsten.casa.contextserver.controller.CSRouteBuilder;
+import de.lehsten.casa.contextserver.debug.ImporterListener;
+import de.lehsten.casa.contextserver.interfaces.ContextServer;
 import de.lehsten.casa.contextserver.types.Entity;
 import de.lehsten.casa.rules.LocalRuleProvider;
 
@@ -26,7 +28,9 @@ import javax.annotation.PreDestroy;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.jmdns.JmDNS;
+import javax.jmdns.ServiceEvent;
 import javax.jmdns.ServiceInfo;
+import javax.jmdns.ServiceListener;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.xml.bind.JAXBContext;
@@ -79,9 +83,11 @@ public class CASAContextServer implements ContextServer{
     JmDNS jmDNS;
 	ServiceInfo serviceInfo;
 	
-	String description = "Standard CASA-Server";
-    String developer = "Philipp Lehsten";
+	String description = "Private CASA server of Philipp Lehsten";
+    String developer = "philipp.lehsten@uni-rostock.de";
     String requiredVersionOfCASATypes = "0.1.25";
+    String domainType = "private";
+    String domainName = "home";
 	
     public CASAContextServer(){
 
@@ -116,6 +122,7 @@ public class CASAContextServer implements ContextServer{
         	 
 			log.info("----- KnowledgeBase created -----");
 			log.info("----- Initialisierung beendet -----"); 
+
 //			UserAgent ua = new UserAgent(this);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -128,11 +135,14 @@ public class CASAContextServer implements ContextServer{
 			jmDNS = JmDNS.create();
 		
 		Map<String, byte[]> props = new HashMap<String, byte[]>();
-		String test ="TestValue";
-		props.put("title", test.getBytes());
+		String title ="CASA Server";
+		props.put("title", title.getBytes());
 		props.put("requiredVersionOfCASATypes", this.requiredVersionOfCASATypes.getBytes());
 		props.put("developer", this.developer.getBytes());
 		props.put("description", this.description.getBytes());
+		props.put("domainType", this.domainType.getBytes());
+		props.put("domainName", this.domainName.getBytes());
+		props.put("endpointURI", "vm:ServerControl".getBytes());
 		
 		serviceInfo = ServiceInfo.create(
 				  serviceType,
@@ -144,6 +154,7 @@ public class CASAContextServer implements ContextServer{
 				  props);
 		// Service starten
 		jmDNS.registerService(serviceInfo);
+        jmDNS.addServiceListener(serviceType, new ImporterListener(this));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -194,6 +205,7 @@ public class CASAContextServer implements ContextServer{
 			ArrayList<de.lehsten.casa.contextserver.types.Rule> ruleList = ruleProvider.getRuleList();
 			for (de.lehsten.casa.contextserver.types.Rule rule: ruleList){
 				kbuilder.add(ResourceFactory.newReaderResource(new StringReader(rule.getRule())), ResourceType.DRL);
+				log.info(rule.getName()+" : "+rule.getMetaData().toString());
 				KnowledgeBuilderErrors errors = kbuilder.getErrors();
 				if (errors.size() > 0) {
 					for (KnowledgeBuilderError error : errors) {
@@ -204,6 +216,7 @@ public class CASAContextServer implements ContextServer{
 			}
 			
 			try{
+			/*
 			kbuilder.add(ResourceFactory.newClassPathResource("StudIPTransformationRules.drl"),
 					ResourceType.DRL);
 			kbuilder.add(ResourceFactory.newClassPathResource("StudIPQueries.drl"),
@@ -214,6 +227,7 @@ public class CASAContextServer implements ContextServer{
 							ResourceType.DRL);
 			kbuilder.add(ResourceFactory.newClassPathResource("LocationRules.drl"),
 					ResourceType.DRL);
+			*/
 			}catch(Exception e){
 				
 			}

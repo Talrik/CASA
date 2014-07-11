@@ -1,0 +1,63 @@
+package de.lehsten.casa.rules.privat
+
+import de.lehsten.casa.contextserver.types.Request;
+import de.lehsten.casa.contextserver.types.QueryRequest;
+
+import de.lehsten.casa.contextserver.types.Entity;
+import de.lehsten.casa.contextserver.types.entities.event.Lecture;
+import de.lehsten.casa.contextserver.types.entities.event.Event;
+import de.lehsten.casa.contextserver.types.entities.place.Place;
+
+import de.lehsten.casa.contextserver.types.position.Position;
+
+import de.lehsten.casa.contextserver.types.entities.services.websites.LocationWebsite;
+import de.lehsten.casa.contextserver.types.entities.services.websites.Website;
+
+
+import de.lehsten.casa.contextserver.types.entities.person.identity.Identity;
+import de.lehsten.casa.contextserver.types.entities.person.identity.StudIPIdentity;
+
+import org.drools.runtime.rule.QueryResults;
+import org.drools.runtime.rule.QueryResultsRow;
+
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Iterator;
+
+import de.lehsten.casa.rules.RulesLogger;
+
+function boolean closeTo(de.lehsten.casa.contextserver.types.position.Position p1, de.lehsten.casa.contextserver.types.position.Position p2, double distance) {
+       float pk = (float) (180/3.14169);
+
+    double a1 = p1.getLat() / pk;
+    double a2 = p1.getLon() / pk;
+    double b1 = p2.getLat() / pk;
+    double b2 = p2.getLon() / pk;
+
+    double t1 = Math.cos(a1)*Math.cos(a2)*Math.cos(b1)*Math.cos(b2);
+    double t2 = Math.cos(a1)*Math.sin(a2)*Math.cos(b1)*Math.sin(b2);
+    double t3 = Math.sin(a1)*Math.sin(b1);
+    double tt = Math.acos(t1 + t2 + t3);
+    return (distance > (6366000*tt));
+}
+
+rule "MensaService"
+	when
+		r : Request()
+		exists($p1 : Position() from r.getRestrictions() and eval(closeTo($p1, new Position(54.0748861, 12.1161766),1000d)))
+	then
+		Website s = new Website();
+		s.setTitle("Mensa Speiseplan heute");
+		s.setTargetURL("http://www.studentenwerk-rostock.de/index.php?lang=de&mainmenue=4&submenue=47");
+		s.setSource("MensaService");
+		ArrayList<Entity> results = r.getResults();
+		results.add(s);
+		r.setResults(results);
+end	
+
+query "GetRequestById"(String id)
+	r : Request(requestId.equals(id))
+end
+

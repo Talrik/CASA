@@ -14,6 +14,22 @@ rule "LocationService_Cafeteria"
 			addToNearbyPlaces(c);
 		}
 end
+/*
+rule "MensaMenu"
+//	timer ( cron: 15 11   *   *  1-5 ? )
+	when
+		r : Request(userID != null)
+		c : Cafeteria()
+		m : MobilePhone( owner == r.userID && nearbyPlaces contains c)
+//		p : MovementEvent( deviceID == m.deviceID) from entry-point "StudIPEntryPoint"
+	then
+		Website s = new Website();
+		s.setTitle("Mensa Speiseplan heute");
+		s.setTargetURL("http://www.studentenwerk-rostock.de/index.php?lang=de&mainmenue=4&submenue=47&type=details&detail1=1&detail2=5678");
+		s.setSource("MensaMenu");
+		r.addResult(s);
+end	
+*/
 
 //TODO: DEBUG!!!
 /*

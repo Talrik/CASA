@@ -19,7 +19,7 @@ import javax.jms.TextMessage;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import de.lehsten.casa.contextserver.ContextServer;
+import de.lehsten.casa.contextserver.interfaces.ContextServer;
 import de.lehsten.casa.contextserver.types.Entity;
 import de.lehsten.casa.contextserver.types.Rule;
 import de.lehsten.casa.contextserver.types.xml.CSMessage;

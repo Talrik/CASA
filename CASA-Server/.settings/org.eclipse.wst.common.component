@@ -6,13 +6,11 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/rules"/>
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
-        <dependent-module archiveName="contextserver.types-0.1.25-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/CASA-Types/CASA-Types">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="contextserver.utilities-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/CASA-Utilities/CASA-Utilities">
+        <wb-resource deploy-path="/" source-path="/WebContent"/>
+        <dependent-module archiveName="contextserver.types-0.1.27-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/CASA-Types/CASA-Types">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/CASA-Server/build/classes"/>
-        <property name="context-root" value="contextserver.server"/>
+        <property name="context-root" value="CASA-Server"/>
     </wb-module>
 </project-modules>

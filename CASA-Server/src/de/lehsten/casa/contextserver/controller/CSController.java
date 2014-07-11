@@ -20,7 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.lehsten.casa.contextserver.CASAContextServer;
-import de.lehsten.casa.contextserver.ContextServer;
+import de.lehsten.casa.contextserver.interfaces.ContextServer;
 import de.lehsten.casa.contextserver.types.Entity;
 import de.lehsten.casa.contextserver.types.Rule;
 import de.lehsten.casa.contextserver.types.xml.CSMessage;
