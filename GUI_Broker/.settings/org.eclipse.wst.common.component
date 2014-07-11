@@ -3,6 +3,9 @@
         <wb-resource deploy-path="/" source-path="/WebContent"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
         <wb-resource deploy-path="/WEB-INF/lib" source-path="/libs"/>
+        <dependent-module archiveName="contextserver.types-0.1.27-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/CASA-Types/CASA-Types">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="GUI_Broker"/>
         <property name="java-output-path" value="/GUI_Broker/build/classes"/>
     </wb-module>

@@ -49,6 +49,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.gson.Gson;
 
+import de.lehsten.casa.contextserver.interfaces.Broker;
 import de.lehsten.casa.contextserver.types.Entity;
 import de.lehsten.casa.contextserver.types.Request;
 import de.lehsten.casa.contextserver.types.StudIPRequest;
@@ -58,6 +59,7 @@ import de.lehsten.casa.contextserver.types.entities.event.StudIPEvent;
 import de.lehsten.casa.contextserver.types.entities.person.identity.Identity;
 import de.lehsten.casa.contextserver.types.entities.person.identity.StudIPIdentity;
 import de.lehsten.casa.contextserver.types.entities.place.Place;
+import de.lehsten.casa.contextserver.types.entities.services.Service;
 //import de.lehsten.casa.contextserver.types.entities.services.Service;
 import de.lehsten.casa.contextserver.types.entities.services.websites.EventWebsite;
 import de.lehsten.casa.contextserver.types.entities.services.websites.LocationWebsite;
@@ -74,7 +76,7 @@ import de.lehsten.casa.utilities.communication.serializing.EntitySerializer;
  */
 @WebService(serviceName = "GUI_Broker_StudIP")
 @Stateless()
-public class GUI_Broker_StudIP {
+public class GUI_Broker_StudIP implements Broker {
 	
 	String ContextServerIP;
 	String layer;
@@ -178,6 +180,12 @@ public class GUI_Broker_StudIP {
 		}
 	}
 
+	@Override
+	public Service[] getServices(Request request) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	@WebMethod(operationName="getGUI") 
 //	@WebResult(name = "getGUIResult") 
 	public Website[] getGUI( @WebParam(name = "lecture") String lecture,@WebParam(name = "userRole") String userRole,@WebParam(name = "location") String location  ) 
@@ -304,6 +312,12 @@ public class GUI_Broker_StudIP {
 		log.error("Not connected to CASA-Server");
 		return null;
 	  }
+	
+	@Override
+	public Service setService(Service service, Entity[] restrictions) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	@WebMethod(operationName="setGUI") 
 	public Website setGUI( @WebParam(name = "lecture") String lecture,
@@ -481,6 +495,12 @@ public class GUI_Broker_StudIP {
 			
 	  }
 
+	@Override
+	public Service[] removeService(Service service) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	@WebMethod(operationName="removeService")
 	public Website[] removeService( @WebParam(name = "PropertyKey") String key,
 			@WebParam(name = "PropertyValue") String value 
@@ -525,6 +545,12 @@ public class GUI_Broker_StudIP {
 			log.info("Found "+ rulesMsg.payload.size() +" services. - Removal not allowed.");	
 			return null;
 		}
+	}
+
+	@Override
+	public Service updateService(Service oldService, Service newService) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	@WebMethod(operationName="updateService")
@@ -913,15 +939,7 @@ public class GUI_Broker_StudIP {
 			
 			return response;
 	}	
-	private class request{
-		String value1;
-		String value2;
-		public request(String value1, String value2){
-			this.value1 = value1;
-			this.value1	= value2;
-		}
-	}	
-		
+	
 	private void logToDB(){
 		
 	}
@@ -1114,6 +1132,7 @@ public class GUI_Broker_StudIP {
 			           }});
 			return cache;
 	}
+
 	}
 
 
