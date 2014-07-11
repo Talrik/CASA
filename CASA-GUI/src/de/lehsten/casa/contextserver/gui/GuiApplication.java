@@ -245,14 +245,12 @@ public void buttonClick(ClickEvent event) {
 @Override
 public void valueChange(ValueChangeEvent event) {
 	Property property = event.getProperty();
-/*	System.out.println(property);
+	System.out.println(property);
 	System.out.println(event.toString());
 	System.out.println("Value: " + genericList.getValue());
-*/	BeanItem item = null;
+	BeanItem item = null;
 	if (genericList.getValue() != null){
 		item = (BeanItem) genericList.getItem(genericList.getValue());
-		System.out.println(genericList.getItem(genericList.getValue()));
-		System.out.println(genericList.getValue().getClass());
 		item = new BeanItem(item.getBean());
 		if (item.getBean() instanceof ImporterItem){
 			importerForm.setItemDataSource(item);
@@ -266,6 +264,7 @@ public void valueChange(ValueChangeEvent event) {
 				this.mainViewRight.setLowerComponent(entityEditor);
 				if( item != entityEditor.getItemDataSource()) {
 					entityEditor.setItemDataSource(item); 
+					System.out.println("Update");
 				}
 			}
 	}
