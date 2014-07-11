@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>de.lehsten.casa</groupId>
+  <artifactId>contextserver.types</artifactId>
+  <version>0.1.27-SNAPSHOT</version>
+
+  <name>contextserver.types</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <version>1.8.5</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-integration</artifactId>
+      <version>1.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>net.avh4.util</groupId>
+      <artifactId>imagecomparison</artifactId>
+      <version>0.0.2</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <description>0.1.9 : recognition of duplicated entities
+0.1.10: bug fixed at Places getLogitude/getLatitude, Entity.toString added
+0.1.11: date format changed to Date and renamed to beginDate / endDate
+0.1.12 changes in the Event derivates
+0.1.13 activation added for rules
+0.1.14 updateRule and applyRule added
+0.1.15 restictions added at Service
+0.1.16 persistance added to ContextServer
+0.1.17 subServices added ad Service
+0.1.18 ImporterManager can also contain other ImporterManager
+0.1.19 Services are XmlRootElements
+0.1.20 ID added to Entity
+0.1.21 XML capabilities added
+0.1.22 Media added
+0.1.23 clone() in Entity added
+0.1.24 updateEntityByProperty in ContextServer added
+0.1.25 Requests added
+0.1.26 QueryRequest added
+0.1.27 Broker added, package structure changed</description>
+</project>
