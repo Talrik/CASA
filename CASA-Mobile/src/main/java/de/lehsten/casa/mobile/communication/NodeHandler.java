@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 
 import de.lehsten.casa.contextserver.interfaces.ImporterManager;
 import de.lehsten.casa.mobile.data.Node;
-import de.lehsten.casa.mobile.gui.CASAMobileApplication;
 import de.lehsten.casa.mobile.gui.CASAUI;
 
 public class NodeHandler implements ServiceListener{

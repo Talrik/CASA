@@ -10,7 +10,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<vaadin.version>6.7.8</vaadin.version>
+		<vaadin.version>7.2.2</vaadin.version>
 		<gwt.version>2.3.0</gwt.version>
 		<gwt.plugin.version>2.3.0-1</gwt.plugin.version>
 	</properties>
@@ -34,13 +34,7 @@
 		<dependency>
 			<groupId>com.vaadin.addon</groupId>
 			<artifactId>vaadin-touchkit-agpl</artifactId>
-			<version>LATEST</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin</artifactId>
-			<version>7.0.0.alpha3</version>
+			<version>4.0.0.alpha3</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -58,11 +52,31 @@
 			<artifactId>contextserver.utilities</artifactId>
 			<version>0.1.0-SNAPSHOT</version>
 		</dependency>
+			<dependency>
+<groupId>com.vaadin</groupId>
+<artifactId>vaadin-server</artifactId>
+<version>${vaadin.version}</version>
+</dependency>
+	<dependency>
+<groupId>com.vaadin</groupId>
+<artifactId>vaadin-client-compiled</artifactId>
+<version>${vaadin.version}</version>
+</dependency>
 		<dependency>
-			<groupId>de.lehsten.casa</groupId>
-			<artifactId>contextserver.types</artifactId>
-			<version>0.1.26-SNAPSHOT</version>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-client</artifactId>
+			<version>${vaadin.version}</version>
 		</dependency>
+			<dependency>
+<groupId>com.vaadin</groupId>
+<artifactId>vaadin-themes</artifactId>
+<version>${vaadin.version}</version>
+</dependency>
+			<dependency>
+				<groupId>de.lehsten.casa</groupId>
+				<artifactId>contextserver.types</artifactId>
+				<version>0.1.27-SNAPSHOT</version>
+			</dependency>
 	</dependencies>
 
 	<build>

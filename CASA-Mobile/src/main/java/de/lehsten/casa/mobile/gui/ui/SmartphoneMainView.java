@@ -4,7 +4,6 @@ import com.vaadin.server.ExternalResource;
 
 import de.lehsten.casa.contextserver.types.entities.services.Service;
 import de.lehsten.casa.contextserver.types.entities.services.websites.Website;
-import de.lehsten.casa.mobile.gui.CASAMobileApplication;
 import de.lehsten.casa.mobile.gui.CASAUI;
 
 public class SmartphoneMainView extends MainNavigationManager implements ServiceView{

@@ -1,5 +1,8 @@
 package de.lehsten.casa.mobile.data;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import de.lehsten.casa.contextserver.types.entities.device.Device;
 
 public class Node extends Device{
@@ -11,6 +14,8 @@ public class Node extends Device{
 	private String domainName;
 	private String endpoint;
 	private boolean usePosition = false;
+	private ArrayList<String> availableQueries = new ArrayList<String>();
+	private HashMap<String,HashMap<String,Object>> activeQueries = new  HashMap<String,HashMap<String,Object>>();
 	
 	public String getDeveloper() {
 		return developer;
@@ -59,6 +64,18 @@ public class Node extends Device{
 	}
 	public void setUsePosition(boolean usePosition) {
 		this.usePosition = usePosition;
+	}
+	public ArrayList<String> getAvailableQueries() {
+		return availableQueries;
+	}
+	public void setAvailableQueries(ArrayList<String> availableQueries) {
+		this.availableQueries = availableQueries;
+	}
+	public HashMap<String,HashMap<String,Object>> getActiveQueries() {
+		return activeQueries;
+	}
+	public void setActiveQueries(HashMap<String,HashMap<String,Object>> activeQueries) {
+		this.activeQueries = activeQueries;
 	}
 
 }

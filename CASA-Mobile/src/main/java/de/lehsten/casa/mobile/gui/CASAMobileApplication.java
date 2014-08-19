@@ -1,3 +1,4 @@
+/*
 package de.lehsten.casa.mobile.gui;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ import de.lehsten.casa.mobile.gui.ui.SmartphoneMainView;
 /**
  * The Application's "main" class
  */
+/*
 @SuppressWarnings("serial")
 public class CASAMobileApplication extends TouchKitApplication
 {
@@ -72,6 +74,7 @@ public class CASAMobileApplication extends TouchKitApplication
                             "You appear to be running on a desktop software or other non touch device. We'll show you the tablet (or smartphone view if small screen size) for debug purposess.");
         }
 */
+/*
         if (isSmallScreenDevice() || true) {
             getMainWindow().setContent(new MainTabsheet());
         } else {
@@ -104,7 +107,9 @@ public class CASAMobileApplication extends TouchKitApplication
         /*float viewPortWidth = getMainWindow().getWidth();
         return viewPortWidth < 600;
         */
+/*
     	return true;
     }
 
 }
+*/

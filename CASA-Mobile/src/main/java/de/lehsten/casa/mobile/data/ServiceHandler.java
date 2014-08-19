@@ -3,6 +3,7 @@ package de.lehsten.casa.mobile.data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -22,7 +23,6 @@ import de.lehsten.casa.contextserver.types.entities.services.websites.LocationWe
 import de.lehsten.casa.contextserver.types.entities.services.websites.Website;
 import de.lehsten.casa.contextserver.types.position.Position;
 import de.lehsten.casa.contextserver.types.xml.CSMessage;
-import de.lehsten.casa.mobile.gui.CASAMobileApplication;
 import de.lehsten.casa.mobile.gui.CASAUI;
 import de.lehsten.casa.utilities.communication.serializing.CSMessageConverter;
 
@@ -76,14 +76,19 @@ public class ServiceHandler implements Serializable{
 		}
 	}
 	
-	private static ArrayList<Entity> getQueryResult(String query, Node node){
+	private static ArrayList<Entity> getQueryResults(Node node){
 		ArrayList<Entity> entityList = new ArrayList<Entity>();
 			try 
 			{
+				for(String query  : node.getActiveQueries().keySet()){
 				CSMessage msg = new CSMessage();
-				
-				String queryName = "GetServices";
+				String queryName = query;
 				Object[] arguments = new Object[0];
+				if(node.getActiveQueries().get(query).containsKey("arguments")){
+					if (node.getActiveQueries().get(query).get("arguments") instanceof Object[]){
+						arguments = (Object[]) node.getActiveQueries().get(query).get("arguments");
+					}
+				}
 				QueryRequest qrequest = new QueryRequest();
 				qrequest.getQuery().put(queryName, arguments);
 				String id = "CASA_Mobile_"+System.currentTimeMillis();
@@ -100,6 +105,7 @@ public class ServiceHandler implements Serializable{
 					if (o instanceof Entity){
 						entityList.add((Entity)o);
 					}
+				}
 				}
 			}catch(Exception e){
 				e.printStackTrace();
@@ -184,7 +190,7 @@ public class ServiceHandler implements Serializable{
 		Collection<Node> nodes = app.getRouteBuilder().getNodes();
 		System.out.println(nodes.size()+" endpoints found.");
 		for (Node n : nodes){
-		ArrayList<Entity> entity = getQueryResult("GetServices",n);
+		ArrayList<Entity> entity = getQueryResults(n);
 /*
 		ArrayList<Entity> entity = getQueryResult("GetServices",null);
 */

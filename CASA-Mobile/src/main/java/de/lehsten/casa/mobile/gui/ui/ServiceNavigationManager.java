@@ -3,7 +3,6 @@ package de.lehsten.casa.mobile.gui.ui;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.ui.Component;
 
-import de.lehsten.casa.mobile.gui.CASAMobileApplication;
 
 public class ServiceNavigationManager extends SmartphoneMainView{
 	

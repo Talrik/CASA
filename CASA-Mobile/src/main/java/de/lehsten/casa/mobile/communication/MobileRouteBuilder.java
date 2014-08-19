@@ -14,10 +14,10 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
 
+import de.lehsten.casa.contextserver.types.Entity;
 import de.lehsten.casa.contextserver.types.Request;
 import de.lehsten.casa.contextserver.types.xml.CSMessage;
 import de.lehsten.casa.mobile.data.Node;
-import de.lehsten.casa.mobile.gui.CASAMobileApplication;
 import de.lehsten.casa.mobile.gui.CASAUI;
 import de.lehsten.casa.utilities.communication.serializing.CSMessageConverter;
 
@@ -85,6 +85,9 @@ public class MobileRouteBuilder extends RouteBuilder{
 			ProducerTemplate producer = ((CamelContext) ctx.lookup("MobileContext")).createProducerTemplate();
 			producer.setDefaultEndpoint(((CamelContext) ctx.lookup("MobileContext")).getEndpoint(LOCAL_ENDPOINT_STRING));
 			endpoints.put(node, producer);
+			for(Object o :this.sendCommand("getQueryNames", node).payload){
+				node.getAvailableQueries().add((String) o);
+			}
 			routes.put(node, LOCAL_ROUTE_ID);
 			System.out.println("Connected to ContextServer "+ node.getDescription());
 		}catch(NamingException ne){
@@ -137,12 +140,29 @@ public class MobileRouteBuilder extends RouteBuilder{
 		endpoints.get(node).sendBody(fireAllRules);
 		//retract request
 		CSMessage retractReq = new CSMessage();
-		retractReq.text = "GetQueryResult";
+		retractReq.text = "getQueryResult";
 		retractReq.payload.add("GetRequestById");
 		Object[] arguments = new Object[1];
-		arguments[1] = req.getRequestId();
+		arguments[0] = req.getRequestId();
 		retractReq.payload.add(arguments);
-		return (CSMessage)endpoints.get(node).requestBody(retractReq);				
+		CSMessage reply = (CSMessage)endpoints.get(node).requestBody(retractReq);
+		for (Object o : reply.payload){
+			if (o instanceof Entity){
+				System.out.println("Entity"+o.getClass());
+			}
+		} 
+		//delete request from node
+		CSMessage removeReq = new CSMessage();
+		removeReq.text = "removeEntity";
+		removeReq.payload.add( reply.payload.get(1));
+		endpoints.get(node).sendBody(removeReq);
+		return reply;				
+	}
+	
+	public CSMessage sendCommand(String command, Node n){
+		CSMessage comMsg = new CSMessage();
+		comMsg.text = command;
+		return (CSMessage)endpoints.get(n).requestBody(comMsg);				
 	}
 	
 	@PreDestroy

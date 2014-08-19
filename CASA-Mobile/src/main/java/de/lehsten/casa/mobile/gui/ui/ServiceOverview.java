@@ -27,7 +27,6 @@ import de.lehsten.casa.contextserver.types.entities.services.websites.LocationWe
 import de.lehsten.casa.contextserver.types.entities.services.websites.Website;
 import de.lehsten.casa.mobile.data.ServiceContainer;
 import de.lehsten.casa.mobile.data.ServiceHandler;
-import de.lehsten.casa.mobile.gui.CASAMobileApplication;
 import de.lehsten.casa.mobile.gui.CASAUI;
 
 public class ServiceOverview extends NavigationView{
