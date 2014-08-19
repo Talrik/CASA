@@ -25,7 +25,11 @@ import de.lehsten.casa.contextserver.types.Entity;
 import de.lehsten.casa.contextserver.types.Rule;
 import de.lehsten.casa.contextserver.types.xml.CSMessage;
 
-
+/**
+ * Controller for {@link ContextServer} implemented as Camel Processor. 
+ * Implements also the {@link ContextServer}.  
+ *
+ */
 public class CSController implements Processor, ContextServer{
 	
 	ContextServer server;
@@ -64,17 +68,17 @@ public class CSController implements Processor, ContextServer{
 			try {
 				CSMessage msg =  (CSMessage) exchange.getIn().getBody();
 				String method = msg.text;
-				log.debug("Requested method: " + method);
-				log.debug("Method available: "+methods.containsKey(method));
+				log.info("Requested method: " + method);
+				log.info("Method available: "+methods.containsKey(method));
 				Object[] args = msg.payload.toArray();
 				for (Object o : args){
-					log.debug("Args: "+o);
+					log.info("Args: "+o);
 					if (o != null){
 					if(o.getClass().isArray()){
 						Object[] p = (Object[]) o;
-						log.debug("Array.length: "+p.length);
+						log.info("Array.length: "+p.length);
 						for (Object q : p){
-							log.debug("Param:"+q);
+							log.info("Param:"+q.getClass()+" -> "+q);
 						}
 					}
 					}
@@ -122,7 +126,10 @@ public class CSController implements Processor, ContextServer{
 							} else if (action.getReturnType().equals(Void.TYPE)){
 								action.setAccessible(true);
 								action.invoke(server, args);
+								action.getParameterTypes();
 							};
+					}else if(!methods.containsKey(method)){
+						System.out.println("ERROR: "+method+" is unknown.");
 					}
 					}
 					catch (SecurityException e) {
@@ -132,7 +139,21 @@ public class CSController implements Processor, ContextServer{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (IllegalArgumentException e) {
-						// TODO Auto-generated catch block
+						log.error(e.getMessage());
+						log.error("Expected parameter(s):");
+						Method m = methods.get(method);
+						Class<?>[] x = m.getParameterTypes();  
+					//	Class<?>[] y = new Class<?>[x.length];
+						for (int i = 0; i<x.length; i++){
+							log.error(x[i].getName());
+					//		y[i] = x[i]; 
+						}
+						
+						log.error("Given parameter(s):");
+						for (int i = 0; i<args.length; i++){
+							log.error(args[i].getClass().getName());
+					//		y[i] = x[i]; 
+						}
 						e.printStackTrace();
 					} catch (IllegalAccessException e) {
 						// TODO Auto-generated catch block

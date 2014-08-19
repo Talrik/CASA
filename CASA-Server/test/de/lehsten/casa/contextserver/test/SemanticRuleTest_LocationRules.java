@@ -72,7 +72,7 @@ public class SemanticRuleTest_LocationRules {
 		//create requires data
 		Cafeteria c = new Cafeteria();
 		c.setSource("Test");
-		c.lactosefree_menu_available = true;
+		c.setLactosefree_menu_available(true);
 		MobilePhone m = new MobilePhone();
 		m.setSource("Test2");
 		ArrayList<Place> places = new ArrayList<Place>();

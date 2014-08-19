@@ -40,7 +40,6 @@ rule "HandleQueryRequest"
 					Entity e = ( Entity) row.get( "r" );
 					if (!list.contains(e)){list.add(e);}
 				}
-			//it.remove(); // avoids a ConcurrentModificationException
     	}		
     	RulesLogger.log(drools,"QueryRequest "+r.getRequestId()+" handled. "+list.size()+" services found.");
 		r.addProperty("HandleQueryRequest", "done");

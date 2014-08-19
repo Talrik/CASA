@@ -52,9 +52,9 @@ public class SemanticRuleTest_RequestRules {
 	
 	@After
 	public void tearDown() throws Exception {
-		   long l = ksession.getFactCount();
+//		   long l = ksession.getFactCount();
            ksession.dispose();	 
-    	   System.out.println("Knowledge session with "+ l +" facts disposed.");
+//    	   System.out.println("Knowledge session with "+ l +" facts disposed.");
 	}
 
 	private void setupServer(){

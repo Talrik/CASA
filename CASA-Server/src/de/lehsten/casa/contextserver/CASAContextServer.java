@@ -6,6 +6,7 @@ package de.lehsten.casa.contextserver;
 
 import de.lehsten.casa.contextserver.controller.CSRouteBuilder;
 import de.lehsten.casa.contextserver.debug.ImporterListener;
+import de.lehsten.casa.contextserver.factentry.LocalFactProvider;
 import de.lehsten.casa.contextserver.interfaces.ContextServer;
 import de.lehsten.casa.contextserver.types.Entity;
 import de.lehsten.casa.rules.LocalRuleProvider;
@@ -48,6 +49,7 @@ import org.drools.compiler.PackageBuilderConfiguration;
 import org.drools.conf.AssertBehaviorOption;
 import org.drools.conf.EventProcessingOption;
 import org.drools.definition.KnowledgePackage;
+import org.drools.definition.rule.Query;
 import org.drools.definition.rule.Rule;
 import org.drools.io.ResourceFactory;
 import org.drools.logger.KnowledgeRuntimeLogger;
@@ -78,6 +80,7 @@ public class CASAContextServer implements ContextServer{
     CSRouteBuilder builder;
     PackageBuilderConfiguration cfg;
     LocalRuleProvider ruleProvider;
+    LocalFactProvider factProvider;
     ArrayList<de.lehsten.casa.contextserver.types.Rule> rules = new ArrayList<de.lehsten.casa.contextserver.types.Rule>();
     private final static Logger log = LoggerFactory.getLogger( CASAContextServer.class ); 
     JmDNS jmDNS;
@@ -201,11 +204,12 @@ public class CASAContextServer implements ContextServer{
 			KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder(cfg);
 			log.info("Running LocalRuleProvider");
 			ruleProvider = new LocalRuleProvider();
+			factProvider = new LocalFactProvider();
 			
 			ArrayList<de.lehsten.casa.contextserver.types.Rule> ruleList = ruleProvider.getRuleList();
 			for (de.lehsten.casa.contextserver.types.Rule rule: ruleList){
 				kbuilder.add(ResourceFactory.newReaderResource(new StringReader(rule.getRule())), ResourceType.DRL);
-				log.info(rule.getName()+" : "+rule.getMetaData().toString());
+//				log.info(rule.getName()+" : "+rule.getMetaData().toString());
 				KnowledgeBuilderErrors errors = kbuilder.getErrors();
 				if (errors.size() > 0) {
 					for (KnowledgeBuilderError error : errors) {
@@ -261,8 +265,13 @@ public class CASAContextServer implements ContextServer{
 		log.info("New session initialized");
 		KnowledgeRuntimeLogger logger = KnowledgeRuntimeLoggerFactory
 				.newFileLogger(ksession, "Log_ContextServer");
-		
-		
+		for (Entity e : factProvider.getFactList()){
+			ksession.insert(e);
+		}
+		for (KnowledgePackage kp : kbase.getKnowledgePackages()){
+			for (Query q : kp.getQueries())
+			System.out.println(q.getName());
+		}
     }
 
 	@Override
@@ -329,18 +338,39 @@ public class CASAContextServer implements ContextServer{
 
 	@Override
 	public void removeEntity(Entity e) {
+		long preCount = ksession.getFactCount();
 		try{
-		if(ksession.getFactHandle(e) != null){
-		ksession.retract(ksession.getFactHandle(e));
-		if (ksession.getFactHandle(e)== null){
-			log.info("Entity removed.");
-		}else{
-			log.error("Unable to remove Entity "+e.toString());	
-		}
-		}
-		else{
-			log.error("Unable to remove Entity "+e.toString());
-		}
+			if(ksession.getFactHandle(e) != null){
+				FactHandle factToRemove = ksession.getFactHandle(e);
+				Object o = ksession.getObject(factToRemove);
+				ksession.retract(factToRemove);
+				long postCount = ksession.getFactCount();
+				if (ksession.getFactHandle(e)== null){
+					log.info("Entity of class "+o.getClass()+" removed. Current fact count: "+postCount);
+				}else{
+					log.error("Unable to remove Entity "+e.toString()+" of class "+o.getClass()+". Fact counts pre/post:"+preCount+"/"+postCount);	
+				}
+			}
+			else{
+				boolean factInKsession = false;
+				Collection<FactHandle> objects = ksession.getFactHandles();
+				for(FactHandle f : objects){
+					Object o = ksession.getObject(f);
+					if (o.equals(e)){
+						factInKsession = true;
+						ksession.retract(f);
+					}
+				}
+				long postCount = ksession.getFactCount();
+				if(preCount == postCount){
+					log.error("Unable to remove Entity "+e.toString()+" Hash:"+e.hashCode() +". Class:"+e.getClass()+".\n Fact not found in this session.");
+					log.error("Existing facts:");
+					for(FactHandle f : objects){
+						Object o = ksession.getObject(f);
+						log.error(o.toString()+" Hash:"+o.hashCode() +". Class:"+o.getClass()+". Equals Entity:"+e.equals(o)+" In ksession: "+ksession.getFactHandle(o));
+					}
+				}
+			}
 		}catch(NullPointerException exception){
 			exception.printStackTrace();
 		}
@@ -458,13 +488,35 @@ public class CASAContextServer implements ContextServer{
 
 	@Override
 	public Collection<String> getQueryNames() {
-		List<String>  rulesList = new ArrayList<String>(); 
+		List<String>  queryList = new ArrayList<String>(); 
 		for (KnowledgePackage kp : kbase.getKnowledgePackages()){
-			for (Rule r : kp.getRules())
-			rulesList.add(r.getName());
+			for (Query q : kp.getQueries())
+			{
+				queryList.add(q.getName());
+			}
 		}
-
-		return rulesList;
+		return queryList;
+	}
+	
+	public Map<String,Object> getQueryData(String query){
+		for (KnowledgePackage kp : kbase.getKnowledgePackages()){
+			for (Query q : kp.getQueries()){
+					if(q.getName().equals(query)){
+						return q.getMetaData();
+					}
+			}
+		}
+		return null;
+	}
+	
+	public Map<String,Map<String,Object>> getQueries(){
+		HashMap<String,Map<String,Object>> queries = new HashMap<String,Map<String,Object>>();
+		for (KnowledgePackage kp : kbase.getKnowledgePackages()){
+			for (Query q : kp.getQueries()){
+					queries.put(q.getName(), q.getMetaData());
+			}
+		}
+		return queries;
 	}
 
 	@Override

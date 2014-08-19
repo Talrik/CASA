@@ -2,8 +2,6 @@
 package de.lehsten.casa
 
 #list any import classes here.
-
-
 import de.lehsten.casa.contextserver.types.entities.services.Service;
 import de.lehsten.casa.contextserver.types.entities.event.Lecture;
 import de.lehsten.casa.contextserver.types.entities.event.Course;
@@ -16,30 +14,42 @@ import de.lehsten.casa.contextserver.types.entities.place.Place;
 #declare any global variables here
 
 query "GetServices" ()
+@QueryParameter("")
+@Description("Provides all services which are currently available in the CASA node.")
 	r : Service()
 end
 
 query "GetWebsites"
+@QueryParameter("")
+@Description("Provides all websites which are currently available in the CASA node.")
 	r : Website()
 end	
 
 query "GetServiceByLecture" (String lecture)
+@QueryParameter("String lecture")
+@Description("Provides all services which are currently connected to the given lecture id or lecture title.")
 	l : Lecture(title == lecture || studIP_ID == lecture)
 	c : Course(lectures contains l)
 	r : EventWebsite(event == l || event == c)
 end	
 
 query "GetServiceByUsername"(String userID)
+@QueryParameter("String userID")
+@Description("Provides all services which are currently restricted to the given user id.")
 	r : Website(restrictions contains userID)
 end
 	
 query "GetServiceByLectureAndRole"(String lecture, String role)
+@QueryParameter("String lecture, String role")
+@Description("Provides all services which are currently connected to the given lecture id or title and restricted to the given user role.")
 	l : Lecture(title == lecture || studIP_ID == lecture)
 //	c : Course(lectures contains l)
 	r : EventWebsite((properties["StudIP_ID"] == l.StudIP_ID) && restrictions contains role )
 end
 
 query "GetServiceByLocationAndRole"(String location, String role)
+@QueryParameter("String location, String role")
+@Description("Provides all services which are currently connected to the given location title and restricted to the given user role.")
 	p : Place(title == location)
 	r : LocationWebsite(places contains p && restrictions contains role)	
 end

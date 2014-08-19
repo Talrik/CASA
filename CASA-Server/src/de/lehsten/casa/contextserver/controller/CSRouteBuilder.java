@@ -10,7 +10,7 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
 
-import de.lehsten.casa.contextserver.factentry.FactEntryBean;
+import de.lehsten.casa.contextserver.factentry.FactEntry;
 import de.lehsten.casa.contextserver.types.Entity;
 import de.lehsten.casa.utilities.communication.CamelMessenger;
 import de.lehsten.casa.utilities.communication.serializing.CSMessageConverter;
@@ -29,7 +29,7 @@ public class CSRouteBuilder extends RouteBuilder {
 	public CSRouteBuilder(){
 		try {
 			ctx = new InitialContext();
-			ctx.rebind("FactEntry", new FactEntryBean());
+			ctx.rebind("FactEntry", new FactEntry());
 			ctx.rebind("CSControl", new CSController());
 			startContext();
 			new InitialContext().rebind("vm:ServerFactEntry", camelContext.hasEndpoint("vm:ServerFactEntry"));

@@ -9,9 +9,9 @@ rule "LactoseFreeMenuNotification"
 	when
 		c : Cafeteria(lactosefree_menu_available == true)
 		m : MobilePhone(notifications not contains c.lactosefree_menu, nearbyPlaces contains c )
-		p : Person( activeDevice == m, properties["allergy"] == "lactose" )
+		p : Person( activeDevices contains m, properties["allergy"] == "lactose" )
 	then
 		System.out.println("Lactosefree Cafeteria found");
-		m.addNotification(c.lactosefree_menu); 
+		m.addNotification(c.getLactosefree_menu()); 
 end
 

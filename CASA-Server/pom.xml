@@ -127,7 +127,7 @@
   	<dependency>
   		<groupId>de.lehsten.casa</groupId>
   		<artifactId>contextserver.types</artifactId>
-  		<version>0.1.27-SNAPSHOT</version>
+  		<version>0.1.29-SNAPSHOT</version>
   	</dependency>
   	<dependency>
   		<groupId>de.lehsten.casa</groupId>

@@ -31,10 +31,10 @@ import de.lehsten.casa.rules.RulesLogger;
 function boolean closeTo(de.lehsten.casa.contextserver.types.position.Position p1, de.lehsten.casa.contextserver.types.position.Position p2, double distance) {
        float pk = (float) (180/3.14169);
 
-    double a1 = p1.getLat() / pk;
-    double a2 = p1.getLon() / pk;
-    double b1 = p2.getLat() / pk;
-    double b2 = p2.getLon() / pk;
+    double a1 = p1.getLatitude() / pk;
+    double a2 = p1.getLongitude() / pk;
+    double b1 = p2.getLatitude() / pk;
+    double b2 = p2.getLongitude() / pk;
 
     double t1 = Math.cos(a1)*Math.cos(a2)*Math.cos(b1)*Math.cos(b2);
     double t2 = Math.cos(a1)*Math.sin(a2)*Math.cos(b1)*Math.sin(b2);
