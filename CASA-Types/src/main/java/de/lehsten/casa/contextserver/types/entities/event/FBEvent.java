@@ -28,8 +28,8 @@ public class FBEvent extends Event{
 		this.getProperties().put("location", location);
 		
 		position = (new Position()).getPositionFromString(location);
-		this.getProperties().put("latitude", String.valueOf(position.getLat()));
-		this.getProperties().put("longitude", String.valueOf(position.getLon()));
+		this.getProperties().put("latitude", String.valueOf(position.getLatitude()));
+		this.getProperties().put("longitude", String.valueOf(position.getLongitude()));
 		
 	}
 	

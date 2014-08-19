@@ -14,6 +14,8 @@ public class FBIdentity extends Identity {
 	private Position position;
 	private ArrayList<Device> devices;
 	
+	public FBIdentity(){}
+	
 	public FBIdentity(String fbUserId) {
 		this.setFbUserId(fbUserId);
 		this.devices = new ArrayList<Device>();
@@ -45,8 +47,8 @@ public class FBIdentity extends Identity {
 	
 	public void setPosition(Position position){
 		this.position = position;
-		this.getProperties().put("latitude", String.valueOf(position.getLat()));
-		this.getProperties().put("longitude", String.valueOf(position.getLon()));
+		this.getProperties().put("latitude", String.valueOf(position.getLatitude()));
+		this.getProperties().put("longitude", String.valueOf(position.getLongitude()));
 	}
 	
 	public void setPosition(Double lat, Double lon){

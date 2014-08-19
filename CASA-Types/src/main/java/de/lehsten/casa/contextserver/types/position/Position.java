@@ -13,12 +13,12 @@ import de.lehsten.casa.contextserver.types.Context;
 
 public class Position extends Context{
 	
-	Double lat; 
-	Double lon;
+	private Double latitude; 
+	private Double longitude;
 	
-	public Position(Double lat, Double lon) {
-		this.lat = lat;
-		this.lon = lon;
+	public Position(Double latitude, Double longitude) {
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
 	
 	public Position() {
@@ -59,22 +59,22 @@ public class Position extends Context{
 	}
 	
 	
-	public Double getLat() {
-		return lat;
+	public Double getLatitude() {
+		return latitude;
 	}
-	public void setLat(Double lat) {
-		this.lat = lat;
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
 	}
-	public Double getLon() {
-		return lon;
+	public Double getLongitude() {
+		return longitude;
 	}
-	public void setLon(Double lon) {
-		this.lon = lon;
+	public void setLon(Double longitude) {
+		this.longitude = longitude;
 	}
 
 	@Override
 	public String toString() {
-		return getLat() + "," + getLon();
+		return getLatitude() + "," + getLongitude();
 	}
 	
 }

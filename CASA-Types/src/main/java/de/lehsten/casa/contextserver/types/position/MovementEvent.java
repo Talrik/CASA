@@ -4,8 +4,8 @@ import java.util.Date;
 
 public class MovementEvent extends Position{
 
-	public String deviceID; 
-	public Date timestamp;
+	private String deviceID; 
+	private Date timestamp;
 		
 	public String getDeviceID() {
 		return deviceID;

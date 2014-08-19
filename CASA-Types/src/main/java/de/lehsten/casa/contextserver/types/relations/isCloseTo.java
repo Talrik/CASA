@@ -9,6 +9,8 @@ public class isCloseTo {
 	long distance;
 	Place place;
 	
+	public isCloseTo(){}
+	
 	public isCloseTo(Person person, long distance, Place place){
 		this.person = person;
 		this.distance = distance;

@@ -2,9 +2,9 @@ package de.lehsten.casa.contextserver.types.entities.place;
 
 public class Cafeteria extends Building{
 	
-	public String lactosefree_menu;
-	public String menu;
-	public boolean lactosefree_menu_available = true; 
+	private String lactosefree_menu;
+	private String menu;
+	private boolean lactosefree_menu_available = true; 
 	
 	
 	public boolean isLactosefree_menu_available() {

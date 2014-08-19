@@ -13,6 +13,7 @@ public class StudIPRequest extends Request {
 	ArrayList<Event> lectures = new ArrayList<Event>();
 	ArrayList<Place> locations = new ArrayList<Place>();
 	
+	public StudIPRequest(){}
 	
 	public StudIPRequest(Request r){
 		this.setRequestId(r.getRequestId());
