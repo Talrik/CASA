@@ -2,8 +2,11 @@ package de.lehsten.casa.contextserver.types.entities.place;
 
 import java.util.ArrayList;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import de.lehsten.casa.contextserver.types.entities.place.rooms.Room;
 
+@XmlRootElement
 public class Building extends Place{
 
 	ArrayList<Room> rooms = new ArrayList<Room>();

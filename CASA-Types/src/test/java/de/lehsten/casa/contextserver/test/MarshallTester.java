@@ -21,6 +21,7 @@ import org.junit.Test;
 
 import de.lehsten.casa.contextserver.types.Entity;
 import de.lehsten.casa.contextserver.types.entities.person.Person;
+import de.lehsten.casa.contextserver.types.entities.place.Stop;
 import de.lehsten.casa.contextserver.types.entities.services.Service;
 import de.lehsten.casa.contextserver.types.entities.services.websites.EventWebsite;
 import de.lehsten.casa.contextserver.types.entities.services.websites.LocationWebsite;
@@ -40,29 +41,30 @@ public class MarshallTester {
 
 	@Test
 	public void test() {
-		LocationWebsite kzh = new LocationWebsite();
-		kzh.setSource("predefined");
-		kzh.setDescription("Seite f�r das KZH");
-		kzh.setTargetURL("http://www.google.de");
-		kzh.setTitle("Webseite des Konrad-Zuse-Hauses");
+		Stop s1 =  new Stop();
+		s1.setSource("Source2");
+		s1.setTitle("Erich-Schlesinger-Straße");
+		s1.setStopNumber(936201);
+		s1.setLatitude(54.0750530d);
+		s1.setLongitude(12.1217560d);
 		JAXBContext context;
 		try {
-		context = JAXBContext.newInstance( LocationWebsite.class );
+		context = JAXBContext.newInstance( Stop.class );
 		Marshaller m = context.createMarshaller();
 		m.setProperty( Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE );
-		m.marshal( kzh, System.out );
+		m.marshal( s1, System.out );
 		File f = new File("out.xml");
-		m.marshal( kzh, f);
+		m.marshal( s1, f);
 		Unmarshaller um = context.createUnmarshaller();
-		LocationWebsite Kzh = (LocationWebsite) um.unmarshal(f);
-		m.marshal( Kzh, System.out );
+		Stop s2 = (Stop) um.unmarshal(f);
+		m.marshal( s2, System.out );
 		}
 		catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+/*	
 	@Test
 	public void addXEntity() {
 		JAXBContext context;
@@ -121,11 +123,11 @@ public class MarshallTester {
 //			this.factFileList= factsList;
 //			File[] entries = new File( location.toString()).listFiles();
 //			JarFile jar = new JarFile("contextserver.types-0.1.28-SNAPSHOT.jar");
-/*		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-*/		try {
+//		} catch (IOException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+		try {
 		context = JAXBContext.newInstance(allClasses);
 		File f = new File("test.xml");
 		Unmarshaller um = context.createUnmarshaller();
@@ -140,5 +142,5 @@ public class MarshallTester {
 			e.printStackTrace();
 		}
 	}
-
+*/
 }

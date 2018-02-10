@@ -1,5 +1,8 @@
 package de.lehsten.casa.contextserver.types.entities.place;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Cafeteria extends Building{
 	
 	private String lactosefree_menu;

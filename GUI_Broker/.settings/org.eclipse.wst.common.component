@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="GUI_Broker">
-        <wb-resource deploy-path="/" source-path="/WebContent"/>
+    <wb-module deploy-name="GUI_Broker-0.0.1-SNAPSHOT">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
         <wb-resource deploy-path="/WEB-INF/lib" source-path="/libs"/>
-        <dependent-module archiveName="contextserver.types-0.1.27-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/CASA-Types/CASA-Types">
+        <dependent-module archiveName="contextserver.types-0.1.30-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/CASA-Types/CASA-Types">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="utilities-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/CASA-Utilities/CASA-Utilities">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="java-output-path" value="/CASA-Broker/build/classes"/>
         <property name="context-root" value="GUI_Broker"/>
-        <property name="java-output-path" value="/GUI_Broker/build/classes"/>
     </wb-module>
 </project-modules>

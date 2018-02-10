@@ -6,17 +6,13 @@
   <packaging>war</packaging>
   <name>CASA-Server</name>
   <build>
-    <sourceDirectory>src</sourceDirectory>
-    <testSourceDirectory>test</testSourceDirectory>
+    <sourceDirectory>src/main/java</sourceDirectory>
     <resources>
       <resource>
-        <directory>src</directory>
+        <directory>src/main/resources</directory>
         <excludes>
           <exclude>**/*.java</exclude>
         </excludes>
-      </resource>
-      <resource>
-        <directory>rules</directory>
       </resource>
     </resources>
     <plugins>
@@ -28,6 +24,14 @@
           <target>1.6</target>
         </configuration>
       </plugin>
+      
+ <plugin>            
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-war-plugin</artifactId>
+  <configuration>
+    <webXml>src\main\webapp\WebContent\WEB-INF\web.xml</webXml>        
+  </configuration>
+</plugin>
     </plugins>
   </build>
  <properties>
@@ -129,11 +133,13 @@
   		<artifactId>contextserver.types</artifactId>
   		<version>0.1.29-SNAPSHOT</version>
   	</dependency>
+  	<!-- 
   	<dependency>
   		<groupId>de.lehsten.casa</groupId>
   		<artifactId>contextserver.utilities</artifactId>
   		<version>0.1.0-SNAPSHOT</version>
   	</dependency>
+-->
   	<dependency>
       <groupId>com.thoughtworks.xstream</groupId>
       <artifactId>xstream</artifactId>
@@ -149,5 +155,75 @@
   		<artifactId>gson</artifactId>
   		<version>2.2.4</version>
   	</dependency>
+  	 <dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-spring</artifactId>
+			<version>2.10.0</version>
+		</dependency>
+
+		<!-- lets use log4j -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.6.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+		</dependency>
+
+		<!-- for testing -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-test</artifactId>
+			<version>2.10.0</version>
+			<scope>test</scope>
+		</dependency>
+		
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <version>1.8.5</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-integration</artifactId>
+      <version>1.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>net.avh4.util</groupId>
+      <artifactId>imagecomparison</artifactId>
+      <version>0.0.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+    	<groupId>javax</groupId>
+    	<artifactId>javaee-api</artifactId>
+    	<version>6.0</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.apache.camel</groupId>
+    	<artifactId>camel-jdbc</artifactId>
+    	<version>2.10.0</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.apache.camel</groupId>
+    	<artifactId>camel-mail</artifactId>
+    	<version>2.10.0</version>
+    </dependency>
+    <dependency>
+    	<groupId>de.lehsten.casa</groupId>
+    	<artifactId>utilities</artifactId>
+    	<version>0.1.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 </project>

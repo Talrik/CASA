@@ -8,7 +8,7 @@
     	<title>CASA-Server</title>
   </head>
   <body>
-  <--
+  <!-- -->
     <%@ page import = "de.lehsten.casa.contextserver.*" %>
     <%@ page import = "javax.naming.Context" %>
     <%@ page import = "javax.naming.InitialContext" %>

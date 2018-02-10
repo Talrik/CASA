@@ -17,7 +17,7 @@ public class StudIPRequest extends Request {
 	
 	public StudIPRequest(Request r){
 		this.setRequestId(r.getRequestId());
-		for (Entity e : r.getRestrictions()){
+		for (Entity e : r.getConditions()){
 			if(e instanceof Event){
 				lectures.add((Event)e);
 			}
@@ -28,7 +28,7 @@ public class StudIPRequest extends Request {
 				roles.add((StudIPIdentity)e);
 			}
 		}
-		this.restrictions = r.restrictions;
+		this.conditions = r.conditions;
 		this.results  = r.results;
 	}
 	

@@ -4,7 +4,7 @@
 
   <groupId>de.lehsten.casa</groupId>
   <artifactId>contextserver.types</artifactId>
-  <version>0.1.29-SNAPSHOT</version>
+  <version>0.1.30-SNAPSHOT</version>
 
   <name>contextserver.types</name>
   <url>http://maven.apache.org</url>
@@ -76,5 +76,6 @@
 0.1.26 QueryRequest added
 0.1.27 Broker added, package structure changed
 0.1.28 Minor changes in Position
-0.1.29 Minor changes for serialisation support, test added</description>
+0.1.29 Minor changes for serialisation support, test added
+0.1.30 XMLRootElement added to Stops</description>
 </project>

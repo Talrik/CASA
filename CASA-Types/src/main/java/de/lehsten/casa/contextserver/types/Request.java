@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Request extends Entity {
 
 	ArrayList<Entity> results = new ArrayList<Entity>();
-	ArrayList<Entity> restrictions = new ArrayList<Entity>();
+	ArrayList<Entity> conditions = new ArrayList<Entity>();
 
 	String requestId;
 	
@@ -17,11 +17,11 @@ public class Request extends Entity {
 		this.getProperties().put("RequestId", id);
 
 	}
-	public ArrayList<Entity> getRestrictions() {
-		return restrictions;
+	public ArrayList<Entity> getConditions() {
+		return conditions;
 	}
-	public void setRestrictions(ArrayList<Entity> restrictions) {
-		this.restrictions = restrictions;
+	public void setConditions(ArrayList<Entity> conditions) {
+		this.conditions = conditions;
 	}
 	public ArrayList<Entity> getResults() {
 		return results;

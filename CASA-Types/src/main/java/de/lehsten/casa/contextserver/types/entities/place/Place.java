@@ -1,11 +1,14 @@
 package de.lehsten.casa.contextserver.types.entities.place;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import de.lehsten.casa.contextserver.types.Entity;
 
 /**Defines a place with a title and longitude and latitude coordinates.
  * @author phil
  * @see Entity
  */
+@XmlRootElement
 public class Place extends Entity{
 	
 	 private String title;

@@ -2,17 +2,19 @@ package de.lehsten.casa.contextserver.types.entities.place;
 
 import java.util.ArrayList;
 
+import javax.xml.bind.annotation.XmlRootElement;
+@XmlRootElement
 public class Stop extends Place{
 	
-	private int StopNumber;	
+	private int stopNumber;	
 	ArrayList<String> lines = new ArrayList<String>();
 	
 	public int getStopNumber() {
-		return StopNumber;
+		return stopNumber;
 	}
 
 	public void setStopNumber(int stopNumber) {
-		StopNumber = stopNumber;
+		this.stopNumber = stopNumber;
 	} 
 
 	public ArrayList<String> getLines() {

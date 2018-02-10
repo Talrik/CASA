@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="CASA-StudIP">
+    <wb-module deploy-name="studip-0.0.1-SNAPSHOT">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="CASA-StudIP"/>
+        <dependent-module archiveName="contextserver.types-0.1.30-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/CASA-Types/CASA-Types">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="utilities-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/CASA-Utilities/CASA-Utilities">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="java-output-path" value="/CASA-StudIP/build/classes"/>
+        <property name="context-root" value="studip"/>
     </wb-module>
 </project-modules>

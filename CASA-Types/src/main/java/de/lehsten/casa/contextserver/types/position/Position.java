@@ -3,6 +3,8 @@ package de.lehsten.casa.contextserver.types.position;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -11,6 +13,7 @@ import org.jdom2.input.SAXBuilder;
 
 import de.lehsten.casa.contextserver.types.Context;
 
+@XmlRootElement
 public class Position extends Context{
 	
 	private Double latitude; 
