@@ -252,7 +252,7 @@ public class GUI_Broker_StudIP implements Broker {
 		Place reqPlace = new Place();
 		reqPlace.setTitle(location);
 		ArrayList<Entity> restrictions = new ArrayList<Entity>();
-		request.setRestrictions(restrictions);
+		request.setConditions(restrictions);
 		StudIPRequest studRequest = new StudIPRequest(request);
 		studRequest.setRequestId("4711");
 		log.info("StudIPRequest "+studRequest.getRequestId()+" contains "+studRequest.getLocations().size()+" locations, "+studRequest.getLectures().size()+" events, and "+studRequest.getRoles().size()+" roles");
