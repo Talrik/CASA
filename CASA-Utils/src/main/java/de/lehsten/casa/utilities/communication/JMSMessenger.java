@@ -1,4 +1,4 @@
-package de.lehsten.casa.contextserver.communication;
+package de.lehsten.casa.utilities.communication;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -89,8 +89,8 @@ public class JMSMessenger {
 		}
 	  }	
 	
-	public ArrayList<? extends Entity> receive(){
-		ArrayList<? extends Entity> entityList = new ArrayList<Entity>();
+	public ArrayList<Entity> receive(){
+		ArrayList<Entity> entityList = new ArrayList<Entity>();
 		try {
 			Message response = consumer.receive();
 			if (response instanceof ObjectMessage) {
@@ -99,7 +99,12 @@ public class JMSMessenger {
 		    //      log.debug("Server: Got request [" + msg.text + "]");
 		          System.out.println(owner+": Got response [" + resp.text + "]");
 		          int i =0;
-		          entityList = resp.payload;
+		          ArrayList<Object> resList = resp.payload; 
+		          for(Object o : resList) {
+		        	  if ( o instanceof Entity) {
+		        		  entityList.add((Entity) o);
+		        	  }
+		          }
 		      }
 		}
 			catch(Exception e){e.printStackTrace();}
