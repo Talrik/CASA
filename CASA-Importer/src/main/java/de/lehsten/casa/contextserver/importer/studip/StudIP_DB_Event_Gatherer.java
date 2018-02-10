@@ -82,7 +82,7 @@ public class StudIP_DB_Event_Gatherer {
 		                	Long start_time = rs.getLong("start_time");
 		                	 System.out.println(title+" aus DB ausgelesen");
 		                	Course c = new Course(title);
-		                	c.setBegin(start_time);
+		                	c.setBeginDate(start_time);
 		                	c.getProperties().put("start_time", start_time.toString());
 		                	c.setStudIP_ID(seminar_id);
 		                	c.getProperties().put("Seminar_id", seminar_id);

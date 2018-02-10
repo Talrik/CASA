@@ -80,11 +80,12 @@ public List<Entity> getAllUsers(){
 	                	e.getProperties().put(rs.getMetaData().getColumnLabel(i), rs.getString(i));
 	                	}
 	                	Person p = new Person(e.getProperties().get("username"),
-								e.getProperties().get("user_id"),
+	//							e.getProperties().get("user_id"),
 								e.getProperties().get("Vorname"),
 								e.getProperties().get("Nachname"),
-								e.getProperties().get("perms"),
-								e.getProperties().get("Email"));
+								e.getProperties().get("Email"),
+								new ArrayList<String>());
+//								e.getProperties().get("perms"));
 	                	p.setProperties(e.getProperties());
 	                	p.setSource("Stud.IP");
 	                 	list.add(p);

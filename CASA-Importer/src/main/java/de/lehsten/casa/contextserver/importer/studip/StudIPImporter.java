@@ -3,7 +3,7 @@ package de.lehsten.casa.contextserver.importer.studip;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.lehsten.casa.contextserver.communication.JMSMessenger;
+import de.lehsten.casa.utilities.communication.JMSMessenger;
 import de.lehsten.casa.contextserver.importer.Importer;
 import de.lehsten.casa.contextserver.importer.ImporterManager;
 import de.lehsten.casa.contextserver.types.Entity;
@@ -20,7 +20,6 @@ public class StudIPImporter implements Importer{
 		messenger = new JMSMessenger("StudIPImporter", mgr.getQueue());
 	}
 
-	@Override
 	public boolean startImport(ImporterManager mgr) {
 		
 		if (messenger==null){
@@ -73,13 +72,11 @@ public class StudIPImporter implements Importer{
 		return true;
 	}
 
-	@Override
 	public boolean stopImport() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
 	public boolean updateImports(ImporterManager mgr) {
 		// TODO Auto-generated method stub
 		return false;
